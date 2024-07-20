@@ -28,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Palette.montraPurple.withOpacity(0.94),
+      backgroundColor: Palette.montraPurple.withOpacity(0.93),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
