@@ -124,7 +124,7 @@ class TextInputWidget extends StatelessWidget {
             // isDense: true,
             suffix: suffix,
             contentPadding: contentPadding ??
-                EdgeInsets.symmetric(vertical: 14.w).copyWith(left: 18.w),
+                EdgeInsets.symmetric(vertical: 10.w).copyWith(left: 18.w),
             helperText: " ",
             helperStyle: const TextStyle(fontSize: 0.0005),
             errorStyle: const TextStyle(fontSize: 0.0005),

@@ -46,14 +46,14 @@ class NavBarWidget extends StatelessWidget {
               Icon(
                 nav.icon,
                 color: isSelected ? Palette.montraPurple : Palette.greyColor,
-                size: 22.h,
+                size: 30.h,
               ),
               3.sbH,
-              nav.label.txt(
-                size: 11.sp,
-                fontW: F.w5,
-                color: isSelected ? Palette.montraPurple : Palette.greyColor,
-              )
+              // nav.label.txt(
+              //   size: 11.sp,
+              //   fontW: F.w5,
+              //   color: isSelected ? Palette.montraPurple : Palette.greyColor,
+              // )
             ],
           ),
         ],

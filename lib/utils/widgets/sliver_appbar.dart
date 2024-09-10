@@ -11,7 +11,7 @@ class SliverwareAppBar extends StatelessWidget {
   final bool isPinned; //Used
   final bool canStretch; //Used
   final bool isFloating;
-  final Color appBarColor; //Used
+  final Color? appBarColor; //Used
   final CollapseMode? sliverCollapseMode;
   final Widget? expandedSliverSpaceBackground; //Used
   final Widget? leadingWidget;
@@ -40,7 +40,7 @@ class SliverwareAppBar extends StatelessWidget {
     required this.isPinned,
     required this.canStretch,
     required this.isFloating,
-    required this.appBarColor,
+    this.appBarColor,
     this.sliverCollapseMode,
     this.expandedSliverSpaceBackground,
     this.leadingWidget,
@@ -71,10 +71,16 @@ class SliverwareAppBar extends StatelessWidget {
         collapsedHeight: appBarCollapsedHeight,
         surfaceTintColor: Colors.transparent,
         automaticallyImplyLeading: showLeadingIconOrWidget,
-        systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarBrightness: Brightness.light),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarBrightness:
+                Theme.of(context).colorScheme.brightness == Brightness.dark
+                    ? Brightness.dark
+                    : Brightness.light),
         expandedHeight: expandedHeight,
-        backgroundColor: appBarColor,
+        backgroundColor: appBarColor ??
+            (Theme.of(context).colorScheme.brightness == Brightness.dark
+                ? Palette.blackColor
+                : Palette.whiteColor),
         elevation: 0.0,
         centerTitle: titleCentered,
         title: isTitleAWidget == false
@@ -82,7 +88,11 @@ class SliverwareAppBar extends StatelessWidget {
                 title ?? "",
                 style: TextStyle(
                   fontSize: titleFontSize ?? 22.sp,
-                  color: titleFontColor ?? Palette.blackColor,
+                  color: titleFontColor ??
+                      (Theme.of(context).colorScheme.brightness ==
+                              Brightness.dark
+                          ? Palette.whiteColor
+                          : Palette.blackColor),
                   fontWeight: titleFontWeight,
                 ),
               )

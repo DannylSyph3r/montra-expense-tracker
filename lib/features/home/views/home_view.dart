@@ -1,10 +1,12 @@
 import 'dart:ui';
 import 'package:expense_tracker_app/features/home/widgets/curved_painter.dart';
+import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_constants.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
+import 'package:expense_tracker_app/utils/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -125,80 +127,23 @@ class _HomeViewState extends State<HomeView> {
                                 padding: 0.0.padA,
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: 10,
+                                itemCount: 6,
                                 itemBuilder: (context, index) {
-                                  return RowRailer(
-                                    rowPadding: 0.padH,
-                                    leading: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          height: 55.h,
-                                          width: 55.h,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8.r)),
-                                            color: Palette.montraPurple
-                                                .withOpacity(0.3),
-                                          ),
-                                          child: Icon(
-                                            PhosphorIconsFill.forkKnife,
-                                            size: 23.h,
-                                            color: Palette.montraPurple,
-                                          ),
-                                        ),
-                                        8.sbW,
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              "Ballers Remittance"
-                                                  .txt18(
-                                                      fontW: F.w5,
-                                                      overflow:
-                                                          TextOverflow.ellipsis)
-                                                  .alignCenterLeft(),
-                                              5.sbH,
-                                              "23/05/2024"
-                                                  .txt14(
-                                                      overflow:
-                                                          TextOverflow.ellipsis)
-                                                  .alignCenterLeft(),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    trailing: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        "₦ -5,000".txt20(
-                                            overflow: TextOverflow.ellipsis,
-                                            color: Palette.redColor),
-                                        5.sbH,
-                                        "5:00AM"
-                                            .txt14(
-                                                overflow: TextOverflow.ellipsis)
-                                            .alignCenterRight(),
-                                      ],
-                                    ),
-                                  );
+                                  return TransactionTile(
+                                      transaction: transactions[index]);
                                 },
                                 separatorBuilder: (context, index) {
                                   return 10.sbH;
                                 },
                               ),
-                              20.sbH,
+                              100.sbH,
                             ],
                           ),
                         )),
                   ],
                 ),
                 Positioned(
-                  top: 150, // Adjust this value to position it vertically
+                  top: 150,
                   left: 15,
                   right: 0,
                   child: Align(
@@ -221,7 +166,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
                 Positioned(
-                  top: 150, // Adjust this value to position it vertically
+                  top: 150,
                   left: 0,
                   right: 0,
                   child: Align(
@@ -230,7 +175,6 @@ class _HomeViewState extends State<HomeView> {
                       borderRadius: BorderRadius.all(Radius.circular(15.r)),
                       child: Container(
                         width: 345.w,
-                        height: 200.h,
                         decoration: BoxDecoration(
                           color: Palette.montraPurple,
                           boxShadow: [

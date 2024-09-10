@@ -13,8 +13,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 enum Nav {
-  home('Home', PhosphorIconsFill.bank),
-  transactions('Transactions', PhosphorIconsFill.arrowsLeftRight),
+  home('Home', PhosphorIconsFill.house),
+  transactions('Transactions', PhosphorIconsFill.arrowsDownUp),
   finances('Finances', PhosphorIconsFill.chartPieSlice),
   profile('Profile', PhosphorIconsFill.user);
 
