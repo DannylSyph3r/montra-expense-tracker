@@ -67,7 +67,7 @@ class NumberPadButton extends StatelessWidget {
                         color: Palette.whiteColor,
                       )
                     : number.txt(
-                        size: 45.sp, fontW: F.w3, color: Palette.whiteColor),
+                        size: 45.sp, color: Palette.whiteColor),
               ),
             ),
           ),

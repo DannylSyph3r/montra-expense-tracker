@@ -40,6 +40,7 @@ class TextInputWidget extends StatelessWidget {
   final TextAlign? textAlign;
   final EdgeInsetsGeometry? contentPadding;
   final int? maxLines;
+  final double? radiusValue;
   const TextInputWidget({
     Key? key,
     this.isTextFieldEnabled,
@@ -75,10 +76,15 @@ class TextInputWidget extends StatelessWidget {
     this.textAlign,
     this.contentPadding,
     this.maxLines,
+    this.radiusValue,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final fillColor = isDarkMode ? Palette.blackColor: Palette.whiteColor;
+    final hintColor = isDarkMode ? Palette.whiteColor : Palette.blackColor;
+
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -104,18 +110,18 @@ class TextInputWidget extends StatelessWidget {
           focusNode: focusNode,
           onFieldSubmitted: onFieldSubmitted,
           onChanged: onChanged,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.poppins(
             textStyle: TextStyle(
-              fontSize: inputtedTextSize ?? 14.sp,
-              color: Palette.blackColor,
-              fontWeight: FontWeight.w500,
+              color: isDarkMode ? Palette.whiteColor : Palette.blackColor,
+              fontSize: inputtedTextSize ?? 16.sp,
+              fontWeight: FontWeight.w400,
             ),
           ),
           controller: controller,
           inputFormatters: inputFormatters,
           obscureText: obscuretext,
           //obscuringCharacter: '*',
-          cursorColor: Colors.black,
+          cursorColor: hintColor,
           decoration: InputDecoration(
             prefixIcon: prefix,
             prefixIconConstraints: BoxConstraints(
@@ -124,7 +130,7 @@ class TextInputWidget extends StatelessWidget {
             // isDense: true,
             suffix: suffix,
             contentPadding: contentPadding ??
-                EdgeInsets.symmetric(vertical: 10.w).copyWith(left: 18.w),
+                EdgeInsets.symmetric(vertical: 12.w).copyWith(left: 18.w),
             helperText: " ",
             helperStyle: const TextStyle(fontSize: 0.0005),
             errorStyle: const TextStyle(fontSize: 0.0005),
@@ -133,37 +139,37 @@ class TextInputWidget extends StatelessWidget {
                 minHeight: suffixIconDeimension.h,
                 minWidth: suffixIconDeimension.w),
             hintText: hintText,
-            fillColor: Palette.whiteColor,
+            fillColor: fillColor,
             filled: true,
-            hintStyle: GoogleFonts.inter(
+            hintStyle: GoogleFonts.montserrat(
               textStyle: TextStyle(
-                fontSize: hintTextSize ?? 15.sp,
-                color: Palette.greyColor,
+                fontSize: hintTextSize ?? 16.sp,
+                color: hintColor,
               ),
             ),
             border: OutlineInputBorder(
-              borderSide: const BorderSide(color: Palette.textFieldGrey),
-              borderRadius: BorderRadius.circular(15.r),
+              borderSide: const BorderSide(color: Palette.greyColor),
+              borderRadius:  BorderRadius.circular(radiusValue ?? 15.r),
             ),
             disabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Palette.textFieldGrey),
-              borderRadius: BorderRadius.circular(15.r),
+              borderRadius:  BorderRadius.circular(radiusValue ?? 15.r),
             ),
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Palette.textFieldGrey),
-              borderRadius: BorderRadius.circular(15.r),
+              borderSide: const BorderSide(color: Palette.greyColor),
+              borderRadius:  BorderRadius.circular(radiusValue ?? 15.r),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Palette.montraPurple),
-              borderRadius: BorderRadius.circular(15.r),
+              borderRadius:  BorderRadius.circular(radiusValue ?? 15.r),
             ),
             errorBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.red),
-              borderRadius: BorderRadius.circular(15.r),
+              borderRadius:  BorderRadius.circular(radiusValue ?? 15.r),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Palette.redColor),
-              borderRadius: BorderRadius.circular(15.r),
+              borderSide: const BorderSide(color: Colors.red),
+              borderRadius:  BorderRadius.circular(radiusValue ?? 15.r),
             ),
           ),
           validator: validator,
@@ -263,19 +269,19 @@ class TextInputWidget extends StatelessWidget {
 //           hintStyle: TextStyle(
 //             fontSize: 14.sp,
 //             fontWeight: FontWeight.w500,
-//             color: Palette.textFieldGrey,
+//             color: Palette.greyColor,
 //             fontFamily: AppTexts.appFont,
 //           ),
 //           border: OutlineInputBorder(
-//             borderSide: const BorderSide(color: Palette.textFieldGrey),
+//             borderSide: const BorderSide(color: Palette.greyColor),
 //             borderRadius: BorderRadius.circular(8.r),
 //           ),
 //           enabledBorder: OutlineInputBorder(
-//             borderSide: const BorderSide(color: Palette.textFieldGrey),
+//             borderSide: const BorderSide(color: Palette.greyColor),
 //             borderRadius: BorderRadius.circular(8.r),
 //           ),
 //           focusedBorder: OutlineInputBorder(
-//             borderSide: const BorderSide(color: Palette.textFieldGrey),
+//             borderSide: const BorderSide(color: Palette.greyColor),
 //             borderRadius: BorderRadius.circular(8.r),
 //           ),
 //           errorBorder: OutlineInputBorder(
@@ -283,7 +289,7 @@ class TextInputWidget extends StatelessWidget {
 //             borderRadius: BorderRadius.circular(8.r),
 //           ),
 //           focusedErrorBorder: OutlineInputBorder(
-//             borderSide: const BorderSide(color: Palette.textFieldGrey),
+//             borderSide: const BorderSide(color: Palette.greyColor),
 //             borderRadius: BorderRadius.circular(8.r),
 //           ),
 //         ),

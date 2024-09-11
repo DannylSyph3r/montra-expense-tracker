@@ -1,5 +1,8 @@
+import 'package:expense_tracker_app/features/transactions/widgets/filter_tab.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
+import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
+import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
 import 'package:expense_tracker_app/utils/widgets/sliver_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +40,69 @@ class TransactionsView extends StatelessWidget {
                       PhosphorIconsFill.funnel,
                       color: Palette.montraPurple,
                       size: 28.h,
-                    ),
+                    ).tap(onTap: () {
+                      showCustomModal(context,
+                          modalHeight: 450.h,
+                          child: Padding(
+                            padding: 15.padH,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RowRailer(
+                                  rowPadding: 0.padH,
+                                  leading: "Transaction Filter".txt16(
+                                    fontW: F.w5,
+                                  ),
+                                  trailing: Container(
+                                    height: 27.h,
+                                    width: 67.w,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15.r)),
+                                        color: Palette.montraPurple
+                                            .withOpacity(0.25)),
+                                    child: Center(
+                                      child: "Reset".txt14(
+                                          color: Palette.montraPurple,
+                                          fontW: F.w5),
+                                    ),
+                                  ),
+                                ),
+                                15.sbH,
+                                "Filter By".txt16(fontW: F.w6),
+                                10.sbH,
+                                Row(
+                                  children: [
+                                    const FilterTab(tabLabel: "Income"),
+                                    10.sbW,
+                                    const FilterTab(tabLabel: "Expense"),
+                                  ],
+                                ),
+                                15.sbH,
+                                "Sort By".txt16(fontW: F.w6),
+                                10.sbH,
+                                Wrap(
+                                  spacing: 10.w,
+                                  runSpacing: 10.h,
+                                  children: const [
+                                    FilterTab(tabLabel: "Highest"),
+                                    FilterTab(
+                                      tabLabel: "Lowest",
+                                    ),
+                                    FilterTab(
+                                      tabLabel: "Newest",
+                                    ),
+                                    FilterTab(
+                                      tabLabel: "Oldest",
+                                    ),
+                                  ],
+                                ),
+                                15.sbH,
+                                "Category".txt16(fontW: F.w6),
+                              ],
+                            ),
+                          ));
+                    }),
                   )
                 ],
                 sliverBottom: PreferredSize(

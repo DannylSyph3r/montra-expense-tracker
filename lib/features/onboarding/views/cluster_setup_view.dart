@@ -22,7 +22,7 @@ class ClusterSetupView extends StatelessWidget {
             80.sbH,
             SizedBox(
               width: 300.w,
-              child: AppTexts.clusterMainInstruction1.txt(size: 40.sp, fontW: F.w6)).alignCenterLeft(),
+              child: AppTexts.clusterMainInstruction1.txt(size: 35.sp, fontW: F.w6)).alignCenterLeft(),
             20.sbH,
             SizedBox(
               width: width(context)/1.5,

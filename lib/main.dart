@@ -1,7 +1,7 @@
 import 'package:expense_tracker_app/features/onboarding/bloc/onboarding_bloc.dart';
 import 'package:expense_tracker_app/features/onboarding/views/onboarding_view.dart';
 import 'package:expense_tracker_app/shared/app_texts.dart';
-import 'package:expense_tracker_app/theme/palette.dart';
+import 'package:expense_tracker_app/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,11 +41,9 @@ class MontraApp extends StatelessWidget {
             return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 title: AppTexts.appName,
-                theme: ThemeData(
-                  colorScheme:
-                      ColorScheme.fromSeed(seedColor: Palette.montraPurple),
-                  useMaterial3: true,
-                ),
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                themeMode: ThemeMode.light,
                 home: const OnboardingView());
           }),
     );

@@ -11,6 +11,7 @@ import 'package:expense_tracker_app/utils/widgets/text_input.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SignUpView extends StatefulWidget {
@@ -44,7 +45,8 @@ class _SignUpViewState extends State<SignUpView> {
   Widget build(BuildContext context) {
     return Scaffold(
         //! appBar
-        appBar: customAppBar("Sign Up",
+        appBar: customAppBar(
+            title: "Sign Up",
             implyLeading: false,
             context: context,
             toolbarHeight: 60.h,
@@ -122,18 +124,22 @@ class _SignUpViewState extends State<SignUpView> {
                         textAlign: TextAlign.left,
                         text: TextSpan(
                           text: AppTexts.proceeding.toCapitalized(),
-                          style: TextStyle(
-                            color: Palette.blackColor,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              color: Palette.greyColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                           children: [
                             TextSpan(
                               text: AppTexts.terms,
-                              style: TextStyle(
-                                color: Palette.montraPurple,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                  color: Palette.montraPurple,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             )
                           ],
@@ -173,10 +179,12 @@ class _SignUpViewState extends State<SignUpView> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: AppTexts.switchToLogin.toCapitalized(),
-                    style: TextStyle(
-                      color: Palette.greyColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        color: Palette.greyColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     children: [
                       TextSpan(
@@ -186,10 +194,12 @@ class _SignUpViewState extends State<SignUpView> {
                                 context: context, view: const LoginView());
                           },
                         text: " Login",
-                        style: TextStyle(
-                          color: Palette.montraPurple,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            color: Palette.montraPurple,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       )
                     ],

@@ -95,7 +95,7 @@ class _PinInputViewState extends State<PinInputView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar("",
+      appBar: customAppBar(
           implyLeading: false,
           context: context,
           toolbarHeight: 40.h,

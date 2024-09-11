@@ -16,10 +16,12 @@ class AppButton extends StatelessWidget {
   final bool isText;
   final Color? textColor;
   final bool isEnabled;
+  final bool? spanScreen;
 
   const AppButton({
     Key? key,
     this.isEnabled = true,
+    this.spanScreen = true,
     this.height,
     this.width,
     this.fontSize,
@@ -37,27 +39,27 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: height ?? 50.h,
-      width: width ?? double.infinity,
+      width: spanScreen == true ? double.infinity : 200.w,
       child: ElevatedButton(
         onPressed: isEnabled ? onTap : null,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(radius ?? 15.r),
+              Radius.circular(radius ?? 10.r),
             ),
           ),
           padding: EdgeInsets.zero,
           elevation: 0,
-          shadowColor: Colors.transparent,
+          shadowColor: Colors.black,
           backgroundColor: color ?? Palette.montraPurple,
         ),
         child: Center(
           child: isText == true
               ? Text(text ?? '',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
-                      fontSize: fontSize ?? 16.sp,
-                      fontWeight: fontWeight ?? FontWeight.w500,
+                      fontSize: fontSize ?? 14.sp,
+                      fontWeight: fontWeight ?? FontWeight.w600,
                       color: textColor ?? Palette.whiteColor,
                     ),
                   ))
@@ -180,7 +182,7 @@ class TransparentButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             side: BorderSide(
               width: 1.5,
-              color: color ?? Palette.textFieldGrey,
+              color: color ?? Palette.greyColor,
             ),
             borderRadius: BorderRadius.all(
               Radius.circular(radius ?? 10.r),

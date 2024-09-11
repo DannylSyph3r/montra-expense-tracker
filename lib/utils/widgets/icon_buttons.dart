@@ -22,7 +22,7 @@ class IconButtons extends StatelessWidget {
     return Icon(
       connectIcon,
       size: iconSize ?? 16.sp,
-      color: iconColor ?? Palette.greenColor,
+      color: iconColor ?? Palette.greyColor,
       shadows: iconShadows,
     ).tap(onTap: onIconTap);
   }
@@ -70,7 +70,7 @@ class ConnectIconButtons extends StatelessWidget {
       icon: Icon(
         connectIcon,
         size: iconSize ?? 16.sp,
-        color: iconColor ?? Palette.greenColor,
+        color: iconColor ?? Palette.greyColor,
       ),
       splashRadius: splashRadius,
       focusColor: focusColor,

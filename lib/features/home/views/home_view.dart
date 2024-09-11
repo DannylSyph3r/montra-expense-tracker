@@ -64,7 +64,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           5.sbH,
                           "Minato Namikaze"
-                              .txt20(
+                              .txt18(
                                   color: Palette.whiteColor,
                                   fontW: F.w6,
                                   overflow: TextOverflow.ellipsis)
@@ -104,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
                               100.sbH,
                               RowRailer(
                                 rowPadding: 0.padH,
-                                leading: "Recent Transactions".txt18(
+                                leading: "Recent Transactions".txt16(
                                   fontW: F.w5,
                                 ),
                                 trailing: Container(
@@ -127,7 +127,7 @@ class _HomeViewState extends State<HomeView> {
                                 padding: 0.0.padA,
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: 6,
+                                itemCount: 12,
                                 itemBuilder: (context, index) {
                                   return TransactionTile(
                                       transaction: transactions[index]);
@@ -150,7 +150,7 @@ class _HomeViewState extends State<HomeView> {
                     alignment: Alignment.center,
                     child: Container(
                       width: 300.w,
-                      height: 200.h,
+                      height: 190.h,
                       decoration: BoxDecoration(
                         color: Palette.montraPurple,
                         boxShadow: [
@@ -234,11 +234,11 @@ class _HomeViewState extends State<HomeView> {
                                                 sigmaY: privacyOn ? 7 : 0,
                                               ),
                                               child: privacyOn
-                                                  ? "₦ 3,450".txt(
+                                                  ? "N 3,450".txt(
                                                       size: 32.sp,
                                                       fontW: F.w8,
                                                       color: Palette.whiteColor)
-                                                  : "₦ 345,000.00".txt(
+                                                  : "N 345,000.00".txt(
                                                       size: 32.sp,
                                                       fontW: F.w8,
                                                       color:
@@ -272,7 +272,7 @@ class _HomeViewState extends State<HomeView> {
                                             ),
                                             5.sbW,
                                             "Income".txt(
-                                                size: 19.sp,
+                                                size: 16.sp,
                                                 color: Palette.whiteColor,
                                                 fontW: F.w3)
                                           ],
@@ -296,7 +296,7 @@ class _HomeViewState extends State<HomeView> {
                                             ),
                                             5.sbW,
                                             "Expenses".txt(
-                                                size: 19.sp,
+                                                size: 16.sp,
                                                 color: Palette.whiteColor,
                                                 fontW: F.w3)
                                           ],
@@ -313,10 +313,12 @@ class _HomeViewState extends State<HomeView> {
                                               sigmaY: privacyOn ? 5 : 0,
                                             ),
                                             child: privacyOn
-                                                ? "₦ 3,450".txt18(
+                                                ? "N 3,450".txt(
+                                                    size: 17.sp,
                                                     fontW: F.w3,
                                                     color: Palette.whiteColor)
-                                                : "₦ 745,000.00".txt18(
+                                                : "N 745,000.00".txt(
+                                                    size: 17.sp,
                                                     fontW: F.w3,
                                                     color: Palette.whiteColor),
                                           );
@@ -329,10 +331,12 @@ class _HomeViewState extends State<HomeView> {
                                               sigmaY: privacyOn ? 5 : 0,
                                             ),
                                             child: privacyOn
-                                                ? "₦ 3,450".txt18(
+                                                ? "N 3,450".txt(
+                                                    size: 17.sp,
                                                     fontW: F.w3,
                                                     color: Palette.whiteColor)
-                                                : "₦ 400,000.00".txt18(
+                                                : "N 400,000.00".txt(
+                                                    size: 17.sp,
                                                     fontW: F.w3,
                                                     color: Palette.whiteColor),
                                           );

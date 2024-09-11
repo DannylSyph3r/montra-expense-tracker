@@ -103,7 +103,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                             borderRadius: BorderRadius.circular(15.r),
                             border: Border.all(color: Palette.montraPurple)),
                         child: Center(
-                          child: 'Sign up'.txtHeading(
+                          child: 'Sign up'.txt(
                               size: 18.sp,
                               fontWeight: FontWeight.w400,
                               color: Palette.montraPurple),
@@ -133,7 +133,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                     ),
                     child: Center(
                       child: state.pageIndex == 2
-                          ? 'Login'.txtHeading(
+                          ? 'Login'.txt(
                               size: 18.sp,
                               fontWeight: FontWeight.w400,
                               color: state.pageIndex == 1

@@ -36,7 +36,7 @@ class ClusterConfirmationView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.r),
                       border: Border.all(color: Palette.montraPurple)),
                   child: Center(
-                    child: "Lets's Mon-track!".txtHeading(
+                    child: "Lets's Mon-track!".txt(
                         size: 18.sp,
                         fontWeight: FontWeight.w400,
                         color: Palette.montraPurple),

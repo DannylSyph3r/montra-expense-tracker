@@ -27,7 +27,8 @@ class _NewAccountViewState extends State<NewAccountView> {
   final TextEditingController _clusterStartingAmountController =
       TextEditingController();
   final TextEditingController _clusterTypeController = TextEditingController();
-  final ValueNotifier<String> _balanceNotifier = ValueNotifier<String>("₦ 0.00");
+  final ValueNotifier<String> _balanceNotifier =
+      ValueNotifier<String>("N 0.00");
   final ValueNotifier<bool> _isKeyboardVisible = ValueNotifier<bool>(false);
 
   final List<String> accountTypes = ["Bank", "Card", "Fintech Wallet"];
@@ -64,13 +65,14 @@ class _NewAccountViewState extends State<NewAccountView> {
     String formattedAmount =
         NumberFormat.currency(locale: 'en_US', symbol: '', decimalDigits: 2)
             .format(amount);
-    _balanceNotifier.value = "₦ $formattedAmount";
+    _balanceNotifier.value = "N $formattedAmount";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar("Add New Account",
+      appBar: customAppBar(
+          title: "Add New Account",
           fontSize: 16.sp,
           fontColor: Palette.whiteColor,
           iconColor: Palette.whiteColor,
@@ -88,7 +90,7 @@ class _NewAccountViewState extends State<NewAccountView> {
             child: Column(
               children: [
                 "Balance"
-                    .txt20(fontW: F.w6, color: Palette.textFieldGrey)
+                    .txt20(fontW: F.w6, color: Palette.whiteColor)
                     .alignCenterLeft(),
                 ValueListenableBuilder<String>(
                   valueListenable: _balanceNotifier,

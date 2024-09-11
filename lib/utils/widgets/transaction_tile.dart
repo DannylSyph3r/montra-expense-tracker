@@ -1,4 +1,5 @@
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
+import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +32,7 @@ class TransactionTile extends StatelessWidget {
                 Text(
                   transaction.transactionCategory.label,
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.w500,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -39,7 +40,7 @@ class TransactionTile extends StatelessWidget {
                 SizedBox(height: 4.h),
                 Text(
                   transaction.transactionDescription,
-                  style: TextStyle(fontSize: 14.sp),
+                  style: TextStyle(fontSize: 13.sp),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -73,17 +74,19 @@ class TransactionTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          '${transaction.transactionType == TransactionType.expense ? '-' : ''}₦${_currencyFormat.format(transaction.transactionAmount)}',
+          '${transaction.transactionType == TransactionType.expense ? '-' : ''}N${_currencyFormat.format(transaction.transactionAmount)}',
           style: TextStyle(
             fontSize: 16.sp,
-            color: transaction.transactionType == TransactionType.expense ? Colors.red : Colors.green,
+            color: transaction.transactionType == TransactionType.expense
+                ? Palette.redColor
+                : Palette.greenColor,
           ),
           overflow: TextOverflow.ellipsis,
         ),
         SizedBox(height: 4.h),
         Text(
           '${_dateFormat.format(transaction.transactionDate)}, ${_timeFormat.format(transaction.transactionDate)}',
-          style: TextStyle(fontSize: 12.sp),
+          style: TextStyle(fontSize: 11.sp),
           overflow: TextOverflow.ellipsis,
         ),
       ],

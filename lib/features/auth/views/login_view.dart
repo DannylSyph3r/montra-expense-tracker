@@ -13,6 +13,7 @@ import 'package:expense_tracker_app/utils/widgets/text_input.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class LoginView extends StatefulWidget {
@@ -41,7 +42,8 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
         //! appBar
-        appBar: customAppBar("Login",
+        appBar: customAppBar(
+            title: "Login",
             implyLeading: false,
             context: context,
             toolbarHeight: 60.h,
@@ -82,7 +84,7 @@ class _LoginViewState extends State<LoginView> {
 
                 //! forgot Password
                 "Forgot Password?"
-                    .txt16(fontW: F.w6, color: Palette.montraPurple)
+                    .txt14(fontW: F.w6, color: Palette.montraPurple)
                     .alignCenterRight()
                     .tap(onTap: () {
                   goTo(context: context, view: const ForgotPasswordView());
@@ -102,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
                   fontWeight: FontWeight.w600,
                 ),
                 10.sbH,
-                "Or with".txt16(fontW: F.w7, color: Palette.greyColor),
+                "Or with".txt14(fontW: F.w7, color: Palette.greyColor),
                 10.sbH,
                 TransparentButton(
                   onTap: () {},
@@ -123,10 +125,12 @@ class _LoginViewState extends State<LoginView> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: AppTexts.switchToSignup.toCapitalized(),
-                    style: TextStyle(
-                      color: Palette.greyColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        color: Palette.greyColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     children: [
                       TextSpan(
@@ -136,10 +140,12 @@ class _LoginViewState extends State<LoginView> {
                                 context: context, view: const SignUpView());
                           },
                         text: " Sign Up",
-                        style: TextStyle(
-                          color: Palette.montraPurple,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            color: Palette.montraPurple,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       )
                     ],

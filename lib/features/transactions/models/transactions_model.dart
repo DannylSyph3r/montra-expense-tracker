@@ -4,18 +4,20 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 enum TransactionType { expense, income }
 
 enum TransactionCategory {
-  groceries('Groceries', PhosphorIconsFill.shoppingCart, Colors.green),
-  rentMortgage('Rent/Mortgage', PhosphorIconsFill.houseLine, Colors.blueGrey),
-  utilities('Utilities', PhosphorIconsFill.plug, Colors.orange),
-  transportation('Transportation', PhosphorIconsFill.carSimple, Colors.purple),
-  diningOut('Dining Out', PhosphorIconsFill.pizza, Colors.red),
-  healthFitness('Health & Fitness', PhosphorIconsFill.heartbeat, Colors.teal),
+  generalExpense('Cash Outflow', PhosphorIconsFill.signOut, Colors.redAccent),
+  groceries('Groceries', PhosphorIconsFill.shoppingCart, Colors.lightGreen),
+  rentMortgage('Rent/Mortgage', PhosphorIconsFill.houseLine, Colors.brown),
+  utilities('Utilities', PhosphorIconsFill.plug, Colors.amber),
+  transportation('Transportation', PhosphorIconsFill.carSimple, Colors.cyan),
+  diningOut('Dining Out', PhosphorIconsFill.pizza, Colors.deepOrange),
+  healthFitness(
+      'Health & Fitness', PhosphorIconsFill.heartbeat, Colors.lightBlue),
   entertainment('Entertainment & Subscriptions', PhosphorIconsFill.filmSlate,
-      Colors.indigo),
-  shopping('Shopping', PhosphorIconsFill.shoppingBag, Colors.pink),
-  insurance('Insurance', PhosphorIconsFill.shield, Colors.blue),
-  salary('Salary/Wages', PhosphorIconsFill.briefcase, Colors.deepPurple),
-  generalIncome('General Income', PhosphorIconsFill.coins, Colors.greenAccent);
+      Colors.purpleAccent),
+  shopping('Shopping', PhosphorIconsFill.shoppingBag, Colors.pinkAccent),
+  insurance('Insurance', PhosphorIconsFill.shield, Colors.lightBlueAccent),
+  salary('Salary/Wages', PhosphorIconsFill.briefcase, Colors.deepPurpleAccent),
+  generalIncome('Cash Inflow', PhosphorIconsFill.coins, Colors.green);
 
   const TransactionCategory(this.label, this.icon, this.color);
 
@@ -26,6 +28,7 @@ enum TransactionCategory {
   // You can add a helper function here to filter categories based on the transaction type
   static List<TransactionCategory> getExpenseCategories() {
     return [
+      generalExpense,
       groceries,
       rentMortgage,
       utilities,
@@ -63,6 +66,13 @@ class Transaction {
 }
 
 List<Transaction> transactions = [
+  Transaction(
+    transactionType: TransactionType.expense,
+    transactionCategory: TransactionCategory.generalExpense,
+    transactionDescription: 'Cash Transfer to Olawale',
+    transactionAmount: 200.00,
+    transactionDate: DateTime.now().subtract(const Duration(days: 1)),
+  ),
   Transaction(
     transactionType: TransactionType.expense,
     transactionCategory: TransactionCategory.groceries,

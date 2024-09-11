@@ -28,7 +28,8 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
         //! appBar
-        appBar: customAppBar("Forgot Password",
+        appBar: customAppBar(
+            title: "Forgot Password",
             context: context,
             toolbarHeight: 60.h,
             fontSize: 18.sp,
@@ -40,7 +41,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             children: [
               Column(children: [
                 30.sbH,
-                AppTexts.forgotPassword1.txt(size: 32.sp, fontW: F.w6).alignCenterLeft(),
+                AppTexts.forgotPassword1
+                    .txt(size: 32.sp, fontW: F.w6)
+                    .alignCenterLeft(),
                 AppTexts.forgotPassword2.txt(size: 32.sp, fontW: F.w6),
                 50.sbH,
 
@@ -53,7 +56,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 //! sign Up Buttons
                 AppButton(
                   onTap: () {
-                  goToAndReset(context: context, view: PasswordMailView());
+                    goToAndReset(context: context, view: PasswordMailView());
                   },
                   text: "Continue",
                   fontSize: 16.sp,

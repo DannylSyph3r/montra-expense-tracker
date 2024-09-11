@@ -37,7 +37,7 @@ class OnboardingContent extends StatelessWidget {
           //! title
           Padding(
             padding: 15.padH,
-            child: title.txtHeading(
+            child: title.txt(
                 size: 28.sp,
                 fontWeight: FontWeight.w600,
                 color: textColor,
