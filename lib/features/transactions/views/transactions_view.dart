@@ -1,7 +1,9 @@
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
+import 'package:expense_tracker_app/features/transactions/views/add_transaction_view.dart';
 import 'package:expense_tracker_app/features/transactions/widgets/filter_tab.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
+import 'package:expense_tracker_app/utils/nav.dart';
 import 'package:expense_tracker_app/utils/widgets/button.dart';
 import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
 import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
@@ -41,7 +43,7 @@ class _TransactionsViewState extends State<TransactionsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-        length: 4,
+        length: 5,
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -168,11 +170,11 @@ class _TransactionsViewState extends State<TransactionsView> {
                         textStyle: TextStyle(
                             fontSize: 16.sp, fontWeight: FontWeight.w300),
                       ),
-                      tabs: ['Day', 'Week', 'Month', 'Year']
+                      tabs: ['Day', 'Week', 'Month', 'Year', 'Custom']
                           .map((label) => SizedBox(
                                 width: 55.w,
                                 child: Tab(
-                                  child: label.txt14(),
+                                  child: label.txt(size: 13.sp),
                                 ),
                               ))
                           .toList(),
@@ -325,6 +327,9 @@ class _TransactionsViewState extends State<TransactionsView> {
                   ),
                 ],
               ),
+              Column(
+                children: [],
+              )
             ]),
           ),
         ),
@@ -352,7 +357,9 @@ class _TransactionsViewState extends State<TransactionsView> {
                 ],
               ),
             ),
-          ).tap(onTap: () {}),
+          ).tap(onTap: () {
+            goTo(context: context, view: AddTransactionView());
+          }),
           80.sbH,
         ],
       ),

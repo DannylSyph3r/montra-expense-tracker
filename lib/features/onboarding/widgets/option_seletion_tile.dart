@@ -8,6 +8,7 @@ class OptionSelectionListTile extends StatelessWidget {
   final double? horizontalContentPadding;
   final double? titleFontSize;
   final String titleLabel;
+  final Color? leadingIconColor;
   final String? subtitleLabel;
   final bool interactiveTrailing;
   final bool? isThreeLines;
@@ -19,6 +20,7 @@ class OptionSelectionListTile extends StatelessWidget {
       required this.interactiveTrailing,
       this.isThreeLines = false,
       // this.interactiveTrailingWidget,
+      this.leadingIconColor,
       this.leadingIcon,
       this.subtitleLabel,
       required this.titleLabel,
@@ -36,7 +38,8 @@ class OptionSelectionListTile extends StatelessWidget {
       minLeadingWidth: 5.w,
       subtitle: subtitleLabel?.txt12(),
       leading: leadingIcon != null
-          ? Icon(leadingIcon, size: 24.sp, color: Palette.montraPurple)
+          ? Icon(leadingIcon,
+              size: 24.sp, color: leadingIconColor ?? Palette.montraPurple)
           : const SizedBox.shrink(),
       title: Container(
           padding:

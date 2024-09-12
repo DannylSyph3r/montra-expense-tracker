@@ -79,7 +79,7 @@ AppBar customAppBar({
     title: isTitleText
         ? Text(
             title,
-            style: GoogleFonts.montserrat(
+            style: GoogleFonts.openSans(
               textStyle: TextStyle(
                 fontSize: fontSize ?? 18.sp,
                 color: fontColor ?? onBackgroundColor,
