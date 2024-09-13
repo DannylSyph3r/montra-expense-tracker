@@ -27,9 +27,17 @@ abstract class AppTexts {
   static const String switchToLogin = 'Already have an account?';
   static const String switchToSignup = 'Don\'t have an account yet?';
   static const String forgotPassword1 = 'Don\'t worry.';
-  static const String forgotPassword2 = 'Enter your email and we\'ll send you a link to reset your password :)';
+  static const String forgotPassword2 =
+      'Enter your email and we\'ll send you a link to reset your password :)';
   static const String mailConfirmation = 'Your email is on the way';
-  static const String mailInstructions = 'Check your email test@test.com and follow the instructions to reset your password';
-  static const String clusterMainInstruction1 = 'Let’s setup your Account cluster!';
-  static const String clusterMainInstruction2 = 'This Account can be for your bank, credit card or your fintech wallet.';
+  static const String mailInstructions =
+      'Check your email test@test.com and follow the instructions to reset your password';
+  static const String clusterMainInstruction1 =
+      'Let’s setup your Account cluster!';
+  static const String clusterMainInstruction2 =
+      'This Account can be for your bank, credit card or your fintech wallet.';
+
+  //! Main App
+  static const String invoiceAttachementInstructions =
+      'Attaching an invoice is optional. Take a photo of your invoice or select it from your gallery';
 }
