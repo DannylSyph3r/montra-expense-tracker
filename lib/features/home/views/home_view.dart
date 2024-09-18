@@ -1,10 +1,12 @@
 import 'dart:ui';
-import 'package:expense_tracker_app/features/home/widgets/curved_painter.dart';
+import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
+import 'package:expense_tracker_app/features/transactions/views/transaction_details_view.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_constants.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
+import 'package:expense_tracker_app/utils/nav.dart';
 import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
 import 'package:expense_tracker_app/utils/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +47,20 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 Column(
                   children: [
-                    60.sbH,
+                    40.sbH,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        "Ryker Wallet".txt14(color: Palette.whiteColor, fontW: F.w4),
+                        5.sbW,
+                        Icon(
+                                PhosphorIconsBold.caretCircleDown,
+                                size: 20.h,
+                                color: Palette.whiteColor,
+                              )
+                      ],
+                    ),
+                    20.sbH,
                     RowRailer(
                       leading: Column(
                         children: [
@@ -130,7 +145,13 @@ class _HomeViewState extends State<HomeView> {
                                 itemCount: 12,
                                 itemBuilder: (context, index) {
                                   return TransactionTile(
-                                      transaction: transactions[index]);
+                                    transaction: transactions[index],
+                                    onTileTap: () {
+                                      goTo(
+                                          context: context,
+                                          view: TransactionsDetailsView());
+                                    },
+                                  );
                                 },
                                 separatorBuilder: (context, index) {
                                   return 10.sbH;

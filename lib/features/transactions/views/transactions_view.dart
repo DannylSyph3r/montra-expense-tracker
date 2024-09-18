@@ -198,7 +198,10 @@ class _TransactionsViewState extends State<TransactionsView> {
                     shrinkWrap: true,
                     itemCount: 4,
                     itemBuilder: (context, index) {
-                      return TransactionTile(transaction: transactions[index]);
+                      return TransactionTile(
+                        transaction: transactions[index],
+                        onTileTap: () {},
+                      );
                     },
                     separatorBuilder: (context, index) {
                       return 10.sbH;
@@ -236,7 +239,10 @@ class _TransactionsViewState extends State<TransactionsView> {
                     shrinkWrap: true,
                     itemCount: 12,
                     itemBuilder: (context, index) {
-                      return TransactionTile(transaction: transactions[index]);
+                      return TransactionTile(
+                        transaction: transactions[index],
+                        onTileTap: () {},
+                      );
                     },
                     separatorBuilder: (context, index) {
                       return 10.sbH;
@@ -274,7 +280,10 @@ class _TransactionsViewState extends State<TransactionsView> {
                     shrinkWrap: true,
                     itemCount: 30,
                     itemBuilder: (context, index) {
-                      return TransactionTile(transaction: transactions[index]);
+                      return TransactionTile(
+                        transaction: transactions[index],
+                        onTileTap: () {},
+                      );
                     },
                     separatorBuilder: (context, index) {
                       return 10.sbH;
@@ -321,7 +330,10 @@ class _TransactionsViewState extends State<TransactionsView> {
                     ),
                     itemBuilder:
                         (BuildContext context, Transaction transaction) {
-                      return TransactionTile(transaction: transaction);
+                      return TransactionTile(
+                        transaction: transaction,
+                        onTileTap: () {},
+                      );
                     },
                     separator: 10.sbH,
                   ),

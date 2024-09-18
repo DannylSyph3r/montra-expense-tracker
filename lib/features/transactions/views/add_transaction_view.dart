@@ -1,5 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:expense_tracker_app/features/home/widgets/curved_painter.dart';
+import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
@@ -439,7 +439,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                     ),
                                     5.sbH,
                                     TextInputWidget(
-                                      maxLength: 50,
+                                      maxLength: 30,
                                       hintText: "Description",
                                       hintTextSize: 14.sp,
                                       inputtedTextSize: 14.sp,

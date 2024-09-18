@@ -1,15 +1,18 @@
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
+import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 class TransactionTile extends StatelessWidget {
   final Transaction transaction;
+  final VoidCallback onTileTap;
 
   TransactionTile({
     Key? key,
     required this.transaction,
+    required this.onTileTap,
   }) : super(key: key);
 
   final NumberFormat _currencyFormat = NumberFormat("#,##0.00", "en_US");
@@ -51,7 +54,7 @@ class TransactionTile extends StatelessWidget {
           SizedBox(width: 16.w),
           _buildTrailing(),
         ],
-      ),
+      ).tap(onTap: onTileTap),
     );
   }
 

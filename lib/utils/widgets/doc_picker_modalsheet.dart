@@ -91,7 +91,7 @@ class _DocPickerModalBottomSheetState extends State<DocPickerModalBottomSheet> {
     final backgroundColor =
         widget.color ?? (isDarkMode ? Palette.blackColor : Palette.whiteColor);
     return Container(
-      height: 350.h,
+      height: 370.h,
       width: width(context),
       decoration: BoxDecoration(
         color: backgroundColor,
@@ -165,12 +165,12 @@ class _DocPickerModalBottomSheetState extends State<DocPickerModalBottomSheet> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            PhosphorIconsFill.file,
+                            PhosphorIconsFill.images,
                             size: 50.h,
                             color: Palette.greyColor,
                           ),
                           10.sbH,
-                          "Choose File".txt12(
+                          "Choose Images".txt12(
                             color: Palette.greyColor,
                           )
                         ],

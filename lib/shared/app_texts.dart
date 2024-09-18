@@ -39,5 +39,7 @@ abstract class AppTexts {
 
   //! Main App
   static const String invoiceAttachementInstructions =
-      'Attaching an invoice is optional. Take a photo of your invoice or select it from your gallery';
+      'Attaching an invoice is optional. Take a photo of your invoice, or select images from your gallery.';
+  static const String removeTransactionConfirmation =
+      'Are you sure you want to remove this transaction';
 }

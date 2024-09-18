@@ -1,4 +1,4 @@
-import 'package:expense_tracker_app/features/home/widgets/curved_painter.dart';
+import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/features/onboarding/views/confirmation_view.dart';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
