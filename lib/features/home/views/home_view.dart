@@ -100,7 +100,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       rowPadding: 15.padH,
                     ),
-                    120.sbH,
+                    100.sbH,
                     CustomPaint(
                       size: Size(double.infinity, 50.h),
                       painter: CurvedPainter(),
@@ -227,7 +227,7 @@ class _HomeViewState extends State<HomeView> {
                                     children: [
                                       RowRailer(
                                         rowPadding: 0.padH,
-                                        leading: "Total Balances".txt18(
+                                        leading: "Total Balances".txt16(
                                             fontW: F.w3,
                                             color: Palette.whiteColor),
                                         trailing: _privacyFilter.sync(builder:
@@ -244,7 +244,7 @@ class _HomeViewState extends State<HomeView> {
                                           });
                                         }),
                                       ),
-                                      5.sbH,
+                                      10.sbH,
                                       Row(
                                         children: [
                                           _privacyFilter.sync(builder:
@@ -260,7 +260,7 @@ class _HomeViewState extends State<HomeView> {
                                                       fontW: F.w8,
                                                       color: Palette.whiteColor)
                                                   : "N 345,000.00".txt(
-                                                      size: 32.sp,
+                                                      size: 30.sp,
                                                       fontW: F.w8,
                                                       color:
                                                           Palette.whiteColor),
@@ -270,6 +270,7 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                     ],
                                   ),
+                                  5.sbH,
                                   Column(
                                     children: [
                                       RowRailer(
