@@ -13,4 +13,5 @@ abstract class AppGraphics {
   static const String eclipses = 'eclipses';
   static const String cardBG = 'card_bg';
   static const String invoice = 'invoice';
+  static const String noBudget = 'budget';
 }

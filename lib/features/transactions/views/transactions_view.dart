@@ -43,7 +43,7 @@ class _TransactionsViewState extends State<TransactionsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTabController(
-        length: 5,
+        length: 4,
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -170,7 +170,7 @@ class _TransactionsViewState extends State<TransactionsView> {
                         textStyle: TextStyle(
                             fontSize: 16.sp, fontWeight: FontWeight.w300),
                       ),
-                      tabs: ['Day', 'Week', 'Month', 'Year', 'Custom']
+                      tabs: ['Day', 'Week', 'Month', 'Year']
                           .map((label) => SizedBox(
                                 width: 55.w,
                                 child: Tab(
@@ -191,7 +191,24 @@ class _TransactionsViewState extends State<TransactionsView> {
               ListView(
                 padding: 15.padH,
                 children: [
-                  20.sbH,
+                                    10.sbH,
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          PhosphorIconsFill.calendarBlank,
+                          color: Palette.montraPurple,
+                          size: 25.h,
+                        ),
+                        5.sbW,
+                        "Wed 18 March 2025".txt12(fontW: F.w6)
+                      ],
+                    ),
+                  ),
+                  5.sbH,
                   ListView.separated(
                     padding: 0.0.padA,
                     physics: const NeverScrollableScrollPhysics(),
@@ -228,11 +245,11 @@ class _TransactionsViewState extends State<TransactionsView> {
                           size: 25.h,
                         ),
                         5.sbW,
-                        "Sun 8 September - Sat 14 September".txt14(fontW: F.w6)
+                        "Mon 18 March 2025 - Sun 18 March 2025".txt12(fontW: F.w6)
                       ],
                     ),
                   ),
-                  10.sbH,
+                  5.sbH,
                   ListView.separated(
                     padding: 0.0.padA,
                     physics: const NeverScrollableScrollPhysics(),
@@ -269,11 +286,11 @@ class _TransactionsViewState extends State<TransactionsView> {
                           size: 25.h,
                         ),
                         5.sbW,
-                        "September 2024".txt14(fontW: F.w6)
+                        "March 2025".txt12(fontW: F.w6)
                       ],
                     ),
                   ),
-                  10.sbH,
+                  5.sbH,
                   ListView.separated(
                     padding: 0.0.padA,
                     physics: const NeverScrollableScrollPhysics(),
@@ -311,7 +328,7 @@ class _TransactionsViewState extends State<TransactionsView> {
                     },
                     groupHeaderBuilder: (Transaction transaction) => Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: 20.h, horizontal: 15.w),
+                          vertical: 22.5.h, horizontal: 15.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -323,7 +340,7 @@ class _TransactionsViewState extends State<TransactionsView> {
                           5.sbW,
                           DateFormat.yMMMM()
                               .format(transaction.transactionDate)
-                              .txt14(fontW: F.w6)
+                              .txt12(fontW: F.w6)
                               .alignCenterLeft(),
                         ],
                       ),
@@ -339,9 +356,6 @@ class _TransactionsViewState extends State<TransactionsView> {
                   ),
                 ],
               ),
-              Column(
-                children: [],
-              )
             ]),
           ),
         ),

@@ -1,17 +1,13 @@
-import 'package:dotted_border/dotted_border.dart';
-import 'package:expense_tracker_app/shared/txn_defs.dart';
-import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
-import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
-import 'package:expense_tracker_app/shared/app_texts.dart';
+import 'package:expense_tracker_app/shared/txn_defs.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_constants.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/nav.dart';
 import 'package:expense_tracker_app/utils/widgets/button.dart';
+import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
-import 'package:expense_tracker_app/utils/widgets/doc_picker_modalsheet.dart';
 import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
 import 'package:expense_tracker_app/utils/widgets/text_input.dart';
 import 'package:flutter/material.dart';
@@ -19,47 +15,42 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class AddTransactionView extends StatefulWidget {
-  const AddTransactionView({super.key});
+class CreateBudgetView extends StatefulWidget {
+  const CreateBudgetView({super.key});
 
   @override
-  State<AddTransactionView> createState() => _AddTransactionViewState();
+  State<CreateBudgetView> createState() => _CreateBudgetViewState();
 }
 
-class _AddTransactionViewState extends State<AddTransactionView> {
-  final TextEditingController _transactionTypeController =
+class _CreateBudgetViewState extends State<CreateBudgetView> {
+  final TextEditingController _budgetCategoryController =
       TextEditingController();
-  final TextEditingController _transactionCategoryController =
+  final TextEditingController _budgetAmountController =
       TextEditingController();
-  final TextEditingController _transactionAmountController =
+  final TextEditingController _budgetDescriptionController =
       TextEditingController();
-  final TextEditingController _transactionDescriptionController =
-      TextEditingController();
-  final ValueNotifier<TransactionType?> _selectedTransactionTypeNotifer =
-      ValueNotifier<TransactionType?>(null);
+  final TextEditingController _budgetRecurringController = TextEditingController();
   final ValueNotifier<String> _balanceNotifier = ValueNotifier<String>("0.00");
   final ValueNotifier<DateTime> _selectedDateNotifier =
       ValueNotifier<DateTime>(DateTime.now());
 
-  @override
   void initState() {
     super.initState();
-    _transactionAmountController.addListener(_updateBalance);
+    _budgetAmountController.addListener(_updateBalance);
   }
 
   @override
   void dispose() {
-    _transactionTypeController.dispose();
-    _transactionCategoryController.dispose();
-    _transactionAmountController.dispose();
-    _transactionDescriptionController.dispose();
+    _budgetCategoryController.dispose();
+    _budgetAmountController.dispose();
+    _budgetDescriptionController.dispose();
     _balanceNotifier.dispose();
     _selectedDateNotifier.dispose();
     super.dispose();
   }
 
   void _updateBalance() {
-    final amountText = _transactionAmountController.text;
+    final amountText = _budgetAmountController.text;
     double amount = double.tryParse(amountText.replaceAll(',', '')) ?? 0.0;
     String formattedAmount =
         NumberFormat.currency(locale: 'en_US', symbol: '', decimalDigits: 2)
@@ -69,30 +60,9 @@ class _AddTransactionViewState extends State<AddTransactionView> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-        valueListenable: _selectedTransactionTypeNotifer,
-        builder: (context, txnType, child) {
-          String transactionText = "Add";
-          Color backgroundColor = Palette.montraPurple;
-
-          if (txnType == TransactionType.income) {
-            transactionText = "Add Income";
-            backgroundColor = Colors.green;
-          } else if (txnType == TransactionType.expense) {
-            transactionText = "Add Expense";
-            backgroundColor = Colors.red;
-          }
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 400),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            },
-            child: Scaffold(
+    return Scaffold(
               resizeToAvoidBottomInset: false,
-              backgroundColor: backgroundColor,
+              backgroundColor: Palette.montraPurple,
               body: CustomScrollView(
                 physics: const NeverScrollableScrollPhysics(),
                 slivers: [
@@ -116,7 +86,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                   .tap(onTap: () {
                                 goBack(context);
                               }),
-                              middle: "$transactionText Transaction".txt16(
+                              middle: "Create a Budget".txt16(
                                   color: Palette.whiteColor, fontW: F.w5),
                             ),
                             80.sbH,
@@ -197,71 +167,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                     TextInputWidget(
                                       onTap: () {
                                         showCustomModal(context,
-                                            modalHeight: 180.h,
-                                            child: ListView.builder(
-                                              padding: 15.padH,
-                                              shrinkWrap: true,
-                                              itemCount: transactionType.length,
-                                              itemBuilder: (context, index) {
-                                                return OptionSelectionListTile(
-                                                  leadingIcon:
-                                                      transactionType[index]
-                                                          ['icon'] as IconData,
-                                                  interactiveTrailing: false,
-                                                  titleFontSize: 15.sp,
-                                                  titleLabel:
-                                                      transactionType[index]
-                                                          ['label'] as String,
-                                                  onTileTap: () {
-                                                    _selectedTransactionTypeNotifer
-                                                            .value =
-                                                        transactionType[index]
-                                                                ['type']
-                                                            as TransactionType;
-                                                    _transactionTypeController
-                                                            .text =
-                                                        transactionType[index]
-                                                            ['label'];
-
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                );
-                                              },
-                                            ));
-                                      },
-                                      isTextFieldEnabled: false,
-                                      hintText: "Type",
-                                      hintTextSize: 14.sp,
-                                      inputtedTextSize: 14.sp,
-                                      prefix: Padding(
-                                        padding: 12.5.padA,
-                                        child: Container(
-                                          decoration: const BoxDecoration(),
-                                          height: 26.h,
-                                          width: 26.h,
-                                          child: Center(
-                                              child: Padding(
-                                                  padding: 4.0.padH,
-                                                  child: Icon(
-                                                    PhosphorIconsFill.money,
-                                                    color: Palette.greyColor,
-                                                    size: 20.h,
-                                                  ))),
-                                        ),
-                                      ),
-                                      controller: _transactionTypeController,
-                                      suffixIcon: Padding(
-                                        padding: 15.padH,
-                                        child: Icon(
-                                            PhosphorIconsRegular.caretDown,
-                                            size: 20.h,
-                                            color: Palette.textFieldGrey),
-                                      ),
-                                    ),
-                                    5.sbH,
-                                    TextInputWidget(
-                                      onTap: () {
-                                        showCustomModal(context,
                                             modalHeight: 730.h,
                                             child: ListView.builder(
                                               padding: 15.padH,
@@ -285,7 +190,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                                               index]['name']
                                                           as String,
                                                   onTileTap: () {
-                                                    _transactionCategoryController
+                                                    _budgetCategoryController
                                                             .text =
                                                         transactionCategories[
                                                             index]['name'];
@@ -316,7 +221,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                         ),
                                       ),
                                       controller:
-                                          _transactionCategoryController,
+                                         _budgetCategoryController,
                                       suffixIcon: Padding(
                                         padding: 15.padH,
                                         child: Icon(
@@ -354,10 +259,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                                 PhosphorIconsFill.xCircle,
                                                 color: Palette.greyColor)
                                             .tap(onTap: () {
-                                          _transactionAmountController.clear();
+                                          _budgetAmountController.clear();
                                         }),
                                       ),
-                                      controller: _transactionAmountController,
+                                      controller: _budgetAmountController,
                                       keyboardType: TextInputType.number,
                                       onChanged: (p0) {
                                         _updateBalance();
@@ -386,53 +291,64 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                         ),
                                       ),
                                       controller:
-                                          _transactionDescriptionController,
+                                          _budgetDescriptionController,
                                     ),
-                                    5.sbH,
-                                    DottedBorder(
-                                      borderType: BorderType.RRect,
-                                      radius: Radius.circular(15.r),
-                                      padding: EdgeInsets.zero,
-                                      color: Palette.greyColor,
-                                      strokeWidth: 1,
-                                      dashPattern: const [5, 5],
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 50.h,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 15.w),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              PhosphorIconsFill.plusCircle,
-                                              color: Palette.greyColor,
-                                              size: 20.h,
-                                            ),
-                                            15.sbW,
-                                            Text(
-                                              "Attach Invoice",
-                                              style: TextStyle(fontSize: 14.sp),
-                                            )
-                                          ],
+                                    15.sbH,
+                                    TextInputWidget(
+                                      onTap: () {
+                                        showCustomModal(context,
+                                            modalHeight: 300.h,
+                                            child: ListView.builder(
+                                              padding: 15.padH,
+                                              shrinkWrap: true,
+                                              itemCount: transactionType.length,
+                                              itemBuilder: (context, index) {
+                                                return OptionSelectionListTile(
+                                                  leadingIcon:
+                                                      budgetTypes[index]
+                                                          ['icon'] as IconData,
+                                                  interactiveTrailing: false,
+                                                  titleFontSize: 15.sp,
+                                                  titleLabel:
+                                                      budgetTypes[index]
+                                                          ['label'] as String,
+                                                  onTileTap: () {
+
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                );
+                                              },
+                                            ));
+                                      },
+                                      isTextFieldEnabled: false,
+                                      hintText: "Type",
+                                      hintTextSize: 14.sp,
+                                      inputtedTextSize: 14.sp,
+                                      prefix: Padding(
+                                        padding: 12.5.padA,
+                                        child: Container(
+                                          decoration: const BoxDecoration(),
+                                          height: 26.h,
+                                          width: 26.h,
+                                          child: Center(
+                                              child: Padding(
+                                                  padding: 4.0.padH,
+                                                  child: Icon(
+                                                    PhosphorIconsFill.money,
+                                                    color: Palette.greyColor,
+                                                    size: 20.h,
+                                                  ))),
                                         ),
                                       ),
-                                    ).tap(onTap: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) =>
-                                            DocPickerModalBottomSheet(
-                                          headerText:
-                                              "Invoice Photo",
-                                          descriptionText: AppTexts
-                                              .invoiceAttachementInstructions,
-                                          onTakeDocPicture: () {
-                                            goBack(context);
-                                          },
-                                        ),
-                                      );
-                                    }),
+                                      controller: _budgetRecurringController,
+                                      suffixIcon: Padding(
+                                        padding: 15.padH,
+                                        child: Icon(
+                                            PhosphorIconsRegular.caretDown,
+                                            size: 20.h,
+                                            color: Palette.textFieldGrey),
+                                      ),
+                                    ),
                                     15.sbH,
                                     ValueListenableBuilder<DateTime>(
                                       valueListenable: _selectedDateNotifier,
@@ -480,16 +396,16 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                     ),
                                     30.sbH,
                                     AppButton(
-                                        isEnabled: _transactionTypeController
-                                                .text.isNotEmpty &&
-                                            _transactionCategoryController
-                                                .text.isNotEmpty &&
-                                            _transactionAmountController
-                                                .text.isNotEmpty &&
-                                            _transactionDescriptionController
-                                                .text.isNotEmpty,
-                                        color: backgroundColor,
-                                        text: "Log Transaction",
+                                        // isEnabled: _transactionTypeController
+                                        //         .text.isNotEmpty &&
+                                        //     _transactionCategoryController
+                                        //         .text.isNotEmpty &&
+                                        //     _transactionAmountController
+                                        //         .text.isNotEmpty &&
+                                        //     _transactionDescriptionController
+                                        //         .text.isNotEmpty,
+                                        color: Palette.montraPurple,
+                                        text: "Create Budget",
                                         onTap: () {})
                                   ],
                                 ),
@@ -502,8 +418,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   ),
                 ],
               ),
-            ),
-          );
-        });
+            );
   }
 }

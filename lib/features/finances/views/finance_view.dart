@@ -1,12 +1,16 @@
+import 'package:expense_tracker_app/features/finances/views/create_budget_view.dart';
+import 'package:expense_tracker_app/features/finances/widgets/category_distro.dart';
+import 'package:expense_tracker_app/features/finances/widgets/line_monthly.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
+import 'package:expense_tracker_app/utils/nav.dart';
 import 'package:expense_tracker_app/utils/widgets/sliver_appbar.dart';
-import 'package:expense_tracker_app/utils/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class FinanceView extends StatefulWidget {
   const FinanceView({super.key});
@@ -105,7 +109,7 @@ class _FinanceViewState extends State<FinanceView> {
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 15.w, vertical: 10.h),
+                            horizontal: 15.w, vertical: 8.h),
                         decoration: BoxDecoration(
                           border: Border.all(color: Palette.blackColor),
                           borderRadius: BorderRadius.circular(30.r),
@@ -133,7 +137,7 @@ class _FinanceViewState extends State<FinanceView> {
                           children: [
                             Container(
                               padding: EdgeInsets.symmetric(
-                                  vertical: 10.h, horizontal: 13.w),
+                                  vertical: 8.h, horizontal: 13.w),
                               decoration: BoxDecoration(
                                 color: displayType == 0
                                     ? Palette.montraPurple
@@ -159,7 +163,7 @@ class _FinanceViewState extends State<FinanceView> {
                             }),
                             Container(
                               padding: EdgeInsets.symmetric(
-                                  vertical: 10.h, horizontal: 13.w),
+                                  vertical: 8.h, horizontal: 13.w),
                               decoration: BoxDecoration(
                                 color: displayType == 1
                                     ? Palette.montraPurple
@@ -188,50 +192,101 @@ class _FinanceViewState extends State<FinanceView> {
                       }),
                     ],
                   ),
-                  120.sbH
+                  30.sbH,
+
+                  // Animated chart switcher
+                  _switchNotifier.sync(builder: (context, displayType, child) {
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Line Chart (visible when displayType is 0)
+                        if (displayType == 0)
+                          LineChartMonthly(
+                            transactions:
+                                transactions, // Your list of Transaction objects
+                            currencySymbol: 'N',
+                          ).animate().fadeIn(duration: 400.ms).slideX(
+                              begin: -0.1,
+                              end: 0,
+                              duration: 300.ms,
+                              curve: Curves.easeOutQuad),
+
+                        // Category Distribution Chart (visible when displayType is 1)
+                        if (displayType == 1)
+                          CategoryDistributionChart(
+                            transactions: transactions,
+                            size: 200,
+                            strokeWidth: 28,
+                            onCategoryTap: (category, amount) {
+                              // Handle category tap
+                            },
+                          ).animate().fadeIn(duration: 400.ms).slideX(
+                              begin: 0.1,
+                              end: 0,
+                              duration: 300.ms,
+                              curve: Curves.easeOutQuad),
+                      ],
+                    );
+                  }),
+
+                  100.sbH
                 ],
               ),
 
               // Budgets
-              ListView(
-                padding: 15.padH,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  10.sbH,
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          PhosphorIconsFill.calendarBlank,
-                          color: Palette.montraPurple,
-                          size: 25.h,
-                        ),
-                        5.sbW,
-                        "Sun 8 September - Sat 14 September".txt14(fontW: F.w6)
-                      ],
-                    ),
-                  ),
-                  10.sbH,
-                  ListView.separated(
-                    padding: 0.0.padA,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 12,
-                    itemBuilder: (context, index) {
-                      return TransactionTile(
-                        transaction: transactions[index],
-                        onTileTap: () {},
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return 10.sbH;
-                    },
-                  ),
-                  120.sbH
+                  Icon(
+                    PhosphorIconsFill.plusCircle,
+                    size: 70.h,
+                    color: Palette.montraPurple,
+                  ).tap(onTap: () {
+                    goTo(context: context, view: CreateBudgetView());           
+                  }),
+                  15.sbH,
+                  "No budgets created".txt14(fontW: F.w6)
                 ],
-              ),
+              )
+              // ListView(
+              //   padding: 15.padH,
+              //   children: [
+              //     10.sbH,
+              //     Padding(
+              //       padding:
+              //           EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.start,
+              //         children: [
+              //           Icon(
+              //             PhosphorIconsFill.calendarBlank,
+              //             color: Palette.montraPurple,
+              //             size: 25.h,
+              //           ),
+              //           5.sbW,
+              //           "Sun 8 September - Sat 14 September".txt14(fontW: F.w6)
+              //         ],
+              //       ),
+              //     ),
+              //     10.sbH,
+              //     ListView.separated(
+              //       padding: 0.0.padA,
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       shrinkWrap: true,
+              //       itemCount: 12,
+              //       itemBuilder: (context, index) {
+              //         return TransactionTile(
+              //           transaction: transactions[index],
+              //           onTileTap: () {},
+              //         );
+              //       },
+              //       separatorBuilder: (context, index) {
+              //         return 10.sbH;
+              //       },
+              //     ),
+              //     100.sbH
+              //   ],
+              // ),
             ]),
           ),
         ),
