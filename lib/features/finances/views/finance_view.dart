@@ -1,7 +1,9 @@
+
 import 'package:expense_tracker_app/features/finances/views/create_budget_view.dart';
 import 'package:expense_tracker_app/features/finances/widgets/budget_summary_card.dart';
 import 'package:expense_tracker_app/features/finances/widgets/budget_tile.dart';
 import 'package:expense_tracker_app/features/finances/widgets/category_distro.dart';
+import 'package:expense_tracker_app/features/finances/widgets/edit_budget_modal.dart';
 import 'package:expense_tracker_app/features/finances/widgets/line_monthly.dart';
 import 'package:expense_tracker_app/features/transactions/models/budget_model.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
@@ -27,7 +29,7 @@ class FinanceView extends StatefulWidget {
 
 class _FinanceViewState extends State<FinanceView> {
   final ValueNotifier<int> _switchNotifier = 0.notifier;
-
+  
   // Sample budgets - in real app this would come from a state management solution
   final List<Budget> _budgets = sampleBudgets;
 
@@ -156,14 +158,12 @@ class _FinanceViewState extends State<FinanceView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 13.w),
+                    padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 13.w),
                     decoration: BoxDecoration(
                       color: displayType == 0
                           ? Palette.montraPurple
                           : Palette.whiteColor,
-                      border:
-                          Border.all(color: Palette.montraPurple, width: 1.5),
+                      border: Border.all(color: Palette.montraPurple, width: 1.5),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30.r),
                         bottomLeft: Radius.circular(30.r),
@@ -182,14 +182,12 @@ class _FinanceViewState extends State<FinanceView> {
                     _switchNotifier.value = 0;
                   }),
                   Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 13.w),
+                    padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 13.w),
                     decoration: BoxDecoration(
                       color: displayType == 1
                           ? Palette.montraPurple
                           : Palette.whiteColor,
-                      border:
-                          Border.all(color: Palette.montraPurple, width: 1.5),
+                      border: Border.all(color: Palette.montraPurple, width: 1.5),
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30.r),
                         bottomRight: Radius.circular(30.r),
@@ -254,21 +252,19 @@ class _FinanceViewState extends State<FinanceView> {
   }
 
   Widget _buildBudgetsList() {
-    final activeBudgets =
-        _budgets.where((b) => b.status == BudgetStatus.active).toList();
-    final expiredBudgets =
-        _budgets.where((b) => b.status == BudgetStatus.expired).toList();
+    final activeBudgets = _budgets.where((b) => b.status == BudgetStatus.active).toList();
+    final expiredBudgets = _budgets.where((b) => b.status == BudgetStatus.expired).toList();
 
     return ListView(
       padding: 15.padH,
       children: [
         15.sbH,
-
+        
         // Budget Summary Card
         BudgetSummaryCard(budgets: _budgets),
-
+        
         25.sbH,
-
+        
         // Active Budgets Section
         if (activeBudgets.isNotEmpty) ...[
           Row(
@@ -296,15 +292,14 @@ class _FinanceViewState extends State<FinanceView> {
                 onMoreTap: () {
                   _showBudgetOptions(activeBudgets[index]);
                 },
-              )
-                  .animate(delay: Duration(milliseconds: index * 100))
-                  .fadeIn(duration: 400.ms)
-                  .slideX(begin: 0.2, end: 0, duration: 400.ms);
+              ).animate(delay: Duration(milliseconds: index * 100))
+                .fadeIn(duration: 400.ms)
+                .slideX(begin: 0.2, end: 0, duration: 400.ms);
             },
             separatorBuilder: (context, index) => 12.sbH,
           ),
         ],
-
+        
         // Expired Budgets Section
         if (expiredBudgets.isNotEmpty) ...[
           25.sbH,
@@ -341,7 +336,7 @@ class _FinanceViewState extends State<FinanceView> {
             separatorBuilder: (context, index) => 12.sbH,
           ),
         ],
-
+        
         100.sbH,
       ],
     );
@@ -405,7 +400,7 @@ class _FinanceViewState extends State<FinanceView> {
   void _showBudgetDetails(Budget budget) {
     showCustomModal(
       context,
-      modalHeight: 430.h,
+      modalHeight: 400.h,
       child: Padding(
         padding: 20.padH,
         child: Column(
@@ -419,7 +414,7 @@ class _FinanceViewState extends State<FinanceView> {
                   width: 50.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    color: budget.category.color.withValues(alpha: 0.25),
+                    color: budget.category.color..withValues(alpha: 0.25),
                   ),
                   child: Icon(
                     budget.category.icon,
@@ -440,9 +435,9 @@ class _FinanceViewState extends State<FinanceView> {
                 ),
               ],
             ),
-
+            
             20.sbH,
-
+            
             // Stats
             Container(
               padding: 15.0.padA,
@@ -452,22 +447,18 @@ class _FinanceViewState extends State<FinanceView> {
               ),
               child: Column(
                 children: [
-                  _buildDetailRow("Budget Amount",
-                      "N${NumberFormat("#,##0.00", "en_US").format(budget.amount)}"),
-                  _buildDetailRow("Spent",
-                      "N${NumberFormat("#,##0.00", "en_US").format(budget.spentAmount)}"),
-                  _buildDetailRow("Remaining",
-                      "N${NumberFormat("#,##0.00", "en_US").format(budget.remainingAmount)}"),
+                  _buildDetailRow("Budget Amount", "N${NumberFormat("#,##0.00", "en_US").format(budget.amount)}"),
+                  _buildDetailRow("Spent", "N${NumberFormat("#,##0.00", "en_US").format(budget.spentAmount)}"),
+                  _buildDetailRow("Remaining", "N${NumberFormat("#,##0.00", "en_US").format(budget.remainingAmount)}"),
                   _buildDetailRow("Period", budget.periodLabel),
                   _buildDetailRow("Days Left", "${budget.daysRemaining} days"),
-                  _buildDetailRow(
-                      "Recurring", budget.isRecurring ? "Yes" : "No"),
+                  _buildDetailRow("Recurring", budget.isRecurring ? "Yes" : "No"),
                 ],
               ),
             ),
-
+            
             20.sbH,
-
+            
             // Progress
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -480,7 +471,7 @@ class _FinanceViewState extends State<FinanceView> {
                       height: 8.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.grey.withValues(alpha: 0.2),
+                        color: Colors.grey..withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                     ),
@@ -489,9 +480,7 @@ class _FinanceViewState extends State<FinanceView> {
                       child: Container(
                         height: 8.h,
                         decoration: BoxDecoration(
-                          color: budget.isExceeded
-                              ? Palette.redColor
-                              : Palette.greenColor,
+                          color: budget.isExceeded ? Palette.redColor : Palette.greenColor,
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
@@ -499,8 +488,7 @@ class _FinanceViewState extends State<FinanceView> {
                   ],
                 ),
                 8.sbH,
-                "${(budget.progressPercentage * 100).toStringAsFixed(1)}% used"
-                    .txt12(
+                "${(budget.progressPercentage * 100).toStringAsFixed(1)}% used".txt12(
                   color: Palette.greyColor,
                 ),
               ],
@@ -533,17 +521,15 @@ class _FinanceViewState extends State<FinanceView> {
         child: Column(
           children: [
             ListTile(
-              leading: const Icon(PhosphorIconsBold.pencil,
-                  color: Palette.montraPurple),
+              leading: const Icon(PhosphorIconsBold.pencil, color: Palette.montraPurple),
               title: "Edit Budget".txt14(),
               onTap: () {
                 Navigator.pop(context);
-                // Navigate to edit budget
+                _showEditBudget(budget);
               },
             ),
             ListTile(
-              leading:
-                  const Icon(PhosphorIconsBold.trash, color: Palette.redColor),
+              leading: const Icon(PhosphorIconsBold.trash, color: Palette.redColor),
               title: "Delete Budget".txt14(color: Palette.redColor),
               onTap: () {
                 Navigator.pop(context);
@@ -552,6 +538,24 @@ class _FinanceViewState extends State<FinanceView> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showEditBudget(Budget budget) {
+    showCustomModal(
+      context,
+      modalHeight: 680.h,
+      child: EditBudgetModal(
+        budget: budget,
+        onBudgetUpdated: (updatedBudget) {
+          setState(() {
+            final index = _budgets.indexWhere((b) => b.id == budget.id);
+            if (index != -1) {
+              _budgets[index] = updatedBudget;
+            }
+          });
+        },
       ),
     );
   }
@@ -566,8 +570,7 @@ class _FinanceViewState extends State<FinanceView> {
           children: [
             "Delete Budget?".txt16(fontW: F.w6),
             10.sbH,
-            "This action cannot be undone. The budget for ${budget.category.label} will be permanently deleted."
-                .txt12(
+            "This action cannot be undone. The budget for ${budget.category.label} will be permanently deleted.".txt12(
               color: Palette.greyColor,
               textAlign: TextAlign.center,
             ),

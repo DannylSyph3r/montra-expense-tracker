@@ -399,18 +399,16 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
     final month = now.month;
     final daysInMonth = DateTime(year, month + 1, 0).day;
 
-    final dailySpending = Map<int, double>.fromIterable(
-      List.generate(daysInMonth, (i) => i + 1),
-      key: (day) => day,
-      value: (_) => 0.0,
-    );
+    final dailySpending = { for (var day in List.generate(daysInMonth, (i) => i + 1)) day : 0.0 };
 
     double cumulativeSpending = 0;
     for (final transaction in widget.transactions) {
       final date = transaction.transactionDate;
       if (date.year != year ||
           date.month != month ||
-          transaction.transactionType != type) continue;
+          transaction.transactionType != type) {
+        continue;
+      }
 
       final day = date.day;
       // REMOVED DIVISION BY 1000 HERE
