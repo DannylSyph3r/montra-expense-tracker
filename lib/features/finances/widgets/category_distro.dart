@@ -134,7 +134,7 @@ class _CategoryDistributionChartState extends State<CategoryDistributionChart> w
         height: 48,
         width: 220.w,
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.grey.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Row(
@@ -199,7 +199,7 @@ class _CategoryDistributionChartState extends State<CategoryDistributionChart> w
               size: Size(widget.size, widget.size),
               painter: EmptyChartPainter(
                 strokeWidth: widget.strokeWidth,
-                color: widget.defaultColor.withOpacity(0.3),
+                color: widget.defaultColor.withValues(alpha: 0.3),
               ),
             ),
           );
@@ -329,7 +329,7 @@ class _CategoryDistributionChartState extends State<CategoryDistributionChart> w
                         height: 12,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.1),
+                          color: Colors.grey.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
@@ -439,7 +439,7 @@ class AnimatedDistributionChartPainter extends CustomPainter {
       final paint = Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = strokeWidth
-        ..color = defaultColor.withOpacity(0.3);
+        ..color = defaultColor.withValues(alpha: 0.3);
       
       canvas.drawCircle(center, radius, paint);
       return;
