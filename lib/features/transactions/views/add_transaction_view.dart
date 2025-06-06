@@ -1,6 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_tracker_app/shared/txn_defs.dart';
-import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
@@ -13,6 +12,7 @@ import 'package:expense_tracker_app/utils/widgets/button.dart';
 import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
 import 'package:expense_tracker_app/utils/widgets/doc_picker_modalsheet.dart';
 import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
+import 'package:expense_tracker_app/utils/widgets/serrated_painter.dart';
 import 'package:expense_tracker_app/utils/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,7 +94,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               resizeToAvoidBottomInset: false,
               backgroundColor: backgroundColor,
               body: CustomScrollView(
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverToBoxAdapter(
                     child: Stack(
@@ -119,44 +119,45 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                               middle: "$transactionText Transaction".txt16(
                                   color: Palette.whiteColor, fontW: F.w5),
                             ),
-                            80.sbH,
+                            40.sbH,
                             Padding(
                               padding: 50.padH,
                               child: ValueListenableBuilder<String>(
                                 valueListenable: _balanceNotifier,
                                 builder: (context, balance, _) {
                                   return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(
                                         PhosphorIconsBold.currencyNgn,
                                         color: Palette.whiteColor,
-                                        size: 28.sp,
+                                        size: 30.sp,
                                       ),
                                       3.sbW,
-                                      Expanded(
-                                        child: balance
-                                            .txt(
-                                                size: 28.sp,
-                                                fontW: F.w8,
-                                                color: Palette.whiteColor,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis)
-                                            .alignCenterLeft(),
+                                      Flexible(
+                                        child: balance.txt(
+                                          size: 30.sp,
+                                          fontW: F.w8,
+                                          color: Palette.whiteColor,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                     ],
                                   );
                                 },
                               ),
                             ),
+                            30.sbH
                           ],
                         ),
                         Column(
                           children: [
-                            260.sbH,
+                            200.sbH,
                             CustomPaint(
-                              size: Size(double.infinity, 50.h),
-                              painter: CurvedPainter(),
+                              size: Size(double.infinity, 60.h),
+                              painter: SerratedPainter(),
                             ),
                             Container(
                               decoration: BoxDecoration(
@@ -164,36 +165,16 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                   border: Border.all(
                                       color: Palette.whiteColor, width: 1)),
                               constraints: BoxConstraints(
-                                  minHeight: height(context) - 250.h,
-                                  minWidth: double.infinity),
-                            ),
-                          ],
-                        ),
-                        Positioned(
-                          top: 210,
-                          left: 0,
-                          right: 0,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: 25.padH,
-                              child: Container(
-                                padding: 15.0.padA,
-                                decoration: BoxDecoration(
-                                  color: Palette.whiteColor,
-                                  borderRadius: BorderRadius.circular(25.r),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      spreadRadius: 10,
-                                      blurRadius: 20,
-                                      offset: const Offset(5, 10),
-                                    ),
-                                  ],
-                                ),
+                                minHeight: height(context) - 250.h,
+                                minWidth: double.infinity,
+                              ),
+                              child: Padding(
+                                padding: 20.padH,
                                 child: Column(
                                   children: [
-                                    10.sbH,
+                                    20.sbH,
+
+                                    // Transaction Type Selection
                                     TextInputWidget(
                                       onTap: () {
                                         showCustomModal(context,
@@ -258,7 +239,9 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                             color: Palette.textFieldGrey),
                                       ),
                                     ),
-                                    5.sbH,
+                                    10.sbH,
+
+                                    // Category Selection
                                     TextInputWidget(
                                       onTap: () {
                                         showCustomModal(context,
@@ -325,7 +308,9 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                             color: Palette.textFieldGrey),
                                       ),
                                     ),
-                                    5.sbH,
+                                    10.sbH,
+
+                                    // Amount Input
                                     TextInputWidget(
                                       hintText: "Amount",
                                       hintTextSize: 14.sp,
@@ -355,6 +340,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                                 color: Palette.greyColor)
                                             .tap(onTap: () {
                                           _transactionAmountController.clear();
+                                          _updateBalance();
                                         }),
                                       ),
                                       controller: _transactionAmountController,
@@ -363,7 +349,9 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                         _updateBalance();
                                       },
                                     ),
-                                    5.sbH,
+                                    10.sbH,
+
+                                    // Description Input
                                     TextInputWidget(
                                       maxLength: 30,
                                       hintText: "Description",
@@ -388,7 +376,9 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                       controller:
                                           _transactionDescriptionController,
                                     ),
-                                    5.sbH,
+                                    10.sbH,
+
+                                    // Invoice Attachment
                                     DottedBorder(
                                       borderType: BorderType.RRect,
                                       radius: Radius.circular(15.r),
@@ -433,7 +423,9 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                         ),
                                       );
                                     }),
-                                    15.sbH,
+                                    10.sbH,
+
+                                    // Date Selection
                                     ValueListenableBuilder<DateTime>(
                                       valueListenable: _selectedDateNotifier,
                                       builder: (context, selectedDate, _) {
@@ -479,23 +471,88 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                       },
                                     ),
                                     30.sbH,
-                                    AppButton(
-                                        isEnabled: _transactionTypeController
+
+                                    // Transaction Information Card
+                                    Container(
+                                      width: double.infinity,
+                                      padding: 15.0.padA,
+                                      decoration: BoxDecoration(
+                                        color: backgroundColor.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(12.r),
+                                        border: Border.all(
+                                            color: backgroundColor
+                                                .withOpacity(0.3)),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                PhosphorIconsBold.info,
+                                                color: backgroundColor,
+                                                size: 16.h,
+                                              ),
+                                              8.sbW,
+                                              "Transaction Details".txt12(
+                                                color: backgroundColor,
+                                                fontW: F.w6,
+                                              ),
+                                            ],
+                                          ),
+                                          8.sbH,
+                                          "All fields are required to create a transaction."
+                                              .txt(
+                                                  size: 11.sp,
+                                                  color: Palette.greyColor),
+                                          "Attaching an invoice is optional but recommended for record keeping."
+                                              .txt(
+                                                  size: 11.sp,
+                                                  color: Palette.greyColor),
+                                        ],
+                                      ),
+                                    ),
+                                    20.sbH,
+
+                                    // Log Transaction Button
+                                    ListenableBuilder(
+                                      listenable: Listenable.merge([
+                                        _transactionTypeController,
+                                        _transactionCategoryController,
+                                        _transactionAmountController,
+                                        _transactionDescriptionController,
+                                      ]),
+                                      builder: (context, child) {
+                                        final isEnabled = _transactionTypeController
                                                 .text.isNotEmpty &&
                                             _transactionCategoryController
                                                 .text.isNotEmpty &&
                                             _transactionAmountController
                                                 .text.isNotEmpty &&
                                             _transactionDescriptionController
-                                                .text.isNotEmpty,
-                                        color: backgroundColor,
-                                        text: "Log Transaction",
-                                        onTap: () {})
+                                                .text.isNotEmpty;
+
+                                        return AppButton(
+                                          isEnabled: isEnabled,
+                                          color: backgroundColor,
+                                          text: "Log Transaction",
+                                          onTap: () {},
+                                        );
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
-                          ),
+                            Transform.scale(
+                              scaleY: -1,
+                              child: CustomPaint(
+                                size: Size(double.infinity, 60.h),
+                                painter: SerratedPainter(),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

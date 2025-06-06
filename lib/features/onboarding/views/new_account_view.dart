@@ -1,4 +1,3 @@
-import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/features/onboarding/views/confirmation_view.dart';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
@@ -10,6 +9,7 @@ import 'package:expense_tracker_app/utils/nav.dart';
 import 'package:expense_tracker_app/utils/widgets/button.dart';
 import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
 import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
+import 'package:expense_tracker_app/utils/widgets/serrated_painter.dart';
 import 'package:expense_tracker_app/utils/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,7 +59,6 @@ class _NewAccountViewState extends State<NewAccountView> {
     _clusterNameController.dispose();
     _clusterStartingAmountController.dispose();
     _clusterTypeController.dispose();
-
     _balanceNotifier.dispose();
     super.dispose();
   }
@@ -87,7 +86,7 @@ class _NewAccountViewState extends State<NewAccountView> {
         resizeToAvoidBottomInset: false,
         backgroundColor: Palette.montraPurple,
         body: CustomScrollView(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
               child: Stack(
@@ -112,44 +111,45 @@ class _NewAccountViewState extends State<NewAccountView> {
                         middle: "Add New Account"
                             .txt16(color: Palette.whiteColor, fontW: F.w5),
                       ),
-                      80.sbH,
+                      40.sbH,
                       Padding(
                         padding: 50.padH,
                         child: ValueListenableBuilder<String>(
                           valueListenable: _balanceNotifier,
                           builder: (context, balance, _) {
                             return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(
                                   PhosphorIconsBold.currencyNgn,
                                   color: Palette.whiteColor,
-                                  size: 28.sp,
+                                  size: 30.sp,
                                 ),
                                 3.sbW,
-                                Expanded(
-                                  child: balance
-                                      .txt(
-                                          size: 28.sp,
-                                          fontW: F.w8,
-                                          color: Palette.whiteColor,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis)
-                                      .alignCenterLeft(),
+                                Flexible(
+                                  child: balance.txt(
+                                    size: 30.sp,
+                                    fontW: F.w8,
+                                    color: Palette.whiteColor,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ],
                             );
                           },
                         ),
                       ),
+                      30.sbH
                     ],
                   ),
                   Column(
                     children: [
-                      260.sbH,
+                      200.sbH,
                       CustomPaint(
-                        size: Size(double.infinity, 50.h),
-                        painter: CurvedPainter(),
+                        size: Size(double.infinity, 60.h),
+                        painter: SerratedPainter(),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -157,36 +157,16 @@ class _NewAccountViewState extends State<NewAccountView> {
                             border: Border.all(
                                 color: Palette.whiteColor, width: 1)),
                         constraints: BoxConstraints(
-                            minHeight: height(context) - 250.h,
-                            minWidth: double.infinity),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top: 210,
-                    left: 0,
-                    right: 0,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: 25.padH,
-                        child: Container(
-                          padding: 15.0.padA,
-                          decoration: BoxDecoration(
-                            color: Palette.whiteColor,
-                            borderRadius: BorderRadius.circular(25.r),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                spreadRadius: 10,
-                                blurRadius: 20,
-                                offset: const Offset(5, 10),
-                              ),
-                            ],
-                          ),
+                          minHeight: height(context) - 250.h,
+                          minWidth: double.infinity,
+                        ),
+                        child: Padding(
+                          padding: 20.padH,
                           child: Column(
                             children: [
-                              30.sbH,
+                              20.sbH,
+
+                              // Account Name Input
                               TextInputWidget(
                                 maxLength: 50,
                                 hintText: AppTexts.clusterNameFieldHint,
@@ -203,14 +183,16 @@ class _NewAccountViewState extends State<NewAccountView> {
                                             padding: 4.0.padH,
                                             child: Icon(
                                               PhosphorIconsFill.tag,
-                                              color: Palette.montraPurple,
+                                              color: Palette.greyColor,
                                               size: 20.h,
                                             ))),
                                   ),
                                 ),
                                 controller: _clusterNameController,
                               ),
-                              5.sbH,
+                              10.sbH,
+
+                              // Starting Balance Input
                               TextInputWidget(
                                 hintText: AppTexts.clusterStartingBalance,
                                 controller: _clusterStartingAmountController,
@@ -232,13 +214,25 @@ class _NewAccountViewState extends State<NewAccountView> {
                                             padding: 4.0.padH,
                                             child: Icon(
                                               PhosphorIconsBold.currencyNgn,
-                                              color: Palette.montraPurple,
+                                              color: Palette.greyColor,
                                               size: 20.h,
                                             ))),
                                   ),
                                 ),
+                                suffixIcon: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.5.w),
+                                  child: const Icon(PhosphorIconsFill.xCircle,
+                                          color: Palette.greyColor)
+                                      .tap(onTap: () {
+                                    _clusterStartingAmountController.clear();
+                                    _updateBalance();
+                                  }),
+                                ),
                               ),
-                              5.sbH,
+                              10.sbH,
+
+                              // Account Type Selection
                               TextInputWidget(
                                 onTap: () {
                                   showCustomModal(context,
@@ -270,6 +264,22 @@ class _NewAccountViewState extends State<NewAccountView> {
                                 inputtedTextSize: 14.sp,
                                 hintText: AppTexts.clusterAccountType,
                                 controller: _clusterTypeController,
+                                prefix: Padding(
+                                  padding: 12.5.padA,
+                                  child: Container(
+                                    decoration: const BoxDecoration(),
+                                    height: 26.h,
+                                    width: 26.h,
+                                    child: Center(
+                                        child: Padding(
+                                            padding: 4.0.padH,
+                                            child: Icon(
+                                              PhosphorIconsBold.list,
+                                              color: Palette.greyColor,
+                                              size: 20.h,
+                                            ))),
+                                  ),
+                                ),
                                 suffixIcon: Padding(
                                   padding: 15.padH,
                                   child: Icon(PhosphorIconsRegular.caretDown,
@@ -277,23 +287,87 @@ class _NewAccountViewState extends State<NewAccountView> {
                                 ),
                               ),
                               30.sbH,
-                              AppButton(
-                                  isEnabled: _clusterNameController
+
+                              // Account Information Card
+                              Container(
+                                width: double.infinity,
+                                padding: 15.0.padA,
+                                decoration: BoxDecoration(
+                                  color: Palette.montraPurple.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  border: Border.all(
+                                      color: Palette.montraPurple
+                                          .withOpacity(0.3)),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          PhosphorIconsBold.info,
+                                          color: Palette.montraPurple,
+                                          size: 16.h,
+                                        ),
+                                        8.sbW,
+                                        "Account Details".txt12(
+                                          color: Palette.montraPurple,
+                                          fontW: F.w6,
+                                        ),
+                                      ],
+                                    ),
+                                    8.sbH,
+                                    "This account can be for your bank, credit card or your fintech wallet."
+                                        .txt(
+                                            size: 11.sp,
+                                            color: Palette.greyColor),
+                                    "You can create multiple accounts to track different financial sources."
+                                        .txt(
+                                            size: 11.sp,
+                                            color: Palette.greyColor),
+                                  ],
+                                ),
+                              ),
+                              20.sbH,
+
+                              // Create Account Button
+                              ListenableBuilder(
+                                listenable: Listenable.merge([
+                                  _clusterNameController,
+                                  _clusterStartingAmountController,
+                                  _clusterTypeController,
+                                ]),
+                                builder: (context, child) {
+                                  final isEnabled = _clusterNameController
                                           .text.isNotEmpty &&
                                       _clusterStartingAmountController
                                           .text.isNotEmpty &&
-                                      _clusterTypeController.text.isNotEmpty,
-                                  text: "Continue",
-                                  onTap: () {
-                                    goTo(
-                                        context: context,
-                                        view: const ClusterConfirmationView());
-                                  })
+                                      _clusterTypeController.text.isNotEmpty;
+
+                                  return AppButton(
+                                    isEnabled: isEnabled,
+                                    color: Palette.montraPurple,
+                                    text: "Continue",
+                                    onTap: () {
+                                      goTo(
+                                          context: context,
+                                          view: const ClusterConfirmationView());
+                                    },
+                                  );
+                                },
+                              ),
                             ],
                           ),
                         ),
                       ),
-                    ),
+                      Transform.scale(
+                        scaleY: -1,
+                        child: CustomPaint(
+                          size: Size(double.infinity, 60.h),
+                          painter: SerratedPainter(),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
