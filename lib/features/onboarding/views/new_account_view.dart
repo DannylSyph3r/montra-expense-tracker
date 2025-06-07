@@ -121,14 +121,8 @@ class _NewAccountViewState extends State<NewAccountView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
-                                  PhosphorIconsBold.currencyNgn,
-                                  color: Palette.whiteColor,
-                                  size: 30.sp,
-                                ),
-                                3.sbW,
                                 Flexible(
-                                  child: balance.txt(
+                                  child: "N$balance".txt(
                                     size: 30.sp,
                                     fontW: F.w8,
                                     color: Palette.whiteColor,

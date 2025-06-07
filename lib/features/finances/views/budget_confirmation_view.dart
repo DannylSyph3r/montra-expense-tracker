@@ -146,12 +146,6 @@ class BudgetConfirmationView extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(
-                                        PhosphorIconsBold.currencyNgn,
-                                        color: Palette.montraPurple,
-                                        size: 24.sp,
-                                      ),
-                                      4.sbW,
                                       Flexible(
                                         child: "N${currencyFormat.format(budget.amount)}".txt(
                                           size: 28.sp,

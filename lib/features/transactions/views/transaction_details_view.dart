@@ -110,13 +110,7 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            PhosphorIconsBold.currencyNgn,
-                            color: Palette.whiteColor,
-                            size: 30.sp,
-                          ),
-                          3.sbW,
-                          "5,555,555.00".txt(
+                          "N5,555,555.00".txt(
                             size: 30.sp,
                             fontW: F.w8,
                             color: Palette.whiteColor,
@@ -230,12 +224,7 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(
-                                        PhosphorIconsBold.currencyNgn,
-                                        size: 14.sp,
-                                      ),
-                                      3.sbW,
-                                      "5,555,000.00".txt(
+                                      "N5,555,000.00".txt(
                                         size: 14.sp,
                                         fontW: F.w8,
                                         maxLines: 1,
@@ -255,12 +244,7 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(
-                                        PhosphorIconsBold.currencyNgn,
-                                        size: 14.sp,
-                                      ),
-                                      3.sbW,
-                                      "555.00".txt(
+                                      "N555.00".txt(
                                         size: 14.sp,
                                         fontW: F.w8,
                                         maxLines: 1,
@@ -280,12 +264,7 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Icon(
-                                        PhosphorIconsBold.currencyNgn,
-                                        size: 14.sp,
-                                      ),
-                                      3.sbW,
-                                      "5,555,555.00".txt(
+                                      "N5,555,555.00".txt(
                                         size: 14.sp,
                                         fontW: F.w8,
                                         maxLines: 1,

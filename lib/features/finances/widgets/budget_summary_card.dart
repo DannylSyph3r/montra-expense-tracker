@@ -91,14 +91,8 @@ class BudgetSummaryCard extends StatelessWidget {
               4.sbH,
               Row(
                 children: [
-                  Icon(
-                    PhosphorIconsBold.currencyNgn,
-                    color: Palette.whiteColor,
-                    size: 24.sp,
-                  ),
-                  4.sbW,
                   Expanded(
-                    child: currencyFormat.format(totalSpent).txt(
+                    child: "N${currencyFormat.format(totalSpent)}".txt(
                       size: 28.sp,
                       fontW: F.w8,
                       color: Palette.whiteColor,

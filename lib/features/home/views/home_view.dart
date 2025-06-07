@@ -11,6 +11,8 @@ import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
 import 'package:expense_tracker_app/utils/widgets/transaction_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:expense_tracker_app/features/base_nav/bloc/nav_cubit.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class HomeView extends StatefulWidget {
@@ -133,7 +135,9 @@ class _HomeViewState extends State<HomeView> {
                                   child: Center(
                                     child: "See All".txt14(
                                         color: Palette.montraPurple,
-                                        fontW: F.w5),
+                                        fontW: F.w5).tap(onTap: (){
+                                          context.read<BaseNavCubit>().moveToPage(1);
+                                        }),
                                   ),
                                 ),
                               ),
