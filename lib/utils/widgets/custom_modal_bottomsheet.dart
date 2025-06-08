@@ -56,20 +56,25 @@ void showCustomModal(
   BuildContext context, {
   required double modalHeight,
   required Widget child,
-  VoidCallback? onDismissed, // Make onDismissed nullable
+  VoidCallback? onDismissed,
 }) {
   showModalBottomSheet(
-    isScrollControlled: true,
+    isScrollControlled: true, // This is key!
     enableDrag: true,
     backgroundColor: Colors.transparent,
     context: context,
-    builder: (context) => CustomModal(
-      modalHeight: modalHeight,
-      child: child,
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom, // Keyboard padding
+      ),
+      child: CustomModal(
+        modalHeight: modalHeight,
+        child: child,
+      ),
     ),
   ).then((value) {
     if (onDismissed != null) {
-      onDismissed(); // Call onDismissed only if it is provided
+      onDismissed();
     }
   });
 }

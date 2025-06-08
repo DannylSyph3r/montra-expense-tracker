@@ -15,7 +15,7 @@ abstract class AppTexts {
   static const String onboardingTitle2 = 'Know where your money goes';
   static const String onboardingTitle3 = 'Planning ahead';
   static const String onboardingdescription1 =
-      'Become your own money manager and make every cent count';
+      'Become your own money manager and make every penny count';
   static const String onboardingdescription2 =
       'Track your transactions easily with categories and financial report';
   static const String onboardingdescription3 =

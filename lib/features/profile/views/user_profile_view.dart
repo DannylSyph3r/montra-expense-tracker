@@ -1,3 +1,6 @@
+import 'package:expense_tracker_app/features/profile/views/account_settings_view.dart';
+import 'package:expense_tracker_app/features/profile/views/user_profile_edit_view.dart';
+import 'package:expense_tracker_app/utils/nav.dart';
 import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
@@ -104,7 +107,7 @@ class UserProfileView extends StatelessWidget {
                                 title: "Account",
                                 subtitle: "Manage your account settings",
                                 onTap: () {
-                                  // Navigate to account settings
+                                  goTo(context: context, view: AccountSettingsView());
                                 },
                               ),
                               15.sbH,
@@ -114,7 +117,7 @@ class UserProfileView extends StatelessWidget {
                                 title: "User Profile",
                                 subtitle: "Edit your personal information",
                                 onTap: () {
-                                  // Navigate to user profile edit
+                                  goTo(context: context, view: UserProfileEditView());
                                 },
                               ),
                               15.sbH,
