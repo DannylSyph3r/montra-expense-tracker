@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
+import 'package:expense_tracker_app/features/profile/views/create_custom_category_view.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/nav.dart';
@@ -22,37 +23,63 @@ class UserProfileEditView extends StatefulWidget {
 }
 
 class _UserProfileEditViewState extends State<UserProfileEditView> {
-  final TextEditingController _usernameController = TextEditingController(text: "minato_namikaze");
-  final TextEditingController _bioController = TextEditingController(text: "Fourth Hokage of Konoha Village. Love ramen and protecting the village.");
-  final TextEditingController _countryController = TextEditingController(text: "Nigeria");
-  final TextEditingController _currencyController = TextEditingController(text: "Nigerian Naira (NGN)");
-  final TextEditingController _languageController = TextEditingController(text: "English");
+  final TextEditingController _usernameController =
+      TextEditingController(text: "minato_namikaze");
+  final TextEditingController _bioController = TextEditingController(
+      text:
+          "Fourth Hokage of Konoha Village. Love ramen and protecting the village.");
+  final TextEditingController _countryController =
+      TextEditingController(text: "Nigeria");
+  final TextEditingController _currencyController =
+      TextEditingController(text: "Nigerian Naira (NGN)");
 
-  final ValueNotifier<DateTime> _birthdateNotifier = ValueNotifier<DateTime>(DateTime(1995, 5, 15));
+  final ValueNotifier<DateTime> _birthdateNotifier =
+      ValueNotifier<DateTime>(DateTime(1995, 5, 15));
   final ValueNotifier<File?> _profileImageNotifier = ValueNotifier<File?>(null);
 
   final List<String> countries = [
-    "Nigeria", "Ghana", "Kenya", "South Africa", "Egypt",
-    "United States", "United Kingdom", "Canada", "Australia"
+    "Nigeria",
+    "Ghana",
+    "Kenya",
+    "South Africa",
+    "Egypt",
+    "United States",
+    "United Kingdom",
+    "Canada",
+    "Australia"
   ];
 
   final List<String> currencies = [
-    "Nigerian Naira (NGN)", "US Dollar (USD)", "British Pound (GBP)",
-    "Euro (EUR)", "Ghanaian Cedi (GHS)", "Kenyan Shilling (KES)"
-  ];
-
-  final List<String> languages = [
-    "English", "French", "Spanish", "German", "Portuguese", "Arabic"
+    "Nigerian Naira (NGN)",
+    "US Dollar (USD)",
+    "British Pound (GBP)",
+    "Euro (EUR)",
+    "Ghanaian Cedi (GHS)",
+    "Kenyan Shilling (KES)"
   ];
 
   final List<String> categories = [
-    "Groceries", "Transportation", "Entertainment", "Shopping",
-    "Utilities", "Health & Fitness", "Dining Out", "Travel",
-    "Education", "Insurance", "Personal Care", "Gifts"
+    "Groceries",
+    "Transportation",
+    "Entertainment",
+    "Shopping",
+    "Utilities",
+    "Health & Fitness",
+    "Dining Out",
+    "Travel",
+    "Education",
+    "Insurance",
+    "Personal Care",
+    "Gifts"
   ];
 
-  final ValueNotifier<List<String>> _selectedCategoriesNotifier = ValueNotifier<List<String>>([
-    "Groceries", "Transportation", "Entertainment", "Shopping", "Utilities"
+  final ValueNotifier<List<String>> _selectedCategoriesNotifier =
+      ValueNotifier<List<String>>([
+    "Groceries",
+    "Transportation",
+    "Entertainment",
+    "Shopping",
+    "Utilities"
   ]);
 
   @override
@@ -61,7 +88,6 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
     _bioController.dispose();
     _countryController.dispose();
     _currencyController.dispose();
-    _languageController.dispose();
     _birthdateNotifier.dispose();
     _profileImageNotifier.dispose();
     _selectedCategoriesNotifier.dispose();
@@ -76,7 +102,8 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
         backgroundColor: Palette.whiteColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(PhosphorIconsBold.arrowLeft, color: Palette.blackColor),
+          icon: const Icon(PhosphorIconsBold.arrowLeft,
+              color: Palette.blackColor),
           onPressed: () => goBack(context),
         ),
         title: "Edit Profile".txt18(fontW: F.w6),
@@ -236,7 +263,9 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
                       size: 20.h,
                     ),
                     15.sbW,
-                    DateFormat('MMMM dd, yyyy').format(birthdate).txt(size: 14.sp),
+                    DateFormat('MMMM dd, yyyy')
+                        .format(birthdate)
+                        .txt(size: 14.sp),
                   ],
                 ),
               ).tap(onTap: () => _selectBirthdate());
@@ -284,9 +313,56 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           // Category Customization
           "Active Categories".txt14(fontW: F.w5),
           8.sbH,
-          "Select categories you frequently use for transactions".txt12(color: Palette.greyColor),
+          "Select categories you frequently use for transactions"
+              .txt12(color: Palette.greyColor),
           15.sbH,
           _buildCategoryCustomization(),
+          15.sbH,
+
+          // Custom Categories Navigation
+          Container(
+            padding: EdgeInsets.all(16.w),
+            decoration: BoxDecoration(
+              color: Palette.greyFill,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  height: 40.h,
+                  width: 40.h,
+                  decoration: BoxDecoration(
+                    color: Palette.montraPurple.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Icon(
+                    PhosphorIconsBold.plus,
+                    size: 20.h,
+                    color: Palette.montraPurple,
+                  ),
+                ),
+                15.sbW,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      "Custom Categories".txt14(fontW: F.w5),
+                      4.sbH,
+                      "Create and manage custom categories"
+                          .txt12(color: Palette.greyColor),
+                    ],
+                  ),
+                ),
+                Icon(
+                  PhosphorIconsBold.caretRight,
+                  size: 16.h,
+                  color: Palette.greyColor,
+                ),
+              ],
+            ),
+          ).tap(onTap: () {
+            goTo(context: context, view: const CustomCategoriesView());
+          }),
 
           50.sbH,
         ],
@@ -314,10 +390,11 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  "${selectedCategories.length} categories selected".txt12(color: Palette.greyColor),
+                  "${selectedCategories.length} categories selected"
+                      .txt12(color: Palette.greyColor),
                   "Edit".txt12(color: Palette.montraPurple, fontW: F.w6).tap(
-                    onTap: () => _showCategorySelectionModal(),
-                  ),
+                        onTap: () => _showCategorySelectionModal(),
+                      ),
                 ],
               ),
               10.sbH,
@@ -326,13 +403,16 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
                 runSpacing: 8.h,
                 children: selectedCategories.map((category) {
                   return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                     decoration: BoxDecoration(
                       color: Palette.montraPurple.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20.r),
-                      border: Border.all(color: Palette.montraPurple.withOpacity(0.3)),
+                      border: Border.all(
+                          color: Palette.montraPurple.withOpacity(0.3)),
                     ),
-                    child: category.txt12(color: Palette.montraPurple, fontW: F.w5),
+                    child: category.txt12(
+                        color: Palette.montraPurple, fontW: F.w5),
                   );
                 }).toList(),
               ),
@@ -409,7 +489,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
     Navigator.pop(context);
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: source);
-    
+
     if (image != null) {
       _profileImageNotifier.value = File(image.path);
     }
@@ -464,31 +544,10 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
     );
   }
 
-  void _showLanguagePicker() {
-    showCustomModal(
-      context,
-      modalHeight: 400.h,
-      child: ListView.builder(
-        padding: 15.padH,
-        itemCount: languages.length,
-        itemBuilder: (context, index) {
-          return OptionSelectionListTile(
-            leadingIcon: PhosphorIconsBold.translate,
-            interactiveTrailing: false,
-            titleLabel: languages[index],
-            onTileTap: () {
-              _languageController.text = languages[index];
-              Navigator.pop(context);
-            },
-          );
-        },
-      ),
-    );
-  }
-
   void _showCategorySelectionModal() {
-    final ValueNotifier<List<String>> tempSelectedNotifier = 
-        ValueNotifier<List<String>>(List.from(_selectedCategoriesNotifier.value));
+    final ValueNotifier<List<String>> tempSelectedNotifier =
+        ValueNotifier<List<String>>(
+            List.from(_selectedCategoriesNotifier.value));
 
     showCustomModal(
       context,
@@ -500,7 +559,8 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           children: [
             "Select Categories".txt16(fontW: F.w6),
             10.sbH,
-            "Choose categories you use most frequently".txt12(color: Palette.greyColor),
+            "Choose categories you use most frequently"
+                .txt12(color: Palette.greyColor),
             20.sbH,
             Expanded(
               child: ValueListenableBuilder<List<String>>(
@@ -511,36 +571,36 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
                     itemBuilder: (context, index) {
                       final category = categories[index];
                       final isSelected = tempSelected.contains(category);
-                      
+
                       return Container(
                         margin: EdgeInsets.only(bottom: 8.h),
                         padding: 12.0.padA,
                         decoration: BoxDecoration(
-                          color: isSelected 
+                          color: isSelected
                               ? Palette.montraPurple.withOpacity(0.1)
                               : Palette.greyFill,
                           borderRadius: BorderRadius.circular(8.r),
                           border: Border.all(
-                            color: isSelected 
-                                ? Palette.montraPurple 
+                            color: isSelected
+                                ? Palette.montraPurple
                                 : Colors.transparent,
                           ),
                         ),
                         child: Row(
                           children: [
                             Icon(
-                              isSelected 
+                              isSelected
                                   ? PhosphorIconsBold.checkSquare
                                   : PhosphorIconsRegular.square,
-                              color: isSelected 
-                                  ? Palette.montraPurple 
+                              color: isSelected
+                                  ? Palette.montraPurple
                                   : Palette.greyColor,
                               size: 20.h,
                             ),
                             15.sbW,
                             category.txt14(
-                              color: isSelected 
-                                  ? Palette.montraPurple 
+                              color: isSelected
+                                  ? Palette.montraPurple
                                   : Palette.blackColor,
                               fontW: isSelected ? F.w5 : F.w4,
                             ),
@@ -575,7 +635,8 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
                   child: AppButton(
                     text: "Save",
                     onTap: () {
-                      _selectedCategoriesNotifier.value = tempSelectedNotifier.value;
+                      _selectedCategoriesNotifier.value =
+                          tempSelectedNotifier.value;
                       Navigator.pop(context);
                     },
                   ),
@@ -595,7 +656,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
       firstDate: DateTime(1950),
       lastDate: DateTime.now(),
     );
-    
+
     if (picked != null) {
       _birthdateNotifier.value = picked;
     }
@@ -618,7 +679,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
       theMessage: "Profile updated successfully",
       theType: NotificationType.success,
     );
-    
+
     goBack(context);
   }
 }
