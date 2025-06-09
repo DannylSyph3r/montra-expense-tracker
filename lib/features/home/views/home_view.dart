@@ -49,11 +49,11 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 Column(
                   children: [
-                    40.sbH,
+                    35.sbH,
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        "Ryker Wallet".txt14(color: Palette.whiteColor, fontW: F.w4),
+                        "Ryker Wallet".txt16(color: Palette.whiteColor, fontW: F.w6),
                         5.sbW,
                         Icon(
                                 PhosphorIconsBold.caretCircleDown,
