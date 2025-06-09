@@ -2,7 +2,7 @@ import 'package:expense_tracker_app/features/base_nav/bloc/nav_cubit.dart';
 import 'package:expense_tracker_app/features/base_nav/widgets/nav_bar_widgets.dart';
 import 'package:expense_tracker_app/features/finances/views/finance_view.dart';
 import 'package:expense_tracker_app/features/home/views/home_view.dart';
-import 'package:expense_tracker_app/features/profile/views/user_profile_view.dart';
+import 'package:expense_tracker_app/features/profile/views/profile_view.dart';
 import 'package:expense_tracker_app/features/transactions/views/transactions_view.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_constants.dart';
@@ -27,7 +27,7 @@ List<Widget> pages = [
   const HomeView(),
   const TransactionsView(),
   const FinanceView(),
-  const UserProfileView(),
+  const ProfileView(),
 ];
 
 class BaseNavWrapper extends StatelessWidget {

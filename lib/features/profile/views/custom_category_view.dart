@@ -1,3 +1,5 @@
+import 'package:expense_tracker_app/features/profile/views/create_category_view.dart';
+import 'package:expense_tracker_app/shared/category_resources.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/nav.dart';
@@ -5,7 +7,6 @@ import 'package:expense_tracker_app/utils/snack_bar.dart';
 import 'package:expense_tracker_app/utils/type_defs.dart';
 import 'package:expense_tracker_app/utils/widgets/button.dart';
 import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
-import 'package:expense_tracker_app/utils/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -33,52 +34,10 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
   ]);
 
   // Available icons for custom categories
-  final List<IconData> availableIcons = [
-    PhosphorIconsBold.heart,
-    PhosphorIconsBold.star,
-    PhosphorIconsBold.house,
-    PhosphorIconsBold.car,
-    PhosphorIconsBold.coffee,
-    PhosphorIconsBold.gameController,
-    PhosphorIconsBold.book,
-    PhosphorIconsBold.musicNote,
-    PhosphorIconsBold.camera,
-    PhosphorIconsBold.bicycle,
-    PhosphorIconsBold.airplane,
-    PhosphorIconsBold.gift,
-    PhosphorIconsBold.pawPrint,
-    PhosphorIconsBold.tree,
-    PhosphorIconsBold.lightning,
-    PhosphorIconsBold.moon,
-    PhosphorIconsBold.fire,
-    PhosphorIconsBold.leaf,
-    PhosphorIconsBold.flower,
-    PhosphorIconsBold.hamburger,
-    PhosphorIconsBold.wine,
-    PhosphorIconsBold.umbrella,
-    PhosphorIconsBold.palette,
-    PhosphorIconsBold.trophy,
-  ];
+  final List<IconData> availableIcons = CategoryResources.availableIcons;
 
   // Available colors for custom categories
-  final List<Color> availableColors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
-    Colors.purple,
-    Colors.pink,
-    Colors.teal,
-    Colors.indigo,
-    Colors.amber,
-    Colors.cyan,
-    Colors.lime,
-    Colors.deepOrange,
-    Colors.brown,
-    Colors.blueGrey,
-    Colors.deepPurple,
-    Colors.lightGreen,
-  ];
+  final List<Color> availableColors = CategoryResources.availableColors;
 
   @override
   void dispose() {
@@ -136,6 +95,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
                   ],
                 ),
               ),
+              20.sbH,
 
               // Categories List
               Expanded(
@@ -206,7 +166,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
                                         color: Palette.montraPurple,
                                       ),
                                     ).tap(
-                                        onTap: () => _showEditCategoryModal(
+                                        onTap: () => _navigateToEditCategory(
                                             category, index)),
                                     10.sbW,
                                     Container(
@@ -257,7 +217,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
           color: Palette.whiteColor,
           size: 24.h,
         ),
-      ).tap(onTap: () => _showAddCategoryModal()),
+      ).tap(onTap: () => _navigateToAddCategory()),
     );
   }
 
@@ -292,7 +252,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
             30.sbH,
             AppButton(
               text: "Create First Category",
-              onTap: () => _showAddCategoryModal(),
+              onTap: () => _navigateToAddCategory(),
               spanScreen: false,
             ),
           ],
@@ -301,226 +261,62 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
     );
   }
 
-  void _showAddCategoryModal() {
-    _showCategoryModal();
-  }
+  void _navigateToAddCategory() {
+    goTo(
+      context: context,
+      view: CreateCategoryView(
+        availableIcons: availableIcons,
+        availableColors: availableColors,
+        onCategoryCreated: (categoryData) {
+          final updatedList = List<Map<String, dynamic>>.from(
+              _customCategoriesNotifier.value);
+          updatedList.add(categoryData);
+          _customCategoriesNotifier.value = updatedList;
 
-  void _showEditCategoryModal(Map<String, dynamic> category, int index) {
-    _showCategoryModal(
-      existingCategory: category,
-      isEditing: true,
-      editIndex: index,
+          // Store context reference before async gap
+          final currentContext = context;
+          Future.delayed(const Duration(milliseconds: 200), () {
+            // Check if widget is still mounted before using context
+            if (mounted) {
+              showBanner(
+                context: currentContext,
+                theMessage: "Category added successfully",
+                theType: NotificationType.success,
+              );
+            }
+          });
+        },
+      ),
     );
   }
 
-  void _showCategoryModal({
-    Map<String, dynamic>? existingCategory,
-    bool isEditing = false,
-    int? editIndex,
-  }) {
-    final TextEditingController categoryNameController = TextEditingController(
-      text: existingCategory?['name'] ?? '',
-    );
-    final ValueNotifier<IconData?> selectedIconNotifier =
-        ValueNotifier<IconData?>(
-      existingCategory?['icon'],
-    );
-    final ValueNotifier<Color?> selectedColorNotifier = ValueNotifier<Color?>(
-      existingCategory?['color'],
-    );
+  void _navigateToEditCategory(Map<String, dynamic> category, int index) {
+    goTo(
+      context: context,
+      view: CreateCategoryView(
+        availableIcons: availableIcons,
+        availableColors: availableColors,
+        existingCategory: category,
+        isEditing: true,
+        onCategoryCreated: (categoryData) {
+          final updatedList = List<Map<String, dynamic>>.from(
+              _customCategoriesNotifier.value);
+          updatedList[index] = categoryData;
+          _customCategoriesNotifier.value = updatedList;
 
-    showCustomModal(
-      context,
-      modalHeight: 650.h,
-      child: Padding(
-        padding: 15.padH,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              "${isEditing ? 'Edit' : 'Add'} Custom Category"
-                  .txt18(fontW: F.w6),
-              20.sbH,
-
-              // Category Name Input
-              "Category Name".txt14(fontW: F.w5),
-              8.sbH,
-              TextInputWidget(
-                controller: categoryNameController,
-                hintText: "Enter category name",
-                maxLength: 20,
-              ),
-              15.sbH,
-
-              // Icon Selection
-              "Choose Icon".txt14(fontW: F.w5),
-              8.sbH,
-              Container(
-                height: 120.h,
-                decoration: BoxDecoration(
-                  color: Palette.greyFill,
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: ValueListenableBuilder<IconData?>(
-                  valueListenable: selectedIconNotifier,
-                  builder: (context, selectedIcon, child) {
-                    return GridView.builder(
-                      padding: 8.0.padA,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 6,
-                        crossAxisSpacing: 8.w,
-                        mainAxisSpacing: 8.h,
-                      ),
-                      itemCount: availableIcons.length,
-                      itemBuilder: (context, index) {
-                        final icon = availableIcons[index];
-                        final isSelected = selectedIcon == icon;
-
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? Palette.montraPurple.withOpacity(0.2)
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(6.r),
-                            border: isSelected
-                                ? Border.all(color: Palette.montraPurple)
-                                : null,
-                          ),
-                          child: Icon(
-                            icon,
-                            size: 20.h,
-                            color: isSelected
-                                ? Palette.montraPurple
-                                : Palette.greyColor,
-                          ),
-                        ).tap(onTap: () {
-                          selectedIconNotifier.value = icon;
-                        });
-                      },
-                    );
-                  },
-                ),
-              ),
-              15.sbH,
-
-              // Color Selection
-              "Choose Color".txt14(fontW: F.w5),
-              8.sbH,
-              Container(
-                height: 80.h,
-                decoration: BoxDecoration(
-                  color: Palette.greyFill,
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: ValueListenableBuilder<Color?>(
-                  valueListenable: selectedColorNotifier,
-                  builder: (context, selectedColor, child) {
-                    return GridView.builder(
-                      padding: 8.0.padA,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 8,
-                        crossAxisSpacing: 8.w,
-                        mainAxisSpacing: 8.h,
-                      ),
-                      itemCount: availableColors.length,
-                      itemBuilder: (context, index) {
-                        final color = availableColors[index];
-                        final isSelected = selectedColor == color;
-
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: color,
-                            shape: BoxShape.circle,
-                            border: isSelected
-                                ? Border.all(
-                                    color: Palette.blackColor, width: 3)
-                                : Border.all(
-                                    color: Palette.greyColor, width: 1),
-                          ),
-                          child: isSelected
-                              ? Icon(
-                                  PhosphorIconsBold.check,
-                                  size: 14.h,
-                                  color: Palette.whiteColor,
-                                )
-                              : null,
-                        ).tap(onTap: () {
-                          selectedColorNotifier.value = color;
-                        });
-                      },
-                    );
-                  },
-                ),
-              ),
-              20.sbH,
-
-              // Buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: AppButton(
-                      color: Palette.greyFill,
-                      textColor: Palette.blackColor,
-                      text: "Cancel",
-                      onTap: () => Navigator.pop(context),
-                    ),
-                  ),
-                  15.sbW,
-                  Expanded(
-                    child: ListenableBuilder(
-                      listenable: Listenable.merge([
-                        categoryNameController,
-                        selectedIconNotifier,
-                        selectedColorNotifier,
-                      ]),
-                      builder: (context, child) {
-                        final isEnabled =
-                            categoryNameController.text.isNotEmpty &&
-                                selectedIconNotifier.value != null &&
-                                selectedColorNotifier.value != null;
-
-                        return AppButton(
-                          isEnabled: isEnabled,
-                          text: isEditing ? "Update Category" : "Add Category",
-                          onTap: isEnabled
-                              ? () {
-                                  final categoryData = {
-                                    'name': categoryNameController.text,
-                                    'icon': selectedIconNotifier.value!,
-                                    'color': selectedColorNotifier.value!,
-                                  };
-
-                                  final updatedList =
-                                      List<Map<String, dynamic>>.from(
-                                          _customCategoriesNotifier.value);
-
-                                  if (isEditing && editIndex != null) {
-                                    updatedList[editIndex] = categoryData;
-                                  } else {
-                                    updatedList.add(categoryData);
-                                  }
-
-                                  _customCategoriesNotifier.value = updatedList;
-
-                                  Navigator.pop(context);
-                                  showBanner(
-                                    context: context,
-                                    theMessage:
-                                        "${isEditing ? 'Category updated' : 'Category added'} successfully",
-                                    theType: NotificationType.success,
-                                  );
-                                }
-                              : null,
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              20.sbH,
-            ],
-          ),
-        ),
+          // Store context reference before async gap
+          final currentContext = context;
+          Future.delayed(const Duration(milliseconds: 200), () {
+            // Check if widget is still mounted before using context
+            if (mounted) {
+              showBanner(
+                context: currentContext,
+                theMessage: "Category updated successfully",
+                theType: NotificationType.success,
+              );
+            }
+          });
+        },
       ),
     );
   }
@@ -528,7 +324,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
   void _showDeleteConfirmation(Map<String, dynamic> category) {
     showCustomModal(
       context,
-      modalHeight: 200.h,
+      modalHeight: 230.h,
       child: Padding(
         padding: 20.padH,
         child: Column(

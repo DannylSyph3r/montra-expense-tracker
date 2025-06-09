@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-class UserProfileView extends StatelessWidget {
-  const UserProfileView({super.key});
+class ProfileView extends StatelessWidget {
+  const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class UserProfileView extends StatelessWidget {
                       rowPadding: 15.padH,
                     ),
                     50.sbH,
-                    
+
                     // Profile Picture and Info
                     Column(
                       children: [
@@ -66,15 +66,13 @@ class UserProfileView extends StatelessWidget {
                           ),
                         ),
                         15.sbH,
-                        
+
                         // User Name
                         "Minato Namikaze"
-                            .txt18(
-                                color: Palette.whiteColor,
-                                fontW: F.w6)
+                            .txt18(color: Palette.whiteColor, fontW: F.w6)
                             .alignCenter(),
                         5.sbH,
-                        
+
                         // User Handle/Email
                         "@minato.namikaze"
                             .txt14(
@@ -83,7 +81,7 @@ class UserProfileView extends StatelessWidget {
                             .alignCenter(),
                       ],
                     ),
-                    
+
                     CustomPaint(
                       size: Size(double.infinity, 40.h),
                       painter: CurvedPainter(),
@@ -100,28 +98,32 @@ class UserProfileView extends StatelessWidget {
                           child: Column(
                             children: [
                               30.sbH,
-                              
+
                               // Profile Options
                               _buildProfileOptionTile(
                                 icon: PhosphorIconsBold.user,
                                 title: "Account",
                                 subtitle: "Manage your account settings",
                                 onTap: () {
-                                  goTo(context: context, view: AccountSettingsView());
+                                  goTo(
+                                      context: context,
+                                      view: AccountSettingsView());
                                 },
                               ),
                               15.sbH,
-                              
+
                               _buildProfileOptionTile(
                                 icon: PhosphorIconsBold.identificationCard,
                                 title: "User Profile",
                                 subtitle: "Edit your personal information",
                                 onTap: () {
-                                  goTo(context: context, view: UserProfileEditView());
+                                  goTo(
+                                      context: context,
+                                      view: UserProfileEditView());
                                 },
                               ),
                               15.sbH,
-                              
+
                               _buildProfileOptionTile(
                                 icon: PhosphorIconsBold.download,
                                 title: "Export Data",
@@ -131,7 +133,7 @@ class UserProfileView extends StatelessWidget {
                                 },
                               ),
                               15.sbH,
-                              
+
                               _buildProfileOptionTile(
                                 icon: PhosphorIconsBold.signOut,
                                 title: "Log Out",
@@ -142,9 +144,9 @@ class UserProfileView extends StatelessWidget {
                                   _showLogoutConfirmation(context);
                                 },
                               ),
-                              
+
                               40.sbH,
-                              
+
                               // App Version Info
                               Container(
                                 padding: 15.0.padA,
@@ -167,15 +169,18 @@ class UserProfileView extends StatelessWidget {
                                     ),
                                     10.sbH,
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        "Version".txt12(color: Palette.greyColor),
+                                        "Version"
+                                            .txt12(color: Palette.greyColor),
                                         "1.0.0".txt12(fontW: F.w5),
                                       ],
                                     ),
                                     5.sbH,
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         "Build".txt12(color: Palette.greyColor),
                                         "1".txt12(fontW: F.w5),
@@ -184,7 +189,21 @@ class UserProfileView extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              
+                              25.sbH,
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  "Made with ".txt12(),
+                                  Icon(
+                                    PhosphorIconsFill.heartStraight,
+                                    color: Palette.montraPurple,
+                                    size: 18.h,
+                                  ),
+                                  " by Slethware".txt12()
+                                ],
+                              ),
+
                               100.sbH,
                             ],
                           ),
@@ -254,7 +273,7 @@ class UserProfileView extends StatelessWidget {
     ).tap(onTap: onTap);
   }
 
-void _showLogoutConfirmation(BuildContext context) {
+  void _showLogoutConfirmation(BuildContext context) {
     showCustomModal(
       context,
       modalHeight: 230.h,
@@ -265,11 +284,10 @@ void _showLogoutConfirmation(BuildContext context) {
           children: [
             "Log Out".txt16(fontW: F.w6),
             15.sbH,
-            "Are you sure you want to log out of your account?"
-                .txt14(
-                  color: Palette.greyColor,
-                  textAlign: TextAlign.center,
-                ),
+            "Are you sure you want to log out of your account?".txt14(
+              color: Palette.greyColor,
+              textAlign: TextAlign.center,
+            ),
             20.sbH,
             Row(
               children: [

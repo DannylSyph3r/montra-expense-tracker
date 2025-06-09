@@ -1,12 +1,11 @@
 import 'dart:io';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
-import 'package:expense_tracker_app/features/profile/views/create_custom_category_view.dart';
+import 'package:expense_tracker_app/features/profile/views/custom_category_view.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/nav.dart';
 import 'package:expense_tracker_app/utils/snack_bar.dart';
 import 'package:expense_tracker_app/utils/type_defs.dart';
-import 'package:expense_tracker_app/utils/widgets/button.dart';
 import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
 import 'package:expense_tracker_app/utils/widgets/text_input.dart';
 import 'package:flutter/material.dart';
@@ -58,30 +57,6 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
     "Kenyan Shilling (KES)"
   ];
 
-  final List<String> categories = [
-    "Groceries",
-    "Transportation",
-    "Entertainment",
-    "Shopping",
-    "Utilities",
-    "Health & Fitness",
-    "Dining Out",
-    "Travel",
-    "Education",
-    "Insurance",
-    "Personal Care",
-    "Gifts"
-  ];
-
-  final ValueNotifier<List<String>> _selectedCategoriesNotifier =
-      ValueNotifier<List<String>>([
-    "Groceries",
-    "Transportation",
-    "Entertainment",
-    "Shopping",
-    "Utilities"
-  ]);
-
   @override
   void dispose() {
     _usernameController.dispose();
@@ -90,7 +65,6 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
     _currencyController.dispose();
     _birthdateNotifier.dispose();
     _profileImageNotifier.dispose();
-    _selectedCategoriesNotifier.dispose();
     super.dispose();
   }
 
@@ -110,7 +84,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: _saveProfile,
+            onPressed: (){},
             child: "Save".txt14(color: Palette.montraPurple, fontW: F.w6),
           ),
         ],
@@ -310,15 +284,6 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           _buildSectionHeader("Financial Preferences"),
           20.sbH,
 
-          // Category Customization
-          "Active Categories".txt14(fontW: F.w5),
-          8.sbH,
-          "Select categories you frequently use for transactions"
-              .txt12(color: Palette.greyColor),
-          15.sbH,
-          _buildCategoryCustomization(),
-          15.sbH,
-
           // Custom Categories Navigation
           Container(
             padding: EdgeInsets.all(16.w),
@@ -372,55 +337,6 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
 
   Widget _buildSectionHeader(String title) {
     return title.txt16(fontW: F.w6, color: Palette.blackColor);
-  }
-
-  Widget _buildCategoryCustomization() {
-    return ValueListenableBuilder<List<String>>(
-      valueListenable: _selectedCategoriesNotifier,
-      builder: (context, selectedCategories, child) {
-        return Container(
-          padding: 15.0.padA,
-          decoration: BoxDecoration(
-            color: Palette.greyFill,
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  "${selectedCategories.length} categories selected"
-                      .txt12(color: Palette.greyColor),
-                  "Edit".txt12(color: Palette.montraPurple, fontW: F.w6).tap(
-                        onTap: () => _showCategorySelectionModal(),
-                      ),
-                ],
-              ),
-              10.sbH,
-              Wrap(
-                spacing: 8.w,
-                runSpacing: 8.h,
-                children: selectedCategories.map((category) {
-                  return Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                    decoration: BoxDecoration(
-                      color: Palette.montraPurple.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(20.r),
-                      border: Border.all(
-                          color: Palette.montraPurple.withOpacity(0.3)),
-                    ),
-                    child: category.txt12(
-                        color: Palette.montraPurple, fontW: F.w5),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   void _showImagePickerModal() {
@@ -540,111 +456,6 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
             },
           );
         },
-      ),
-    );
-  }
-
-  void _showCategorySelectionModal() {
-    final ValueNotifier<List<String>> tempSelectedNotifier =
-        ValueNotifier<List<String>>(
-            List.from(_selectedCategoriesNotifier.value));
-
-    showCustomModal(
-      context,
-      modalHeight: 500.h,
-      child: Padding(
-        padding: 15.padH,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            "Select Categories".txt16(fontW: F.w6),
-            10.sbH,
-            "Choose categories you use most frequently"
-                .txt12(color: Palette.greyColor),
-            20.sbH,
-            Expanded(
-              child: ValueListenableBuilder<List<String>>(
-                valueListenable: tempSelectedNotifier,
-                builder: (context, tempSelected, child) {
-                  return ListView.builder(
-                    itemCount: categories.length,
-                    itemBuilder: (context, index) {
-                      final category = categories[index];
-                      final isSelected = tempSelected.contains(category);
-
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 8.h),
-                        padding: 12.0.padA,
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? Palette.montraPurple.withOpacity(0.1)
-                              : Palette.greyFill,
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(
-                            color: isSelected
-                                ? Palette.montraPurple
-                                : Colors.transparent,
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              isSelected
-                                  ? PhosphorIconsBold.checkSquare
-                                  : PhosphorIconsRegular.square,
-                              color: isSelected
-                                  ? Palette.montraPurple
-                                  : Palette.greyColor,
-                              size: 20.h,
-                            ),
-                            15.sbW,
-                            category.txt14(
-                              color: isSelected
-                                  ? Palette.montraPurple
-                                  : Palette.blackColor,
-                              fontW: isSelected ? F.w5 : F.w4,
-                            ),
-                          ],
-                        ),
-                      ).tap(onTap: () {
-                        if (isSelected) {
-                          tempSelected.remove(category);
-                        } else {
-                          tempSelected.add(category);
-                        }
-                        tempSelectedNotifier.value = List.from(tempSelected);
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-            20.sbH,
-            Row(
-              children: [
-                Expanded(
-                  child: AppButton(
-                    color: Palette.greyFill,
-                    textColor: Palette.blackColor,
-                    text: "Cancel",
-                    onTap: () => Navigator.pop(context),
-                  ),
-                ),
-                15.sbW,
-                Expanded(
-                  child: AppButton(
-                    text: "Save",
-                    onTap: () {
-                      _selectedCategoriesNotifier.value =
-                          tempSelectedNotifier.value;
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }
