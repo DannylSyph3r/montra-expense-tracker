@@ -38,14 +38,9 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
 
   final List<String> countries = [
     "Nigeria",
-    "Ghana",
-    "Kenya",
-    "South Africa",
-    "Egypt",
     "United States",
     "United Kingdom",
     "Canada",
-    "Australia"
   ];
 
   final List<String> currencies = [
@@ -53,8 +48,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
     "US Dollar (USD)",
     "British Pound (GBP)",
     "Euro (EUR)",
-    "Ghanaian Cedi (GHS)",
-    "Kenyan Shilling (KES)"
+    "Canadian Dollar (CAD)",
   ];
 
   @override
@@ -84,7 +78,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
         centerTitle: true,
         actions: [
           TextButton(
-            onPressed: (){},
+            onPressed: _saveProfile,
             child: "Save".txt14(color: Palette.montraPurple, fontW: F.w6),
           ),
         ],
@@ -474,23 +468,31 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
   }
 
   void _saveProfile() {
-    // Validate and save profile data
-    if (_usernameController.text.isEmpty) {
-      showBanner(
-        context: context,
-        theMessage: "Username is required",
-        theType: NotificationType.failure,
-      );
-      return;
-    }
-
-    // Save profile logic here
+  // Validate and save profile data
+  if (_usernameController.text.isEmpty) {
     showBanner(
       context: context,
-      theMessage: "Profile updated successfully",
-      theType: NotificationType.success,
+      theMessage: "Username is required",
+      theType: NotificationType.failure,
     );
-
-    goBack(context);
+    return;
   }
+
+  // Store context reference before navigation
+  final currentContext = context;
+  
+  // Navigate back first
+  goBack(context);
+  
+  // Show success banner after a delay
+  Future.delayed(const Duration(milliseconds: 200), () {
+    if (mounted) {
+      showBanner(
+        context: currentContext,
+        theMessage: "Profile updated successfully",
+        theType: NotificationType.success,
+      );
+    }
+  });
+}
 }

@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:expense_tracker_app/features/base_nav/bloc/nav_cubit.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -43,9 +44,7 @@ class _HomeViewState extends State<HomeView> {
                 Positioned(
                   top: -5,
                   left: -5,
-                  child: AppGraphics.eclipses.png.myImage(
-                    height: 200.h,
-                  ),
+                  child: AppGraphics.eclipses.png.myImage(height: 200.h),
                 ),
                 Column(
                   children: [
@@ -53,16 +52,17 @@ class _HomeViewState extends State<HomeView> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        "Ryker Wallet".txt16(color: Palette.whiteColor, fontW: F.w6),
+                        "Ryker Wallet"
+                            .txt16(color: Palette.whiteColor, fontW: F.w6),
                         5.sbW,
                         Icon(
-                                PhosphorIconsBold.caretCircleDown,
-                                size: 20.h,
-                                color: Palette.whiteColor,
-                              )
+                          PhosphorIconsBold.caretCircleDown,
+                          size: 20.h,
+                          color: Palette.whiteColor,
+                        ),
                       ],
                     ),
-                    20.sbH,
+                    40.sbH,
                     RowRailer(
                       leading: Column(
                         children: [
@@ -76,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
                                 PhosphorIconsFill.fire,
                                 size: 18.h,
                                 color: Palette.whiteColor,
-                              )
+                              ),
                             ],
                           ),
                           5.sbH,
@@ -85,7 +85,16 @@ class _HomeViewState extends State<HomeView> {
                                   color: Palette.whiteColor,
                                   fontW: F.w6,
                                   overflow: TextOverflow.ellipsis)
-                              .alignCenterLeft(),
+                              .alignCenterLeft()
+                              .animate(
+                                onPlay: (controller) =>
+                                    controller.repeat(reverse: true),
+                              )
+                              .shimmer(
+                                duration: 2500.ms,
+                                color: const Color(0xFFE879F9),
+                                angle: 0,
+                              ),
                         ],
                       ),
                       trailing: Container(
@@ -102,287 +111,293 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       rowPadding: 15.padH,
                     ),
-                    100.sbH,
+                    113.sbH,
                     CustomPaint(
                       size: Size(double.infinity, 50.h),
                       painter: CurvedPainter(),
                     ),
-                    Container(
-                        decoration: BoxDecoration(
-                            color: Palette.whiteColor,
-                            border: Border.all(
-                                color: Palette.whiteColor, width: 1)),
-                        constraints:
-                            BoxConstraints(minHeight: height(context) - 250.h),
-                        child: Padding(
-                          padding: 15.padH,
-                          child: Column(
-                            children: [
-                              100.sbH,
-                              RowRailer(
-                                rowPadding: 0.padH,
-                                leading: "Recent Transactions".txt16(
-                                  fontW: F.w5,
-                                ),
-                                trailing: Container(
-                                  height: 27.h,
-                                  width: 67.w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15.r)),
-                                      color: Palette.montraPurple
-                                          .withOpacity(0.25)),
-                                  child: Center(
-                                    child: "See All".txt14(
-                                        color: Palette.montraPurple,
-                                        fontW: F.w5).tap(onTap: (){
-                                          context.read<BaseNavCubit>().moveToPage(1);
-                                        }),
-                                  ),
-                                ),
-                              ),
-                              20.sbH,
-                              ListView.separated(
-                                padding: 0.0.padA,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: 12,
-                                itemBuilder: (context, index) {
-                                  return TransactionTile(
-                                    transaction: transactions[index],
-                                    onTileTap: () {
-                                      goTo(
-                                          context: context,
-                                          view: TransactionsDetailsView());
-                                    },
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return 10.sbH;
-                                },
-                              ),
-                              100.sbH,
-                            ],
-                          ),
-                        )),
+                    _buildTransactionsSection(),
                   ],
                 ),
-                Positioned(
-                  top: 150,
-                  left: 15,
-                  right: 0,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: 300.w,
-                      height: 190.h,
-                      decoration: BoxDecoration(
-                        color: Palette.montraPurple,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            spreadRadius: 9,
-                            blurRadius: 18,
-                            offset: const Offset(5, 10),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 150,
-                  left: 0,
-                  right: 0,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(15.r)),
-                      child: Container(
-                        width: 345.w,
-                        decoration: BoxDecoration(
-                          color: Palette.montraPurple,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 6,
-                              blurRadius: 14,
-                              offset: const Offset(5, 10),
-                            ),
-                          ],
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                              child: Opacity(
-                                opacity: 0.3,
-                                child: AppGraphics.cardBG.png
-                                    .myImage(fit: BoxFit.cover),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.w, vertical: 25.h),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    children: [
-                                      RowRailer(
-                                        rowPadding: 0.padH,
-                                        leading: "Total Balances".txt16(
-                                            fontW: F.w3,
-                                            color: Palette.whiteColor),
-                                        trailing: _privacyFilter.sync(builder:
-                                            (context, privacyOn, child) {
-                                          return Icon(
-                                            privacyOn
-                                                ? PhosphorIconsRegular.eye
-                                                : PhosphorIconsRegular.eyeSlash,
-                                            color: Palette.whiteColor,
-                                            size: 25.h,
-                                          ).tap(onTap: () {
-                                            _privacyFilter.value =
-                                                !_privacyFilter.value;
-                                          });
-                                        }),
-                                      ),
-                                      10.sbH,
-                                      Row(
-                                        children: [
-                                          _privacyFilter.sync(builder:
-                                              (context, privacyOn, child) {
-                                            return ImageFiltered(
-                                              imageFilter: ImageFilter.blur(
-                                                sigmaX: privacyOn ? 7 : 0,
-                                                sigmaY: privacyOn ? 7 : 0,
-                                              ),
-                                              child: privacyOn
-                                                  ? "N 3,450".txt(
-                                                      size: 32.sp,
-                                                      fontW: F.w8,
-                                                      color: Palette.whiteColor)
-                                                  : "N 345,000.00".txt(
-                                                      size: 30.sp,
-                                                      fontW: F.w8,
-                                                      color:
-                                                          Palette.whiteColor),
-                                            );
-                                          }),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  5.sbH,
-                                  Column(
-                                    children: [
-                                      RowRailer(
-                                        rowPadding: 0.padH,
-                                        leading: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Palette.whiteColor
-                                                      .withOpacity(0.3)),
-                                              child: Padding(
-                                                padding: 3.0.padA,
-                                                child: Icon(
-                                                  PhosphorIconsBold.arrowDown,
-                                                  size: 15.h,
-                                                  color: Palette.greenColor,
-                                                ),
-                                              ),
-                                            ),
-                                            5.sbW,
-                                            "Income".txt(
-                                                size: 16.sp,
-                                                color: Palette.whiteColor,
-                                                fontW: F.w3)
-                                          ],
-                                        ),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Palette.whiteColor
-                                                      .withOpacity(0.3)),
-                                              child: Padding(
-                                                padding: 3.0.padA,
-                                                child: Icon(
-                                                  PhosphorIconsBold.arrowUp,
-                                                  size: 15.h,
-                                                  color: Palette.redColor,
-                                                ),
-                                              ),
-                                            ),
-                                            5.sbW,
-                                            "Expenses".txt(
-                                                size: 16.sp,
-                                                color: Palette.whiteColor,
-                                                fontW: F.w3)
-                                          ],
-                                        ),
-                                      ),
-                                      15.sbH,
-                                      RowRailer(
-                                        rowPadding: 0.padH,
-                                        leading: _privacyFilter.sync(builder:
-                                            (context, privacyOn, child) {
-                                          return ImageFiltered(
-                                            imageFilter: ImageFilter.blur(
-                                              sigmaX: privacyOn ? 5 : 0,
-                                              sigmaY: privacyOn ? 5 : 0,
-                                            ),
-                                            child: privacyOn
-                                                ? "N 3,450".txt(
-                                                    size: 17.sp,
-                                                    fontW: F.w3,
-                                                    color: Palette.whiteColor)
-                                                : "N 745,000.00".txt(
-                                                    size: 17.sp,
-                                                    fontW: F.w3,
-                                                    color: Palette.whiteColor),
-                                          );
-                                        }),
-                                        trailing: _privacyFilter.sync(builder:
-                                            (context, privacyOn, child) {
-                                          return ImageFiltered(
-                                            imageFilter: ImageFilter.blur(
-                                              sigmaX: privacyOn ? 5 : 0,
-                                              sigmaY: privacyOn ? 5 : 0,
-                                            ),
-                                            child: privacyOn
-                                                ? "N 3,450".txt(
-                                                    size: 17.sp,
-                                                    fontW: F.w3,
-                                                    color: Palette.whiteColor)
-                                                : "N 400,000.00".txt(
-                                                    size: 17.sp,
-                                                    fontW: F.w3,
-                                                    color: Palette.whiteColor),
-                                          );
-                                        }),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                _buildBalanceCard(),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildBalanceCard() {
+    return Positioned(
+      top: 180.h,
+      left: 0,
+      right: 0,
+      child: Align(
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            // Card shadow
+            Container(
+              width: 300.w,
+              height: 190.h,
+              decoration: BoxDecoration(
+                color: Palette.montraPurple,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 9,
+                    blurRadius: 18,
+                    offset: const Offset(5, 10),
+                  ),
+                ],
+              ),
+            ),
+            Transform.translate(
+              offset: const Offset(0, -190),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(15.r)),
+                child: Container(
+                  width: 345.w,
+                  decoration: BoxDecoration(
+                    color: Palette.montraPurple,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 6,
+                        blurRadius: 14,
+                        offset: const Offset(5, 10),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Opacity(
+                          opacity: 0.3,
+                          child:
+                              AppGraphics.cardBG.png.myImage(fit: BoxFit.cover),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.w, vertical: 25.h),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                RowRailer(
+                                  rowPadding: EdgeInsets.zero,
+                                  leading: "Total Balances".txt16(
+                                      fontW: F.w3, color: Palette.whiteColor),
+                                  trailing: _privacyFilter.sync(
+                                      builder: (context, privacyOn, child) {
+                                    return Icon(
+                                      privacyOn
+                                          ? PhosphorIconsRegular.eye
+                                          : PhosphorIconsRegular.eyeSlash,
+                                      color: Palette.whiteColor,
+                                      size: 25.h,
+                                    ).tap(onTap: () {
+                                      _privacyFilter.value =
+                                          !_privacyFilter.value;
+                                    });
+                                  }),
+                                ),
+                                10.sbH,
+                                Row(
+                                  children: [
+                                    _privacyFilter.sync(
+                                        builder: (context, privacyOn, child) {
+                                      return ImageFiltered(
+                                        imageFilter: ImageFilter.blur(
+                                          sigmaX: privacyOn ? 7 : 0,
+                                          sigmaY: privacyOn ? 7 : 0,
+                                        ),
+                                        child: privacyOn
+                                            ? "N 3,450".txt(
+                                                size: 32.sp,
+                                                fontW: F.w8,
+                                                color: Palette.whiteColor)
+                                            : "N 345,000.00".txt(
+                                                size: 30.sp,
+                                                fontW: F.w8,
+                                                color: Palette.whiteColor),
+                                      );
+                                    }),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            5.sbH,
+                            Column(
+                              children: [
+                                RowRailer(
+                                  rowPadding: EdgeInsets.zero,
+                                  leading: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Palette.whiteColor
+                                                .withOpacity(0.3)),
+                                        child: Padding(
+                                          padding: 3.0.padA,
+                                          child: Icon(
+                                            PhosphorIconsBold.arrowDown,
+                                            size: 15.h,
+                                            color: Palette.greenColor,
+                                          ),
+                                        ),
+                                      ),
+                                      5.sbW,
+                                      "Income".txt(
+                                          size: 16.sp,
+                                          color: Palette.whiteColor,
+                                          fontW: F.w3)
+                                    ],
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Palette.whiteColor
+                                                .withOpacity(0.3)),
+                                        child: Padding(
+                                          padding: 3.0.padA,
+                                          child: Icon(
+                                            PhosphorIconsBold.arrowUp,
+                                            size: 15.h,
+                                            color: Palette.redColor,
+                                          ),
+                                        ),
+                                      ),
+                                      5.sbW,
+                                      "Expenses".txt(
+                                          size: 16.sp,
+                                          color: Palette.whiteColor,
+                                          fontW: F.w3)
+                                    ],
+                                  ),
+                                ),
+                                15.sbH,
+                                RowRailer(
+                                  rowPadding: EdgeInsets.zero,
+                                  leading: _privacyFilter.sync(
+                                      builder: (context, privacyOn, child) {
+                                    return ImageFiltered(
+                                      imageFilter: ImageFilter.blur(
+                                        sigmaX: privacyOn ? 5 : 0,
+                                        sigmaY: privacyOn ? 5 : 0,
+                                      ),
+                                      child: privacyOn
+                                          ? "N 3,450".txt(
+                                              size: 17.sp,
+                                              fontW: F.w3,
+                                              color: Palette.whiteColor)
+                                          : "N 745,000.00".txt(
+                                              size: 17.sp,
+                                              fontW: F.w3,
+                                              color: Palette.whiteColor),
+                                    );
+                                  }),
+                                  trailing: _privacyFilter.sync(
+                                      builder: (context, privacyOn, child) {
+                                    return ImageFiltered(
+                                      imageFilter: ImageFilter.blur(
+                                        sigmaX: privacyOn ? 5 : 0,
+                                        sigmaY: privacyOn ? 5 : 0,
+                                      ),
+                                      child: privacyOn
+                                          ? "N 3,450".txt(
+                                              size: 17.sp,
+                                              fontW: F.w3,
+                                              color: Palette.whiteColor)
+                                          : "N 400,000.00".txt(
+                                              size: 17.sp,
+                                              fontW: F.w3,
+                                              color: Palette.whiteColor),
+                                    );
+                                  }),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ).animate().scale(
+          delay: 400.ms,
+          duration: 600.ms,
+          begin: const Offset(0.8, 0.8),
+          curve: Curves.elasticOut,
+        );
+  }
+
+  Widget _buildTransactionsSection() {
+    return Container(
+      decoration: BoxDecoration(
+          color: Palette.whiteColor,
+          border: Border.all(color: Palette.whiteColor, width: 1)),
+      constraints: BoxConstraints(minHeight: height(context) - 320.h),
+      child: Padding(
+        padding: 15.padH,
+        child: Column(
+          children: [
+            100.sbH,
+            RowRailer(
+              rowPadding: EdgeInsets.zero,
+              leading: "Recent Transactions".txt16(fontW: F.w5),
+              trailing: Container(
+                height: 27.h,
+                width: 67.w,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15.r)),
+                    color: Palette.montraPurple.withOpacity(0.25)),
+                child: Center(
+                  child: "See All"
+                      .txt14(color: Palette.montraPurple, fontW: F.w5)
+                      .tap(onTap: () {
+                    context.read<BaseNavCubit>().moveToPage(1);
+                  }),
+                ),
+              ),
+            ),
+            20.sbH,
+            ListView.separated(
+              padding: EdgeInsets.zero,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 12,
+              itemBuilder: (context, index) {
+                return TransactionTile(
+                  transaction: transactions[index],
+                  onTileTap: () {
+                    goTo(
+                        context: context,
+                        view: const TransactionsDetailsView());
+                  },
+                )
+                    .animate(delay: Duration(milliseconds: index * 100))
+                    .fadeIn(duration: 400.ms)
+                    .slideX(begin: 0.2, end: 0, duration: 400.ms);
+              },
+              separatorBuilder: (context, index) => 10.sbH,
+            ),
+            100.sbH,
+          ],
+        ),
       ),
     );
   }
