@@ -58,13 +58,6 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
           ),
           10.sbH,
           _buildAccountInfoTile(
-            icon: PhosphorIconsBold.phone,
-            title: "Phone Number",
-            subtitle: "+234 (0) 123 456 7890",
-            onTap: () => _showEditPhoneModal(),
-          ),
-          10.sbH,
-          _buildAccountInfoTile(
             icon: PhosphorIconsBold.shieldCheck,
             title: "Account Verification",
             subtitle: "Verified",

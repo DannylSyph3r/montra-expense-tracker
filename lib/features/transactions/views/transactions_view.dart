@@ -1,5 +1,6 @@
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/features/transactions/views/add_transaction_view.dart';
+import 'package:expense_tracker_app/features/transactions/views/transaction_details_view.dart';
 import 'package:expense_tracker_app/features/transactions/widgets/filter_tab.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
@@ -46,7 +47,7 @@ class _TransactionsViewState extends State<TransactionsView>
   final ValueNotifier<bool> _isFabExpandedNotifier = ValueNotifier<bool>(false);
   final ValueNotifier<bool> _isFabVisibleNotifier = ValueNotifier<bool>(true);
   final ScrollController _scrollController = ScrollController();
-  
+
   double _lastScrollOffset = 0.0;
   Timer? _scrollTimer;
 
@@ -59,11 +60,11 @@ class _TransactionsViewState extends State<TransactionsView>
   void _onScroll() {
     final currentScrollOffset = _scrollController.offset;
     final scrollDelta = currentScrollOffset - _lastScrollOffset;
-    
+
     // Only react to significant scroll movements
     if (scrollDelta.abs() > 5.0) {
       final isScrollingDown = scrollDelta > 0;
-      
+
       // Hide FAB when scrolling down
       if (isScrollingDown && _isFabVisibleNotifier.value) {
         _isFabVisibleNotifier.value = false;
@@ -72,7 +73,7 @@ class _TransactionsViewState extends State<TransactionsView>
           _isFabExpandedNotifier.value = false;
         }
       }
-      
+
       // Cancel previous timer and start a new one
       _scrollTimer?.cancel();
       _scrollTimer = Timer(const Duration(milliseconds: 400), () {
@@ -82,7 +83,7 @@ class _TransactionsViewState extends State<TransactionsView>
         }
       });
     }
-    
+
     _lastScrollOffset = currentScrollOffset;
   }
 
@@ -105,7 +106,8 @@ class _TransactionsViewState extends State<TransactionsView>
       context: context,
       builder: (context) => DocPickerModalBottomSheet(
         headerText: "Receipt Scanner",
-        descriptionText: "Take a photo of your receipt or select from gallery. We'll automatically extract transaction details for you.",
+        descriptionText:
+            "Take a photo of your receipt or select from gallery. We'll automatically extract transaction details for you.",
         onTakeDocPicture: () {
           goBack(context);
           // TODO: Add receipt scanning logic here
@@ -281,8 +283,8 @@ class _TransactionsViewState extends State<TransactionsView>
                   children: [
                     10.sbH,
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.h, horizontal: 15.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -305,7 +307,11 @@ class _TransactionsViewState extends State<TransactionsView>
                       itemBuilder: (context, index) {
                         return TransactionTile(
                           transaction: transactions[index],
-                          onTileTap: () {},
+                          onTileTap: () {
+                            goTo(
+                                context: context,
+                                view: const TransactionsDetailsView());
+                          },
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -323,8 +329,8 @@ class _TransactionsViewState extends State<TransactionsView>
                   children: [
                     10.sbH,
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.h, horizontal: 15.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -348,7 +354,11 @@ class _TransactionsViewState extends State<TransactionsView>
                       itemBuilder: (context, index) {
                         return TransactionTile(
                           transaction: transactions[index],
-                          onTileTap: () {},
+                          onTileTap: () {
+                            goTo(
+                                context: context,
+                                view: const TransactionsDetailsView());
+                          },
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -366,8 +376,8 @@ class _TransactionsViewState extends State<TransactionsView>
                   children: [
                     10.sbH,
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.h, horizontal: 15.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -390,7 +400,11 @@ class _TransactionsViewState extends State<TransactionsView>
                       itemBuilder: (context, index) {
                         return TransactionTile(
                           transaction: transactions[index],
-                          onTileTap: () {},
+                          onTileTap: () {
+                            goTo(
+                                context: context,
+                                view: const TransactionsDetailsView());
+                          },
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -441,7 +455,11 @@ class _TransactionsViewState extends State<TransactionsView>
                           (BuildContext context, Transaction transaction) {
                         return TransactionTile(
                           transaction: transaction,
-                          onTileTap: () {},
+                          onTileTap: () {
+                            goTo(
+                                context: context,
+                                view: const TransactionsDetailsView());
+                          },
                         );
                       },
                       separator: 10.sbH,
@@ -506,7 +524,7 @@ class _TransactionsViewState extends State<TransactionsView>
                             .animate()
                             .fadeIn(duration: 200.ms)
                             .slideX(begin: 0.5, duration: 250.ms),
-                        
+
                         15.sbH,
 
                         // Manual Add Button
@@ -544,7 +562,7 @@ class _TransactionsViewState extends State<TransactionsView>
                             .animate()
                             .fadeIn(duration: 200.ms, delay: 50.ms)
                             .slideX(begin: 0.5, duration: 250.ms),
-                        
+
                         15.sbH,
                       ],
 
@@ -556,7 +574,9 @@ class _TransactionsViewState extends State<TransactionsView>
                             backgroundColor: Palette.montraPurple,
                             onPressed: _toggleFab,
                             child: AnimatedRotation(
-                              turns: isExpanded ? 0.125 : 0.0, // 45 degrees when expanded
+                              turns: isExpanded
+                                  ? 0.125
+                                  : 0.0, // 45 degrees when expanded
                               duration: const Duration(milliseconds: 200),
                               child: Icon(
                                 PhosphorIconsBold.plus,
