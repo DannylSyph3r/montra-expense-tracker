@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:expense_tracker_app/features/home/views/cluster_selector_modal.dart';
+import 'package:expense_tracker_app/features/notifcations/views/notifications_view.dart';
 import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/features/transactions/views/transaction_details_view.dart';
@@ -15,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:expense_tracker_app/features/base_nav/bloc/nav_cubit.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -25,10 +28,15 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final ValueNotifier _privacyFilter = false.notifier;
+  final ValueNotifier<String> _currentCluster = "Ryker Wallet".notifier;
+  final ValueNotifier<int> _unreadNotifications =
+      3.notifier; // Number of unread notifications
 
   @override
   void dispose() {
     _privacyFilter.dispose();
+    _currentCluster.dispose();
+    _unreadNotifications.dispose();
     super.dispose();
   }
 
@@ -49,18 +57,33 @@ class _HomeViewState extends State<HomeView> {
                 Column(
                   children: [
                     35.sbH,
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        "Ryker Wallet"
-                            .txt16(color: Palette.whiteColor, fontW: F.w6),
-                        5.sbW,
-                        Icon(
-                          PhosphorIconsBold.caretCircleDown,
-                          size: 20.h,
-                          color: Palette.whiteColor,
-                        ),
-                      ],
+                    // Cluster Selector with tap functionality
+                    ValueListenableBuilder<String>(
+                      valueListenable: _currentCluster,
+                      builder: (context, currentCluster, child) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            currentCluster.txt16(
+                                color: Palette.whiteColor, fontW: F.w6),
+                            5.sbW,
+                            Icon(
+                              PhosphorIconsBold.caretCircleDown,
+                              size: 20.h,
+                              color: Palette.whiteColor,
+                            ),
+                          ],
+                        ).tap(onTap: () {
+                          showClusterSelectorModal(
+                            context,
+                            currentCluster: currentCluster,
+                            onClusterSelected: (String selectedCluster) {
+                              _currentCluster.value = selectedCluster;
+                              // Here you can also update the balance and other cluster-specific data
+                            },
+                          );
+                        });
+                      },
                     ),
                     40.sbH,
                     RowRailer(
@@ -97,17 +120,61 @@ class _HomeViewState extends State<HomeView> {
                               ),
                         ],
                       ),
-                      trailing: Container(
-                        height: 33.h,
-                        width: 33.h,
-                        decoration: BoxDecoration(
-                          color: Palette.greyFill.withOpacity(0.3),
-                          borderRadius: BorderRadius.all(Radius.circular(8.r)),
-                        ),
-                        child: const Icon(
-                          PhosphorIconsRegular.bellSimple,
-                          color: Palette.whiteColor,
-                        ),
+                      trailing: ValueListenableBuilder<int>(
+                        valueListenable: _unreadNotifications,
+                        builder: (context, unreadCount, child) {
+                          return badges.Badge(
+                            position:
+                                badges.BadgePosition.topEnd(top: -8, end: -8),
+                            showBadge: unreadCount > 0,
+                            ignorePointer: false,
+                            badgeContent: unreadCount > 9
+                                ? Icon(Icons.more_horiz,
+                                    color: Colors.white, size: 10.h)
+                                : Text(
+                                    unreadCount.toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                            badgeAnimation: badges.BadgeAnimation.slide(
+                              animationDuration: Duration(milliseconds: 300),
+                              colorChangeAnimationDuration:
+                                  Duration(milliseconds: 300),
+                              loopAnimation: false,
+                              curve: Curves.fastOutSlowIn,
+                              colorChangeAnimationCurve: Curves.easeInCubic,
+                            ),
+                            badgeStyle: badges.BadgeStyle(
+                              shape: badges.BadgeShape.circle,
+                              badgeColor: Palette.redColor,
+                              padding: EdgeInsets.all(4.w),
+                              borderRadius: BorderRadius.circular(12.r),
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 1.5),
+                              elevation: 2,
+                            ),
+                            child: Container(
+                              height: 33.h,
+                              width: 33.h,
+                              decoration: BoxDecoration(
+                                color: Palette.greyFill.withOpacity(0.3),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.r)),
+                              ),
+                              child: const Icon(
+                                PhosphorIconsRegular.bellSimple,
+                                color: Palette.whiteColor,
+                              ).tap(onTap: () {
+                                goTo(
+                                    context: context,
+                                    view: const NotificationsView());
+                              }),
+                            ),
+                          );
+                        },
                       ),
                       rowPadding: 15.padH,
                     ),
@@ -130,7 +197,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildBalanceCard() {
     return Positioned(
-      top: 180.h,
+      top: 190.h,
       left: 0,
       right: 0,
       child: Align(
@@ -140,7 +207,7 @@ class _HomeViewState extends State<HomeView> {
             // Card shadow
             Container(
               width: 300.w,
-              height: 190.h,
+              height: 170.h,
               decoration: BoxDecoration(
                 color: Palette.montraPurple,
                 boxShadow: [
@@ -189,7 +256,7 @@ class _HomeViewState extends State<HomeView> {
                               children: [
                                 RowRailer(
                                   rowPadding: EdgeInsets.zero,
-                                  leading: "Total Balances".txt16(
+                                  leading: "Total Balance".txt16(
                                       fontW: F.w3, color: Palette.whiteColor),
                                   trailing: _privacyFilter.sync(
                                       builder: (context, privacyOn, child) {
