@@ -4,8 +4,9 @@ abstract class AppTexts {
 
   //! TextField Hints
   static const String emailFieldHint = 'Email';
-  static const String nameFieldHint = 'Name';
+  static const String nameFieldHint = 'Full Name';
   static const String passwordFieldHint = 'Password';
+  static const String confirmPasswordFieldHint = "Confirm Password";
   static const String clusterNameFieldHint = 'Cluster Name';
   static const String clusterAccountType = 'Cluster Account Type';
   static const String clusterStartingBalance = 'Cluster Starting Balance';
