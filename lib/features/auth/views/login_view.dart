@@ -1,6 +1,6 @@
 import 'package:expense_tracker_app/features/auth/views/forgot_password_view.dart';
-import 'package:expense_tracker_app/features/auth/views/pin_input_view.dart';
 import 'package:expense_tracker_app/features/auth/views/sign_up_view.dart';
+import 'package:expense_tracker_app/features/base_nav/wrapper/base_nav_wrapper.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
 import 'package:expense_tracker_app/shared/app_texts.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
@@ -97,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                 //! sign Up Buttons
                 AppButton(
                   onTap: () {
-                    goTo(context: context, view: PinInputView());
+                    goToAndReset(context: context, view: BaseNavWrapper());
                   },
                   text: "Login",
                   fontSize: 16.sp,

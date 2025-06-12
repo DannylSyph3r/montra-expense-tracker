@@ -1,9 +1,12 @@
 import 'package:expense_tracker_app/features/auth/views/login_view.dart';
+import 'package:expense_tracker_app/features/auth/views/otp_verification_view.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
 import 'package:expense_tracker_app/shared/app_texts.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/nav.dart';
+import 'package:expense_tracker_app/utils/snack_bar.dart';
+import 'package:expense_tracker_app/utils/type_defs.dart';
 import 'package:expense_tracker_app/utils/widgets/appbar.dart';
 import 'package:expense_tracker_app/utils/widgets/button.dart';
 import 'package:expense_tracker_app/utils/widgets/myicon.dart';
@@ -25,19 +28,77 @@ class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final ValueNotifier _passwordVisible = false.notifier;
+  final ValueNotifier _confirmPasswordVisible = false.notifier;
   final ValueNotifier _toc = false.notifier;
+  final ValueNotifier<bool> _passwordsMatch = ValueNotifier<bool>(false);
 
   void passwordVisibility() => _passwordVisible.value = !_passwordVisible.value;
+  void confirmPasswordVisibility() => _confirmPasswordVisible.value = !_confirmPasswordVisible.value;
   void agreetoToc() => _toc.value = !_toc.value;
+
+  void _checkPasswordMatch() {
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+    
+    if (confirmPassword.isEmpty) {
+      _passwordsMatch.value = false;
+      return;
+    }
+    
+    _passwordsMatch.value = password == confirmPassword;
+  }
+
+void _handleSignUp() {
+  final password = _passwordController.text;
+  final confirmPassword = _confirmPasswordController.text;
+  
+  if (password != confirmPassword) {
+    showBanner(
+      context: context,
+      theMessage: "Passwords do not match. Please check and try again.",
+      theType: NotificationType.failure,
+    );
+    return;
+  }
+  
+  showBanner(
+    context: context,
+    theMessage: "Account created successfully!",
+    theType: NotificationType.success,
+  );
+
+  Future.delayed(const Duration(milliseconds: 1500), () {
+    if (mounted) {
+      goTo(
+        context: context, 
+        view: OtpVerificationView(
+          email: _emailController.text,
+          fullName: _fullnameController.text,
+        ),
+      );
+    }
+  });
+}
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordController.addListener(_checkPasswordMatch);
+    _confirmPasswordController.addListener(_checkPasswordMatch);
+  }
 
   @override
   void dispose() {
     _fullnameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _passwordVisible.dispose();
+    _confirmPasswordVisible.dispose();
     _toc.dispose();
+    _passwordsMatch.dispose();
     super.dispose();
   }
 
@@ -88,6 +149,68 @@ class _SignUpViewState extends State<SignUpView> {
                   );
                 }),
                 10.sbH,
+
+                //! Confirm Password Field
+                _confirmPasswordVisible.sync(builder: (context, isVisible, child) {
+                  return TextInputWidget(
+                    hintText: AppTexts.confirmPasswordFieldHint,
+                    controller: _confirmPasswordController,
+                    obscuretext: _confirmPasswordVisible.value,
+                    suffixIcon: Padding(
+                        padding: 15.padH,
+                        child: Icon(
+                          PhosphorIconsRegular.eye,
+                          size: 25.h,
+                          color: _confirmPasswordVisible.value == false
+                              ? Palette.montraPurple
+                              : Palette.greyColor,
+                        )).tap(onTap: () {
+                      confirmPasswordVisibility();
+                    }),
+                  );
+                }),
+
+                //! Password Match Indicator
+                ValueListenableBuilder<bool>(
+                  valueListenable: _passwordsMatch,
+                  builder: (context, passwordsMatch, child) {
+                    if (_confirmPasswordController.text.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+                    
+                    return Padding(
+                      padding: EdgeInsets.only(top: 8.h),
+                      child: Row(
+                        children: [
+                          Icon(
+                            passwordsMatch 
+                                ? PhosphorIconsBold.checkCircle 
+                                : PhosphorIconsBold.xCircle,
+                            size: 16.h,
+                            color: passwordsMatch 
+                                ? Palette.greenColor 
+                                : Palette.redColor,
+                          ),
+                          8.sbW,
+                          Text(
+                            passwordsMatch 
+                                ? "Passwords match" 
+                                : "Passwords don't match",
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: passwordsMatch 
+                                  ? Palette.greenColor 
+                                  : Palette.redColor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                
+                20.sbH,
 
                 //! TOC checker
                 Row(
@@ -152,7 +275,7 @@ class _SignUpViewState extends State<SignUpView> {
 
                 //! sign Up Buttons
                 AppButton(
-                  onTap: () {},
+                  onTap: _handleSignUp,
                   text: "Sign Up",
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,

@@ -1,3 +1,4 @@
+import 'package:expense_tracker_app/features/auth/views/login_view.dart';
 import 'package:expense_tracker_app/features/profile/views/account_settings_view.dart';
 import 'package:expense_tracker_app/features/profile/views/user_profile_edit_view.dart';
 import 'package:expense_tracker_app/utils/nav.dart';
@@ -314,8 +315,7 @@ class ProfileView extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      // Handle logout logic here
-                      // For example: navigate to login screen
+                      goToAndReset(context: context, view: LoginView());
                     },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 12.h),

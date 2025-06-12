@@ -1,4 +1,3 @@
-
 import 'package:expense_tracker_app/features/finances/views/create_budget_view.dart';
 import 'package:expense_tracker_app/features/finances/widgets/budget_summary_card.dart';
 import 'package:expense_tracker_app/features/finances/widgets/budget_tile.dart';
@@ -27,22 +26,34 @@ class FinanceView extends StatefulWidget {
   State<FinanceView> createState() => _FinanceViewState();
 }
 
-class _FinanceViewState extends State<FinanceView> {
+class _FinanceViewState extends State<FinanceView>
+    with TickerProviderStateMixin {
   final ValueNotifier<int> _switchNotifier = 0.notifier;
-  
+  final ValueNotifier<int> _currentTabNotifier = ValueNotifier<int>(0);
+  late TabController _tabController;
+
   // Sample budgets - in real app this would come from a state management solution
   final List<Budget> _budgets = sampleBudgets;
 
   @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      _currentTabNotifier.value = _tabController.index;
+    });
+  }
+
+  @override
   void dispose() {
     _switchNotifier.dispose();
+    _currentTabNotifier.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Get active budgets
-    // final activeBudgets = _budgets.where((b) => b.status == BudgetStatus.active).toList();
     final hasBudgets = _budgets.isNotEmpty;
 
     return Scaffold(
@@ -74,6 +85,7 @@ class _FinanceViewState extends State<FinanceView> {
                   title: Container(
                     color: Colors.transparent,
                     child: TabBar(
+                      controller: _tabController,
                       isScrollable: true,
                       padding: EdgeInsets.zero,
                       tabAlignment: TabAlignment.center,
@@ -113,14 +125,55 @@ class _FinanceViewState extends State<FinanceView> {
           },
           body: Container(
             color: Colors.white,
-            child: TabBarView(children: [
-              _buildReportsTab(),
-              hasBudgets ? _buildBudgetsList() : _buildEmptyBudgetsState(),
-            ]),
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildReportsTab(),
+                hasBudgets ? _buildBudgetsList() : _buildEmptyBudgetsState(),
+              ],
+            ),
           ),
         ),
       ),
-      floatingActionButton: hasBudgets ? _buildFloatingActionButton() : null,
+      floatingActionButton: ValueListenableBuilder<int>(
+        valueListenable: _currentTabNotifier,
+        builder: (context, currentTab, child) {
+          // Only show FAB on Budgets tab (index 1)
+          if (currentTab != 1) return const SizedBox.shrink();
+
+          return AnimatedSlide(
+            duration: const Duration(milliseconds: 300),
+            offset: Offset.zero,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 300),
+              opacity: 1.0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FloatingActionButton(
+                    heroTag: "budget_fab",
+                    backgroundColor: Palette.montraPurple,
+                    onPressed: () {
+                      goTo(context: context, view: const CreateBudgetView());
+                    },
+                    child: Icon(
+                      PhosphorIconsBold.plus,
+                      color: Palette.whiteColor,
+                      size: 24.h,
+                    ),
+                  ).animate().fadeIn(duration: 400.ms).slideY(
+                      begin: 1,
+                      end: 0,
+                      duration: 300.ms,
+                      curve: Curves.easeOut),
+                  80.sbH
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -158,12 +211,14 @@ class _FinanceViewState extends State<FinanceView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 13.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 13.w),
                     decoration: BoxDecoration(
                       color: displayType == 0
                           ? Palette.montraPurple
                           : Palette.whiteColor,
-                      border: Border.all(color: Palette.montraPurple, width: 1.5),
+                      border:
+                          Border.all(color: Palette.montraPurple, width: 1.5),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30.r),
                         bottomLeft: Radius.circular(30.r),
@@ -182,12 +237,14 @@ class _FinanceViewState extends State<FinanceView> {
                     _switchNotifier.value = 0;
                   }),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 13.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 13.w),
                     decoration: BoxDecoration(
                       color: displayType == 1
                           ? Palette.montraPurple
                           : Palette.whiteColor,
-                      border: Border.all(color: Palette.montraPurple, width: 1.5),
+                      border:
+                          Border.all(color: Palette.montraPurple, width: 1.5),
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(30.r),
                         bottomRight: Radius.circular(30.r),
@@ -252,19 +309,21 @@ class _FinanceViewState extends State<FinanceView> {
   }
 
   Widget _buildBudgetsList() {
-    final activeBudgets = _budgets.where((b) => b.status == BudgetStatus.active).toList();
-    final expiredBudgets = _budgets.where((b) => b.status == BudgetStatus.expired).toList();
+    final activeBudgets =
+        _budgets.where((b) => b.status == BudgetStatus.active).toList();
+    final expiredBudgets =
+        _budgets.where((b) => b.status == BudgetStatus.expired).toList();
 
     return ListView(
       padding: 15.padH,
       children: [
         15.sbH,
-        
+
         // Budget Summary Card
         BudgetSummaryCard(budgets: _budgets),
-        
+
         25.sbH,
-        
+
         // Active Budgets Section
         if (activeBudgets.isNotEmpty) ...[
           Row(
@@ -292,14 +351,15 @@ class _FinanceViewState extends State<FinanceView> {
                 onMoreTap: () {
                   _showBudgetOptions(activeBudgets[index]);
                 },
-              ).animate(delay: Duration(milliseconds: index * 100))
-                .fadeIn(duration: 400.ms)
-                .slideX(begin: 0.2, end: 0, duration: 400.ms);
+              )
+                  .animate(delay: Duration(milliseconds: index * 100))
+                  .fadeIn(duration: 400.ms)
+                  .slideX(begin: 0.2, end: 0, duration: 400.ms);
             },
             separatorBuilder: (context, index) => 12.sbH,
           ),
         ],
-        
+
         // Expired Budgets Section
         if (expiredBudgets.isNotEmpty) ...[
           25.sbH,
@@ -336,7 +396,7 @@ class _FinanceViewState extends State<FinanceView> {
             separatorBuilder: (context, index) => 12.sbH,
           ),
         ],
-        
+
         100.sbH,
       ],
     );
@@ -364,39 +424,6 @@ class _FinanceViewState extends State<FinanceView> {
     );
   }
 
-  Widget _buildFloatingActionButton() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          height: 50.h,
-          width: 110.h,
-          decoration: BoxDecoration(
-            color: Palette.montraPurple,
-            borderRadius: BorderRadius.circular(25.r),
-          ),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  PhosphorIconsBold.plus,
-                  size: 20.h,
-                  color: Palette.whiteColor,
-                ),
-                10.sbW,
-                "Budget".txt14(color: Palette.whiteColor),
-              ],
-            ),
-          ),
-        ).tap(onTap: () {
-          goTo(context: context, view: const CreateBudgetView());
-        }),
-        80.sbH,
-      ],
-    );
-  }
-
   void _showBudgetDetails(Budget budget) {
     showCustomModal(
       context,
@@ -414,7 +441,7 @@ class _FinanceViewState extends State<FinanceView> {
                   width: 50.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    color: budget.category.color..withValues(alpha: 0.25),
+                    color: budget.category.color.withValues(alpha: 0.25),
                   ),
                   child: Icon(
                     budget.category.icon,
@@ -435,9 +462,9 @@ class _FinanceViewState extends State<FinanceView> {
                 ),
               ],
             ),
-            
+
             20.sbH,
-            
+
             // Stats
             Container(
               padding: 15.0.padA,
@@ -447,18 +474,22 @@ class _FinanceViewState extends State<FinanceView> {
               ),
               child: Column(
                 children: [
-                  _buildDetailRow("Budget Amount", "N${NumberFormat("#,##0.00", "en_US").format(budget.amount)}"),
-                  _buildDetailRow("Spent", "N${NumberFormat("#,##0.00", "en_US").format(budget.spentAmount)}"),
-                  _buildDetailRow("Remaining", "N${NumberFormat("#,##0.00", "en_US").format(budget.remainingAmount)}"),
+                  _buildDetailRow("Budget Amount",
+                      "N${NumberFormat("#,##0.00", "en_US").format(budget.amount)}"),
+                  _buildDetailRow("Spent",
+                      "N${NumberFormat("#,##0.00", "en_US").format(budget.spentAmount)}"),
+                  _buildDetailRow("Remaining",
+                      "N${NumberFormat("#,##0.00", "en_US").format(budget.remainingAmount)}"),
                   _buildDetailRow("Period", budget.periodLabel),
                   _buildDetailRow("Days Left", "${budget.daysRemaining} days"),
-                  _buildDetailRow("Recurring", budget.isRecurring ? "Yes" : "No"),
+                  _buildDetailRow(
+                      "Recurring", budget.isRecurring ? "Yes" : "No"),
                 ],
               ),
             ),
-            
+
             20.sbH,
-            
+
             // Progress
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -471,7 +502,7 @@ class _FinanceViewState extends State<FinanceView> {
                       height: 8.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.grey..withValues(alpha: 0.2),
+                        color: Colors.grey.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                     ),
@@ -480,7 +511,9 @@ class _FinanceViewState extends State<FinanceView> {
                       child: Container(
                         height: 8.h,
                         decoration: BoxDecoration(
-                          color: budget.isExceeded ? Palette.redColor : Palette.greenColor,
+                          color: budget.isExceeded
+                              ? Palette.redColor
+                              : Palette.greenColor,
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
@@ -488,7 +521,8 @@ class _FinanceViewState extends State<FinanceView> {
                   ],
                 ),
                 8.sbH,
-                "${(budget.progressPercentage * 100).toStringAsFixed(1)}% used".txt12(
+                "${(budget.progressPercentage * 100).toStringAsFixed(1)}% used"
+                    .txt12(
                   color: Palette.greyColor,
                 ),
               ],
@@ -521,7 +555,8 @@ class _FinanceViewState extends State<FinanceView> {
         child: Column(
           children: [
             ListTile(
-              leading: const Icon(PhosphorIconsBold.pencil, color: Palette.montraPurple),
+              leading: const Icon(PhosphorIconsBold.pencil,
+                  color: Palette.montraPurple),
               title: "Edit Budget".txt14(),
               onTap: () {
                 Navigator.pop(context);
@@ -529,7 +564,8 @@ class _FinanceViewState extends State<FinanceView> {
               },
             ),
             ListTile(
-              leading: const Icon(PhosphorIconsBold.trash, color: Palette.redColor),
+              leading:
+                  const Icon(PhosphorIconsBold.trash, color: Palette.redColor),
               title: "Delete Budget".txt14(color: Palette.redColor),
               onTap: () {
                 Navigator.pop(context);
@@ -570,7 +606,8 @@ class _FinanceViewState extends State<FinanceView> {
           children: [
             "Delete Budget?".txt16(fontW: F.w6),
             10.sbH,
-            "This action cannot be undone. The budget for ${budget.category.label} will be permanently deleted.".txt12(
+            "This action cannot be undone. The budget for ${budget.category.label} will be permanently deleted."
+                .txt12(
               color: Palette.greyColor,
               textAlign: TextAlign.center,
             ),
