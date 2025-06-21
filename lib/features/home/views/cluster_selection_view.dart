@@ -131,14 +131,14 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
 
   void _showReactivateBottomSheet(int index) {
     showCustomModal(
-      modalHeight: 400.h,
       context,
-      child: Container(
-        padding: 20.0.padA,
+      modalHeight: 380.h,
+      child: Padding(
+        padding: 20.padH,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header with icon and title
             Row(
               children: [
                 Icon(
@@ -150,11 +150,17 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                 "Reactivate Account".txt18(fontW: F.w6),
               ],
             ),
+
             20.sbH,
+
+            // Content
             "Do you want to reactivate your ${clusters[index]['name']}?".txt14(
               color: Palette.greyColor,
             ),
+
             20.sbH,
+
+            // Account preview card
             Container(
               padding: 16.0.padA,
               decoration: BoxDecoration(
@@ -198,7 +204,10 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                 ],
               ),
             ),
-            30.sbH,
+
+            const Spacer(),
+
+            // Action buttons
             Row(
               children: [
                 Expanded(
@@ -206,7 +215,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                     text: "Cancel",
                     color: Palette.greyFill,
                     textColor: Palette.greyColor,
-                    onTap: () => goBack(context),
+                    onTap: () => Navigator.of(context).pop(),
                   ),
                 ),
                 15.sbW,
@@ -214,13 +223,14 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                   child: AppButton(
                     text: "Reactivate",
                     onTap: () {
-                      goBack(context);
                       _reactivateAccount(index);
+                      Navigator.of(context).pop();
                     },
                   ),
                 ),
               ],
             ),
+
             20.sbH,
           ],
         ),
@@ -635,36 +645,60 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                                 : Palette.greyColor,
                           ),
                         ),
-                        if (!(cluster['isActive'] as bool))
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8.w, vertical: 2.h),
-                            decoration: BoxDecoration(
-                              color: Colors.orange.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(12.r),
+                        // More options button for active accounts
+                        if (isActive && !isSelected)
+                          PopupMenuButton<String>(
+                            onSelected: (value) =>
+                                _handleClusterAction(value, index, cluster),
+                            icon: Icon(
+                              PhosphorIconsBold.dotsThreeVertical,
+                              size: 18.h,
+                              color: Palette.greyColor,
                             ),
-                            child: "Inactive".txt(
-                              size: 10.sp,
-                              color: Colors.orange,
-                              fontW: F.w6,
-                            ),
+                            itemBuilder: (BuildContext context) => [
+                              PopupMenuItem<String>(
+                                value: 'disable',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      PhosphorIconsBold.pauseCircle,
+                                      size: 16.h,
+                                      color: Colors.orange,
+                                    ),
+                                    8.sbW,
+                                    "Disable Account".txt(
+                                      size: 14.sp,
+                                      color: Colors.orange,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem<String>(
+                                value: 'delete',
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      PhosphorIconsBold.trash,
+                                      size: 16.h,
+                                      color: Colors.red,
+                                    ),
+                                    8.sbW,
+                                    "Delete Account".txt(
+                                      size: 14.sp,
+                                      color: Colors.red,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                       ],
                     ),
                     4.sbH,
-                    (cluster['type'] as String).txt12(
-                      color: Palette.greyColor,
-                      fontW: F.w4,
-                    ),
-                    6.sbH,
-                    currencyFormat.format(cluster['balance']).txt(
-                          size: 16.sp,
-                          color: isActive
-                              ? isSelected
-                                  ? Palette.montraPurple
-                                  : Palette.blackColor
-                              : Palette.greyColor,
-                          fontW: F.w7,
+                    currencyFormat.format(cluster['balance'] as double).txt(
+                          size: 14.sp,
+                          color: Palette.greyColor,
+                          fontW: F.w5,
                         ),
                   ],
                 ),
@@ -790,6 +824,254 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
               goBack(context);
             }
           : () => _showReactivateBottomSheet(index),
+    );
+  }
+
+// Handler for cluster actions (disable/delete)
+  void _handleClusterAction(
+      String action, int index, Map<String, dynamic> cluster) {
+    switch (action) {
+      case 'disable':
+        _showDisableConfirmation(index, cluster);
+        break;
+      case 'delete':
+        _showDeleteConfirmation(index, cluster);
+        break;
+    }
+  }
+
+// Show disable confirmation modal
+  void _showDisableConfirmation(int index, Map<String, dynamic> cluster) {
+    showCustomModal(
+      context,
+      modalHeight: 280.h,
+      child: Padding(
+        padding: 20.padH,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header with icon and title
+            Row(
+              children: [
+                Icon(
+                  PhosphorIconsBold.pauseCircle,
+                  color: Colors.orange,
+                  size: 24.h,
+                ),
+                12.sbW,
+                "Disable Account".txt(
+                  size: 18.sp,
+                  fontW: F.w6,
+                ),
+              ],
+            ),
+
+            20.sbH,
+
+            // Content
+            "Are you sure you want to disable ${cluster['name']}?".txt(
+              size: 14.sp,
+              color: Palette.blackColor,
+              fontW: F.w6,
+            ),
+            12.sbH,
+            "This account will be hidden from your main view but can be reactivated later."
+                .txt(
+              size: 12.sp,
+              color: Palette.greyColor,
+            ),
+
+            const Spacer(),
+
+            // Action buttons
+            Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    color: Palette.greyFill,
+                    textColor: Palette.blackColor,
+                    text: "Cancel",
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                ),
+                15.sbW,
+                Expanded(
+                  child: AppButton(
+                    color: Colors.orange,
+                    text: "Disable",
+                    onTap: () {
+                      _disableCluster(index);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            20.sbH,
+          ],
+        ),
+      ),
+    );
+  }
+
+// Show delete confirmation modal
+  void _showDeleteConfirmation(int index, Map<String, dynamic> cluster) {
+    showCustomModal(
+      context,
+      modalHeight: 380.h,
+      child: Padding(
+        padding: 20.padH,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header with icon and title
+            Row(
+              children: [
+                Icon(
+                  PhosphorIconsBold.trash,
+                  color: Colors.red,
+                  size: 24.h,
+                ),
+                12.sbW,
+                "Delete Account".txt(
+                  size: 18.sp,
+                  fontW: F.w6,
+                ),
+              ],
+            ),
+
+            20.sbH,
+
+            // Content
+            "Are you sure you want to permanently delete ${cluster['name']}?"
+                .txt(
+              size: 14.sp,
+              color: Palette.blackColor,
+              fontW: F.w6,
+            ),
+            12.sbH,
+            "⚠️ This action cannot be undone. All transaction history for this account will be permanently lost."
+                .txt(
+              size: 12.sp,
+              color: Colors.red,
+            ),
+
+            16.sbH,
+
+            // Warning box
+            Container(
+              padding: 12.0.padA,
+              decoration: BoxDecoration(
+                color: Colors.red.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(
+                  color: Colors.red.withOpacity(0.3),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    PhosphorIconsBold.warning,
+                    color: Colors.red,
+                    size: 16.h,
+                  ),
+                  8.sbW,
+                  Expanded(
+                    child:
+                        "Balance: ${currencyFormat.format(cluster['balance'] as double)} will be lost"
+                            .txt(
+                      size: 12.sp,
+                      color: Colors.red,
+                      fontW: F.w5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const Spacer(),
+
+            // Action buttons
+            Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    color: Palette.greyFill,
+                    textColor: Palette.blackColor,
+                    text: "Cancel",
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                ),
+                15.sbW,
+                Expanded(
+                  child: AppButton(
+                    color: Colors.red,
+                    text: "Delete Permanently",
+                    fontSize: 11.sp,
+                    onTap: () {
+                      _deleteCluster(index);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            20.sbH,
+          ],
+        ),
+      ),
+    );
+  }
+
+// Method to disable a cluster
+  void _disableCluster(int index) {
+    setState(() {
+      clusters[index]['isActive'] = false;
+    });
+
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: "Account disabled successfully".txt(color: Colors.white),
+        backgroundColor: Colors.orange,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+      ),
+    );
+  }
+
+// Method to delete a cluster
+  void _deleteCluster(int index) {
+    final clusterName = clusters[index]['name'] as String;
+
+    setState(() {
+      clusters.removeAt(index);
+    });
+
+    // If the deleted cluster was the current selected one, switch to the first available
+    if (widget.currentCluster == clusterName && clusters.isNotEmpty) {
+      final newCluster = clusters.firstWhere(
+        (cluster) => cluster['isActive'] as bool,
+        orElse: () => clusters.first,
+      );
+      widget.onClusterSelected(newCluster['name'] as String);
+    }
+
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: "Account deleted successfully".txt(color: Colors.white),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+      ),
     );
   }
 
