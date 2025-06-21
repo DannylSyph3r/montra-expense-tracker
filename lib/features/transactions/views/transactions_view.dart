@@ -146,7 +146,7 @@ class _TransactionsViewState extends State<TransactionsView>
                 titleCentered: true,
                 isTitleAWidget: false,
                 title: "Transactions",
-                titleFontSize: 20.sp,
+                titleFontSize: 18.sp,
                 titleFontWeight: FontWeight.w300,
                 actions: [
                   Padding(

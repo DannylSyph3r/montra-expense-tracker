@@ -73,7 +73,7 @@ class _FinanceViewState extends State<FinanceView>
                 titleCentered: true,
                 isTitleAWidget: false,
                 title: "Finances",
-                titleFontSize: 20.sp,
+                titleFontSize: 18.sp,
                 titleFontWeight: FontWeight.w300,
                 sliverBottom: AppBar(
                   centerTitle: true,

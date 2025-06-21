@@ -35,10 +35,12 @@ class ProfileView extends StatelessWidget {
                 Column(
                   children: [
                     30.sbH,
-                    RowRailer(
-                      middle: "Profile"
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        "Profile"
                           .txt18(color: Palette.whiteColor, fontW: F.w6),
-                      rowPadding: 15.padH,
+                      ]
                     ),
                     50.sbH,
 

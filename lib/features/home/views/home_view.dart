@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:expense_tracker_app/features/home/views/cluster_selector_modal.dart';
+import 'package:expense_tracker_app/features/home/views/cluster_selection_view.dart';
 import 'package:expense_tracker_app/features/notifcations/views/notifications_view.dart';
 import 'package:expense_tracker_app/utils/widgets/curved_painter.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
@@ -56,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 Column(
                   children: [
-                    35.sbH,
+                    40.sbH,
                     // Cluster Selector with tap functionality
                     ValueListenableBuilder<String>(
                       valueListenable: _currentCluster,
@@ -74,18 +74,16 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ],
                         ).tap(onTap: () {
-                          showClusterSelectorModal(
-                            context,
-                            currentCluster: currentCluster,
+                          goTo(context: context, view: ClusterSelectionView(
+                            currentCluster: currentCluster, 
                             onClusterSelected: (String selectedCluster) {
                               _currentCluster.value = selectedCluster;
-                              // Here you can also update the balance and other cluster-specific data
-                            },
-                          );
+                              // Update all other cluster related data here
+                           },));
                         });
                       },
                     ),
-                    40.sbH,
+                    35.sbH,
                     RowRailer(
                       leading: Column(
                         children: [
