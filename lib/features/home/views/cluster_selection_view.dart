@@ -408,90 +408,99 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
           16.sbH,
 
           ...clusters.asMap().entries.map((entry) {
-            int index = entry.key;
-            Map<String, dynamic> cluster = entry.value;
+            final index = entry.key;
+            final cluster = entry.value;
+            final isActive = cluster['isActive'] as bool;
+
             return Container(
-              margin: EdgeInsets.only(bottom: 12.h),
-              padding: 16.0.padA,
-              decoration: BoxDecoration(
-                color: Palette.whiteColor,
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(
-                  color: (cluster['color'] as Color).withOpacity(0.2),
+                margin: EdgeInsets.only(bottom: 12.h),
+                padding: 16.0.padA,
+                decoration: BoxDecoration(
+                  color: Palette.whiteColor,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(
+                    color: isActive
+                        ? (cluster['color'] as Color).withOpacity(0.3)
+                        : Palette.greyColor.withOpacity(0.2),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Palette.blackColor.withOpacity(0.05),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    height: 45.h,
-                    width: 45.h,
-                    decoration: BoxDecoration(
-                      color: (cluster['color'] as Color).withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Icon(
-                      cluster['icon'] as IconData,
-                      color: cluster['color'] as Color,
-                      size: 22.h,
-                    ),
-                  ),
-                  15.sbW,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                child: Opacity(
+                  opacity: cluster['isActive']
+                      ? 1.0
+                      : 0.5, // Add this line for greyed out effect
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 40.h,
+                        width: 40.h,
+                        decoration: BoxDecoration(
+                          color: (cluster['color'] as Color).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Icon(
+                          cluster['icon'] as IconData,
+                          color: cluster['color'] as Color,
+                          size: 20.h,
+                        ),
+                      ),
+                      15.sbW,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: (cluster['name'] as String)
-                                  .txt(size: 13.sp, fontW: F.w6),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: (cluster['name'] as String)
+                                      .txt(size: 13.sp, fontW: F.w6),
+                                ),
+                              ],
+                            ),
+                            5.sbH,
+                            Row(
+                              children: [
+                                currencyFormat.format(cluster['balance']).txt12(
+                                      color: Palette.greyColor,
+                                    ),
+                                5.sbW,
+                                if (!(cluster['isActive'] as bool))
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.w, vertical: 2.h),
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange.withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                    child: "Inactive".txt(
+                                      size: 10.sp,
+                                      color: Colors.orange,
+                                      fontW: F.w6,
+                                    ),
+                                  ),
+                              ],
                             ),
                           ],
                         ),
-                        5.sbH,
-                        Row(
-                          children: [
-                            currencyFormat.format(cluster['balance']).txt12(
-                                  color: Palette.greyColor,
-                                ),
-                            5.sbW,
-                            if (!(cluster['isActive'] as bool))
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 2.h),
-                                decoration: BoxDecoration(
-                                  color: Colors.orange.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(12.r),
-                                ),
-                                child: "Inactive".txt(
-                                  size: 10.sp,
-                                  color: Colors.orange,
-                                  fontW: F.w6,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                      "${((cluster['balance'] as double) / _getTotalBalance() * 100).toStringAsFixed(1)}%"
+                          .txt12(
+                        color: Palette.greyColor,
+                        fontW: F.w6,
+                      ),
+                    ],
                   ),
-                  "${((cluster['balance'] as double) / _getTotalBalance() * 100).toStringAsFixed(1)}%"
-                      .txt12(
-                    color: Palette.greyColor,
-                    fontW: F.w6,
-                  ),
-                ],
-              ),
-            )
-                .animate(delay: Duration(milliseconds: 100 * index))
-                .fadeIn(duration: 300.ms);
+                )
+                    .animate(delay: Duration(milliseconds: 100 * index))
+                    .fadeIn(duration: 300.ms));
           }).toList(),
+          50.sbH
         ],
       ),
     );
@@ -565,57 +574,46 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
   Widget _buildClusterCard(
       Map<String, dynamic> cluster, int index, bool isSelected, bool isActive) {
     return Container(
-      padding: 20.0.padA,
+      padding: 16.0.padA,
       decoration: BoxDecoration(
         color: isSelected
-            ? Palette.montraPurple.withOpacity(0.08)
-            : isActive
-                ? Palette.whiteColor
-                : Palette.greyFill.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(16.r),
-        border: isSelected
-            ? Border.all(color: Palette.montraPurple, width: 2)
-            : Border.all(color: Palette.greyColor.withOpacity(0.15)),
+            ? Palette.montraPurple.withOpacity(0.05)
+            : Palette.whiteColor,
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(
+          color: isSelected
+              ? Palette.montraPurple.withOpacity(0.5)
+              : Palette.greyColor.withOpacity(0.2),
+          width: isSelected ? 2 : 1,
+        ),
         boxShadow: [
           BoxShadow(
-            color: isSelected
-                ? Palette.montraPurple.withOpacity(0.15)
-                : Colors.black.withOpacity(0.05),
+            color: Palette.blackColor.withOpacity(0.05),
             blurRadius: 8,
-            offset: const Offset(0, 3),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         children: [
+          // Header Row
           Row(
             children: [
-              // Account Icon
+              // Icon
               Container(
-                height: 55.h,
-                width: 55.h,
+                height: 40.h,
+                width: 40.h,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      (cluster['color'] as Color),
-                      (cluster['color'] as Color).withOpacity(0.7),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(14.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: (cluster['color'] as Color).withOpacity(0.3),
-                      blurRadius: 6,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
+                  color: isActive
+                      ? (cluster['color'] as Color).withOpacity(0.1)
+                      : Palette.greyColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Icon(
                   cluster['icon'] as IconData,
-                  size: 26.h,
-                  color: Palette.whiteColor,
+                  color:
+                      isActive ? cluster['color'] as Color : Palette.greyColor,
+                  size: 20.h,
                 ),
               ),
               16.sbW,
@@ -630,20 +628,20 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                         Expanded(
                           child: (cluster['name'] as String).txt16(
                             fontW: F.w6,
-                            color: isSelected
-                                ? Palette.montraPurple
-                                : isActive
-                                    ? Palette.blackColor
-                                    : Palette.greyColor,
+                            color: isActive
+                                ? (isSelected
+                                    ? Palette.montraPurple
+                                    : Palette.blackColor)
+                                : Palette.greyColor,
                           ),
                         ),
-                        if (!isActive)
+                        if (!(cluster['isActive'] as bool))
                           Container(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 8.w, vertical: 3.h),
+                                horizontal: 8.w, vertical: 2.h),
                             decoration: BoxDecoration(
                               color: Colors.orange.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(16.r),
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: "Inactive".txt(
                               size: 10.sp,
@@ -653,13 +651,14 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                           ),
                       ],
                     ),
-                    6.sbH,
+                    4.sbH,
                     (cluster['type'] as String).txt12(
                       color: Palette.greyColor,
-                      fontW: F.w5,
+                      fontW: F.w4,
                     ),
                     6.sbH,
-                    currencyFormat.format(cluster['balance'] as double).txt18(
+                    currencyFormat.format(cluster['balance']).txt(
+                          size: 16.sp,
                           color: isActive
                               ? isSelected
                                   ? Palette.montraPurple
@@ -727,7 +726,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
             padding: 14.0.padA,
             decoration: BoxDecoration(
               color: isSelected
-                  ? Palette.montraPurple.withOpacity(0.05)
+                  ? Palette.montraPurple.withOpacity(0.1)
                   : isActive
                       ? Palette.greyFill.withOpacity(0.3)
                       : Palette.greyFill.withOpacity(0.6),
@@ -736,35 +735,16 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          PhosphorIconsBold.bank,
-                          size: 14.h,
-                          color: Palette.greyColor,
-                        ),
-                        6.sbW,
-                        (cluster['bank'] as String).txt12(
-                          color: Palette.greyColor,
-                          fontW: F.w5,
-                        ),
-                      ],
+                    Icon(
+                      PhosphorIconsBold.bank,
+                      size: 14.h,
+                      color: Palette.greyColor,
                     ),
-                    Row(
-                      children: [
-                        Icon(
-                          PhosphorIconsBold.clock,
-                          size: 14.h,
-                          color: Palette.greyColor,
-                        ),
-                        6.sbW,
-                        (cluster['lastTransaction'] as String).txt12(
-                          color: Palette.greyColor,
-                          fontW: F.w5,
-                        ),
-                      ],
+                    6.sbW,
+                    (cluster['bank'] as String).txt12(
+                      color: Palette.greyColor,
+                      fontW: F.w5,
                     ),
                   ],
                 ),
@@ -777,7 +757,22 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                       color: Palette.greyColor,
                     ),
                     6.sbW,
-                    "Account: ${cluster['accountNumber']}".txt12(
+                    "${cluster['accountNumber']}".txt12(
+                      color: Palette.greyColor,
+                      fontW: F.w5,
+                    ),
+                  ],
+                ),
+                10.sbH,
+                Row(
+                  children: [
+                    Icon(
+                      PhosphorIconsBold.clock,
+                      size: 14.h,
+                      color: Palette.greyColor,
+                    ),
+                    6.sbW,
+                    (cluster['lastTransaction'] as String).txt12(
                       color: Palette.greyColor,
                       fontW: F.w5,
                     ),

@@ -123,7 +123,7 @@ class _HomeViewState extends State<HomeView> {
                         builder: (context, unreadCount, child) {
                           return badges.Badge(
                             position:
-                                badges.BadgePosition.topEnd(top: -8, end: -8),
+                                badges.BadgePosition.topEnd(top: -5, end: -5),
                             showBadge: unreadCount > 0,
                             ignorePointer: false,
                             badgeContent: unreadCount > 9
@@ -155,8 +155,8 @@ class _HomeViewState extends State<HomeView> {
                               elevation: 2,
                             ),
                             child: Container(
-                              height: 33.h,
-                              width: 33.h,
+                              height: 35.h,
+                              width: 35.h,
                               decoration: BoxDecoration(
                                 color: Palette.greyFill.withOpacity(0.3),
                                 borderRadius:
