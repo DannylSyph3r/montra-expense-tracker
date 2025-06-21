@@ -27,12 +27,12 @@ class ClusterSelectionView extends StatefulWidget {
   State<ClusterSelectionView> createState() => _ClusterSelectionViewState();
 }
 
-class _ClusterSelectionViewState extends State<ClusterSelectionView> 
+class _ClusterSelectionViewState extends State<ClusterSelectionView>
     with TickerProviderStateMixin {
   final currencyFormat = NumberFormat.currency(symbol: 'N ', locale: 'en_NG');
   late TabController _tabController;
   final ValueNotifier<int> _currentTabNotifier = ValueNotifier<int>(0);
-  
+
   final List<Map<String, dynamic>> clusters = [
     {
       'name': 'Ryker Wallet',
@@ -167,7 +167,8 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                     height: 45.h,
                     width: 45.h,
                     decoration: BoxDecoration(
-                      color: (clusters[index]['color'] as Color).withOpacity(0.15),
+                      color:
+                          (clusters[index]['color'] as Color).withOpacity(0.15),
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Icon(
@@ -188,9 +189,9 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                         ),
                         4.sbH,
                         currencyFormat.format(clusters[index]['balance']).txt14(
-                          color: Palette.blackColor,
-                          fontW: F.w6,
-                        ),
+                              color: Palette.blackColor,
+                              fontW: F.w6,
+                            ),
                       ],
                     ),
                   ),
@@ -319,7 +320,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           20.sbH,
-          
+
           // Total Balance Card
           Container(
             width: double.infinity,
@@ -361,54 +362,51 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                 ),
                 12.sbH,
                 currencyFormat.format(_getTotalActiveBalance()).txt(
-                  size: 32.sp,
-                  color: Palette.whiteColor,
-                  fontW: F.w7,
-                ),
+                      size: 32.sp,
+                      color: Palette.whiteColor,
+                      fontW: F.w7,
+                    ),
               ],
             ),
-          ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.3),
-          
+          ),
+
           24.sbH,
-          
+
           // Stats Grid - All three cards in one row
           Row(
             children: [
               Expanded(
-                child: _buildStatCard(
-                  "Active Accounts",
-                  "${_getActiveAccountsCount()}",
-                  PhosphorIconsBold.checkCircle,
-                  Colors.green,
-                ).animate().fadeIn(delay: 100.ms, duration: 300.ms),
-              ),
+                  child: _buildStatCard(
+                "Active Accounts",
+                "${_getActiveAccountsCount()}",
+                PhosphorIconsBold.checkCircle,
+                Colors.green,
+              )),
               12.sbW,
               Expanded(
-                child: _buildStatCard(
-                  "Inactive Accounts",
-                  "${_getInactiveAccountsCount()}",
-                  PhosphorIconsBold.pauseCircle,
-                  Colors.orange,
-                ).animate().fadeIn(delay: 200.ms, duration: 300.ms),
-              ),
+                  child: _buildStatCard(
+                "Inactive Accounts",
+                "${_getInactiveAccountsCount()}",
+                PhosphorIconsBold.pauseCircle,
+                Colors.orange,
+              )),
               12.sbW,
               Expanded(
-                child: _buildStatCard(
-                  "Total Accounts",
-                  "${clusters.length}",
-                  PhosphorIconsBold.stack,
-                  Palette.montraPurple,
-                ).animate().fadeIn(delay: 300.ms, duration: 300.ms),
-              ),
+                  child: _buildStatCard(
+                "Total Accounts",
+                "${clusters.length}",
+                PhosphorIconsBold.stack,
+                Palette.montraPurple,
+              )),
             ],
           ),
-          
+
           24.sbH,
-          
+
           // Account Breakdown
           "Account Breakdown".txt18(fontW: F.w6),
           16.sbH,
-          
+
           ...clusters.asMap().entries.map((entry) {
             int index = entry.key;
             Map<String, dynamic> cluster = entry.value;
@@ -452,8 +450,18 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                         Row(
                           children: [
                             Expanded(
-                              child: (cluster['name'] as String).txt14(fontW: F.w6),
+                              child: (cluster['name'] as String)
+                                  .txt(size: 13.sp, fontW: F.w6),
                             ),
+                          ],
+                        ),
+                        5.sbH,
+                        Row(
+                          children: [
+                            currencyFormat.format(cluster['balance']).txt12(
+                                  color: Palette.greyColor,
+                                ),
+                            5.sbW,
                             if (!(cluster['isActive'] as bool))
                               Container(
                                 padding: EdgeInsets.symmetric(
@@ -470,20 +478,19 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                               ),
                           ],
                         ),
-                        4.sbH,
-                        currencyFormat.format(cluster['balance']).txt12(
-                          color: Palette.greyColor,
-                        ),
                       ],
                     ),
                   ),
-                  "${((cluster['balance'] as double) / _getTotalBalance() * 100).toStringAsFixed(1)}%".txt12(
+                  "${((cluster['balance'] as double) / _getTotalBalance() * 100).toStringAsFixed(1)}%"
+                      .txt12(
                     color: Palette.greyColor,
                     fontW: F.w6,
                   ),
                 ],
               ),
-            ).animate(delay: Duration(milliseconds: 100 * index)).fadeIn(duration: 300.ms);
+            )
+                .animate(delay: Duration(milliseconds: 100 * index))
+                .fadeIn(duration: 300.ms);
           }).toList(),
         ],
       ),
@@ -508,7 +515,8 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
     );
   }
 
-  Widget _buildStatCard(String label, String value, IconData icon, Color color) {
+  Widget _buildStatCard(
+      String label, String value, IconData icon, Color color) {
     return Container(
       padding: 14.0.padA,
       decoration: BoxDecoration(
@@ -554,13 +562,14 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
     );
   }
 
-  Widget _buildClusterCard(Map<String, dynamic> cluster, int index, bool isSelected, bool isActive) {
+  Widget _buildClusterCard(
+      Map<String, dynamic> cluster, int index, bool isSelected, bool isActive) {
     return Container(
       padding: 20.0.padA,
       decoration: BoxDecoration(
         color: isSelected
             ? Palette.montraPurple.withOpacity(0.08)
-            : isActive 
+            : isActive
                 ? Palette.whiteColor
                 : Palette.greyFill.withOpacity(0.5),
         borderRadius: BorderRadius.circular(16.r),
@@ -569,7 +578,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
             : Border.all(color: Palette.greyColor.withOpacity(0.15)),
         boxShadow: [
           BoxShadow(
-            color: isSelected 
+            color: isSelected
                 ? Palette.montraPurple.withOpacity(0.15)
                 : Colors.black.withOpacity(0.05),
             blurRadius: 8,
@@ -650,16 +659,14 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                       fontW: F.w5,
                     ),
                     6.sbH,
-                    currencyFormat
-                        .format(cluster['balance'] as double)
-                        .txt18(
-                      color: isActive
-                          ? isSelected
-                              ? Palette.montraPurple
-                              : Palette.blackColor
-                          : Palette.greyColor,
-                      fontW: F.w7,
-                    ),
+                    currencyFormat.format(cluster['balance'] as double).txt18(
+                          color: isActive
+                              ? isSelected
+                                  ? Palette.montraPurple
+                                  : Palette.blackColor
+                              : Palette.greyColor,
+                          fontW: F.w7,
+                        ),
                   ],
                 ),
               ),
@@ -713,7 +720,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
               ),
             ],
           ),
-          
+
           // Account Details
           14.sbH,
           Container(
@@ -798,8 +805,8 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
   }
 
   double _getTotalBalance() {
-    return clusters
-        .fold(0.0, (sum, cluster) => sum + (cluster['balance'] as double));
+    return clusters.fold(
+        0.0, (sum, cluster) => sum + (cluster['balance'] as double));
   }
 
   int _getActiveAccountsCount() {

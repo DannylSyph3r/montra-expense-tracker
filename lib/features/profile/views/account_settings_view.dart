@@ -282,57 +282,6 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
     );
   }
 
-  void _showEditPhoneModal() {
-    final TextEditingController phoneController = TextEditingController(text: "+234 (0) 123 456 7890");
-    
-    showCustomModal(
-      context,
-      modalHeight: 250.h,
-      child: Padding(
-        padding: 20.padH,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            "Edit Phone Number".txt16(fontW: F.w6),
-            20.sbH,
-            TextInputWidget(
-              controller: phoneController,
-              hintText: "Phone Number",
-              keyboardType: TextInputType.phone,
-            ),
-            20.sbH,
-            Row(
-              children: [
-                Expanded(
-                  child: AppButton(
-                    color: Palette.greyFill,
-                    textColor: Palette.blackColor,
-                    text: "Cancel",
-                    onTap: () => Navigator.pop(context),
-                  ),
-                ),
-                15.sbW,
-                Expanded(
-                  child: AppButton(
-                    text: "Save",
-                    onTap: () {
-                      Navigator.pop(context);
-                      showBanner(
-                        context: context,
-                        theMessage: "Phone number updated successfully",
-                        theType: NotificationType.success,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   void _showAccountTypeInfo() {
     showCustomModal(
       context,

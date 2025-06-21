@@ -8,7 +8,6 @@ import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_constants.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
-import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
