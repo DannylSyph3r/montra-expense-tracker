@@ -219,52 +219,12 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  "Base Amount".txt14(
+                                  "Transaction Amount".txt14(
                                       color: Palette.greyColor, fontW: F.w6),
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       "N5,555,000.00".txt(
-                                        size: 14.sp,
-                                        fontW: F.w8,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              10.sbH,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  "Transaction Fee".txt14(
-                                      color: Palette.greyColor, fontW: F.w6),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      "N555.00".txt(
-                                        size: 14.sp,
-                                        fontW: F.w8,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              10.sbH,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  "Total".txt14(
-                                      color: Palette.greyColor, fontW: F.w6),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      "N5,555,555.00".txt(
                                         size: 14.sp,
                                         fontW: F.w8,
                                         maxLines: 1,

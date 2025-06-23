@@ -281,7 +281,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                         );
                                       },
                                       isTextFieldEnabled: false,
-                                      hintText: "Type",
+                                      hintText: " Transaction Type",
                                       hintTextSize: 14.sp,
                                       inputtedTextSize: 14.sp,
                                       prefix: Padding(
@@ -423,7 +423,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                               : null,
                                           isTextFieldEnabled: false,
                                           hintText: selectedType == null
-                                              ? "Select transaction type first"
+                                              ? "Select transaction type"
                                               : "Category",
                                           hintTextSize: 14.sp,
                                           inputtedTextSize: 14.sp,
