@@ -1,5 +1,4 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:expense_tracker_app/shared/txn_defs.dart';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
@@ -41,14 +40,87 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   final ValueNotifier<DateTime> _selectedDateNotifier =
       ValueNotifier<DateTime>(DateTime.now());
 
+  // Generate transaction type options directly from enum
+  List<Map<String, dynamic>> get transactionTypeOptions => [
+        {
+          'icon': PhosphorIconsFill.coins,
+          'label': 'Income',
+          'type': TransactionType.income
+        },
+        {
+          'icon': PhosphorIconsFill.signOut,
+          'label': 'Expense',
+          'type': TransactionType.expense
+        },
+      ];
+
+  // Convert TransactionCategory enum to expected format
+  List<Map<String, dynamic>> _getFilteredCategories() {
+    final selectedType = _selectedTransactionTypeNotifer.value;
+
+    if (selectedType == null) {
+      return [];
+    }
+
+    List<TransactionCategory> categories =
+        selectedType == TransactionType.income
+            ? TransactionCategory.getIncomeCategories()
+            : TransactionCategory.getExpenseCategories();
+
+    return categories
+        .map((category) => {
+              'name': category.label,
+              'icon': category.icon,
+              'color': category.color,
+              'category': category,
+            })
+        .toList();
+  }
+
+  void _onTransactionTypeChanged() {
+    if (_transactionCategoryController.text.isNotEmpty) {
+      final selectedType = _selectedTransactionTypeNotifer.value;
+      if (selectedType != null) {
+        final validCategories = _getFilteredCategories();
+        final currentCategoryName = _transactionCategoryController.text;
+        final isValidCategory =
+            validCategories.any((cat) => cat['name'] == currentCategoryName);
+
+        if (!isValidCategory) {
+          _transactionCategoryController.clear();
+        }
+      }
+    }
+  }
+
+  void _onInvoiceScan() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => DocPickerModalBottomSheet(
+        headerText: "Attach an Invoice",
+        descriptionText:
+            "Take a photo of your invoice. Select images from your gallery",
+        onTakeDocPicture: () {
+          goBack(context);
+          // TODO: Add receipt scanning logic here
+          // This will eventually process the image and navigate to add transaction with pre-filled data
+        },
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     _transactionAmountController.addListener(_updateBalance);
+
+    // Clear category when transaction type changes if it's not valid
+    _selectedTransactionTypeNotifer.addListener(_onTransactionTypeChanged);
   }
 
   @override
   void dispose() {
+    _selectedTransactionTypeNotifer.removeListener(_onTransactionTypeChanged);
     _transactionTypeController.dispose();
     _transactionCategoryController.dispose();
     _transactionAmountController.dispose();
@@ -171,38 +243,42 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                     // Transaction Type Selection
                                     TextInputWidget(
                                       onTap: () {
-                                        showCustomModal(context,
-                                            modalHeight: 180.h,
-                                            child: ListView.builder(
-                                              padding: 15.padH,
-                                              shrinkWrap: true,
-                                              itemCount: transactionType.length,
-                                              itemBuilder: (context, index) {
-                                                return OptionSelectionListTile(
-                                                  leadingIcon:
-                                                      transactionType[index]
-                                                          ['icon'] as IconData,
-                                                  interactiveTrailing: false,
-                                                  titleFontSize: 15.sp,
-                                                  titleLabel:
-                                                      transactionType[index]
-                                                          ['label'] as String,
-                                                  onTileTap: () {
-                                                    _selectedTransactionTypeNotifer
-                                                            .value =
-                                                        transactionType[index]
-                                                                ['type']
-                                                            as TransactionType;
-                                                    _transactionTypeController
-                                                            .text =
-                                                        transactionType[index]
-                                                            ['label'];
-
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                );
-                                              },
-                                            ));
+                                        showCustomModal(
+                                          context,
+                                          modalHeight: 180.h,
+                                          child: ListView.builder(
+                                            padding: 15.padH,
+                                            shrinkWrap: true,
+                                            itemCount:
+                                                transactionTypeOptions.length,
+                                            itemBuilder: (context, index) {
+                                              return OptionSelectionListTile(
+                                                leadingIcon:
+                                                    transactionTypeOptions[
+                                                            index]['icon']
+                                                        as IconData,
+                                                interactiveTrailing: false,
+                                                titleFontSize: 15.sp,
+                                                titleLabel:
+                                                    transactionTypeOptions[
+                                                            index]['label']
+                                                        as String,
+                                                onTileTap: () {
+                                                  _selectedTransactionTypeNotifer
+                                                          .value =
+                                                      transactionTypeOptions[
+                                                              index]['type']
+                                                          as TransactionType;
+                                                  _transactionTypeController
+                                                          .text =
+                                                      transactionTypeOptions[
+                                                          index]['label'];
+                                                  Navigator.of(context).pop();
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        );
                                       },
                                       isTextFieldEnabled: false,
                                       hintText: "Type",
@@ -215,92 +291,178 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                           height: 26.h,
                                           width: 26.h,
                                           child: Center(
-                                              child: Padding(
-                                                  padding: 4.0.padH,
-                                                  child: Icon(
-                                                    PhosphorIconsFill.money,
-                                                    color: Palette.greyColor,
-                                                    size: 20.h,
-                                                  ))),
+                                            child: Padding(
+                                              padding: 4.0.padH,
+                                              child: Icon(
+                                                PhosphorIconsFill.money,
+                                                color: Palette.greyColor,
+                                                size: 20.h,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       controller: _transactionTypeController,
                                       suffixIcon: Padding(
                                         padding: 15.padH,
                                         child: Icon(
-                                            PhosphorIconsRegular.caretDown,
-                                            size: 20.h,
-                                            color: Palette.textFieldGrey),
+                                          PhosphorIconsRegular.caretDown,
+                                          size: 20.h,
+                                          color: Palette.textFieldGrey,
+                                        ),
                                       ),
                                     ),
                                     10.sbH,
 
-                                    // Category Selection
-                                    TextInputWidget(
-                                      onTap: () {
-                                        showCustomModal(context,
-                                            modalHeight: 730.h,
-                                            child: ListView.builder(
-                                              padding: 15.padH,
-                                              shrinkWrap: true,
-                                              itemCount:
-                                                  transactionCategories.length,
-                                              itemBuilder: (context, index) {
-                                                return OptionSelectionListTile(
-                                                  leadingIconColor:
-                                                      transactionCategories[
-                                                              index]['color']
-                                                          as Color,
-                                                  leadingIcon:
-                                                      transactionCategories[
-                                                              index]['icon']
-                                                          as IconData,
-                                                  interactiveTrailing: false,
-                                                  titleFontSize: 15.sp,
-                                                  titleLabel:
-                                                      transactionCategories[
-                                                              index]['name']
-                                                          as String,
-                                                  onTileTap: () {
-                                                    _transactionCategoryController
-                                                            .text =
-                                                        transactionCategories[
-                                                            index]['name'];
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                );
-                                              },
-                                            ));
-                                      },
-                                      isTextFieldEnabled: false,
-                                      hintText: "Category",
-                                      hintTextSize: 14.sp,
-                                      inputtedTextSize: 14.sp,
-                                      prefix: Padding(
-                                        padding: 12.5.padA,
-                                        child: Container(
-                                          decoration: const BoxDecoration(),
-                                          height: 26.h,
-                                          width: 26.h,
-                                          child: Center(
-                                              child: Padding(
+                                    // Category Selection - Conditional based on transaction type
+                                    ValueListenableBuilder<TransactionType?>(
+                                      valueListenable:
+                                          _selectedTransactionTypeNotifer,
+                                      builder: (context, selectedType, child) {
+                                        final isEnabled = selectedType != null;
+                                        final filteredCategories =
+                                            _getFilteredCategories();
+
+                                        return TextInputWidget(
+                                          onTap: isEnabled
+                                              ? () {
+                                                  // Clear category if it's not valid for the new transaction type
+                                                  if (_transactionCategoryController
+                                                      .text.isNotEmpty) {
+                                                    final currentCategoryName =
+                                                        _transactionCategoryController
+                                                            .text;
+                                                    final isValidCategory =
+                                                        filteredCategories.any(
+                                                            (cat) =>
+                                                                cat['name'] ==
+                                                                currentCategoryName);
+
+                                                    if (!isValidCategory) {
+                                                      _transactionCategoryController
+                                                          .clear();
+                                                    }
+                                                  }
+
+                                                  showCustomModal(
+                                                    context,
+                                                    modalHeight: 730.h,
+                                                    child: Column(
+                                                      children: [
+                                                        // Modal header
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  15.w),
+                                                          child: Text(
+                                                            selectedType ==
+                                                                    TransactionType
+                                                                        .income
+                                                                ? 'Select Income Category'
+                                                                : 'Select Expense Category',
+                                                            style: TextStyle(
+                                                              fontSize: 18.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: Palette
+                                                                  .blackColor,
+                                                            ),
+                                                          ),
+                                                        ),
+
+                                                        // Categories list
+                                                        Expanded(
+                                                          child:
+                                                              ListView.builder(
+                                                            padding: 15.padH,
+                                                            shrinkWrap: true,
+                                                            itemCount:
+                                                                filteredCategories
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return OptionSelectionListTile(
+                                                                leadingIconColor:
+                                                                    filteredCategories[index]
+                                                                            [
+                                                                            'color']
+                                                                        as Color,
+                                                                leadingIcon: filteredCategories[
+                                                                            index]
+                                                                        ['icon']
+                                                                    as IconData,
+                                                                interactiveTrailing:
+                                                                    false,
+                                                                titleFontSize:
+                                                                    15.sp,
+                                                                titleLabel: filteredCategories[
+                                                                            index]
+                                                                        ['name']
+                                                                    as String,
+                                                                onTileTap: () {
+                                                                  _transactionCategoryController
+                                                                          .text =
+                                                                      filteredCategories[
+                                                                              index]
+                                                                          [
+                                                                          'name'];
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }
+                                              : null,
+                                          isTextFieldEnabled: false,
+                                          hintText: selectedType == null
+                                              ? "Select transaction type first"
+                                              : "Category",
+                                          hintTextSize: 14.sp,
+                                          inputtedTextSize: 14.sp,
+                                          prefix: Padding(
+                                            padding: 12.5.padA,
+                                            child: Container(
+                                              decoration: const BoxDecoration(),
+                                              height: 26.h,
+                                              width: 26.h,
+                                              child: Center(
+                                                child: Padding(
                                                   padding: 4.0.padH,
                                                   child: Icon(
-                                                    PhosphorIconsBold.list,
-                                                    color: Palette.greyColor,
+                                                    PhosphorIconsFill.tag,
+                                                    color: isEnabled
+                                                        ? Palette.greyColor
+                                                        : Palette.greyColor
+                                                            .withOpacity(0.5),
                                                     size: 20.h,
-                                                  ))),
-                                        ),
-                                      ),
-                                      controller:
-                                          _transactionCategoryController,
-                                      suffixIcon: Padding(
-                                        padding: 15.padH,
-                                        child: Icon(
-                                            PhosphorIconsRegular.caretDown,
-                                            size: 20.h,
-                                            color: Palette.textFieldGrey),
-                                      ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          controller:
+                                              _transactionCategoryController,
+                                          suffixIcon: Padding(
+                                            padding: 15.padH,
+                                            child: Icon(
+                                              PhosphorIconsRegular.caretDown,
+                                              size: 20.h,
+                                              color: isEnabled
+                                                  ? Palette.textFieldGrey
+                                                  : Palette.textFieldGrey
+                                                      .withOpacity(0.5),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                     10.sbH,
 
@@ -316,14 +478,15 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                           height: 26.h,
                                           width: 26.h,
                                           child: Center(
-                                              child: Padding(
-                                                  padding: 4.0.padH,
-                                                  child: Icon(
-                                                    PhosphorIconsBold
-                                                        .currencyNgn,
-                                                    color: Palette.greyColor,
-                                                    size: 20.h,
-                                                  ))),
+                                            child: Padding(
+                                              padding: 4.0.padH,
+                                              child: Icon(
+                                                PhosphorIconsFill.currencyNgn,
+                                                color: Palette.greyColor,
+                                                size: 20.h,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       suffixIcon: Padding(
@@ -358,13 +521,15 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                           height: 26.h,
                                           width: 26.h,
                                           child: Center(
-                                              child: Padding(
-                                                  padding: 4.0.padH,
-                                                  child: Icon(
-                                                    PhosphorIconsFill.article,
-                                                    color: Palette.greyColor,
-                                                    size: 20.h,
-                                                  ))),
+                                            child: Padding(
+                                              padding: 4.0.padH,
+                                              child: Icon(
+                                                PhosphorIconsFill.article,
+                                                color: Palette.greyColor,
+                                                size: 20.h,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                       controller:
@@ -372,97 +537,94 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                     ),
                                     10.sbH,
 
-                                    // Invoice Attachment
-                                    DottedBorder(
-                                      borderType: BorderType.RRect,
-                                      radius: Radius.circular(15.r),
-                                      padding: EdgeInsets.zero,
-                                      color: Palette.greyColor,
-                                      strokeWidth: 1,
-                                      dashPattern: const [5, 5],
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 50.h,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 15.w),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Icon(
-                                              PhosphorIconsFill.plusCircle,
-                                              color: Palette.greyColor,
-                                              size: 20.h,
-                                            ),
-                                            15.sbW,
-                                            Text(
-                                              "Attach Invoice",
-                                              style: TextStyle(fontSize: 14.sp),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ).tap(onTap: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) =>
-                                            DocPickerModalBottomSheet(
-                                          headerText:
-                                              "Invoice Photo",
-                                          descriptionText: AppTexts
-                                              .invoiceAttachementInstructions,
-                                          onTakeDocPicture: () {
-                                            goBack(context);
-                                          },
-                                        ),
-                                      );
-                                    }),
-                                    10.sbH,
-
                                     // Date Selection
                                     ValueListenableBuilder<DateTime>(
                                       valueListenable: _selectedDateNotifier,
                                       builder: (context, selectedDate, _) {
-                                        return Container(
-                                          width: double.infinity,
-                                          height: 50.h,
-                                          padding: 15.padH,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(15.r)),
-                                              border: Border.all(
-                                                  color: Palette.greyColor,
-                                                  width: 1)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Icon(
-                                                PhosphorIconsFill.calendarBlank,
-                                                color: Palette.greyColor,
-                                                size: 20.h,
+                                        return TextInputWidget(
+                                          isTextFieldEnabled: false,
+                                          hintText: "Date",
+                                          hintTextSize: 14.sp,
+                                          inputtedTextSize: 14.sp,
+                                          prefix: Padding(
+                                            padding: 12.5.padA,
+                                            child: Container(
+                                              decoration: const BoxDecoration(),
+                                              height: 26.h,
+                                              width: 26.h,
+                                              child: Center(
+                                                child: Padding(
+                                                  padding: 4.0.padH,
+                                                  child: Icon(
+                                                    PhosphorIconsFill.calendar,
+                                                    color: Palette.greyColor,
+                                                    size: 20.h,
+                                                  ),
+                                                ),
                                               ),
-                                              15.sbW,
-                                              DateFormat('E, dd MMM, yyyy')
-                                                  .format(selectedDate)
-                                                  .txt(size: 14.sp)
-                                            ],
+                                            ),
                                           ),
-                                        ).tap(onTap: () async {
-                                          final DateTime? picked =
-                                              await showDatePicker(
-                                            context: context,
-                                            initialDate: selectedDate,
-                                            firstDate: DateTime(2000),
-                                            lastDate: DateTime(2099),
-                                          );
-                                          if (picked != null &&
-                                              picked != selectedDate) {
-                                            _selectedDateNotifier.value =
-                                                picked;
-                                          }
-                                        });
+                                          controller: TextEditingController(
+                                            text: DateFormat('dd/MM/yyyy')
+                                                .format(selectedDate),
+                                          ),
+                                          onTap: () async {
+                                            DateTime? picked =
+                                                await showDatePicker(
+                                              context: context,
+                                              initialDate: selectedDate,
+                                              firstDate: DateTime(2000),
+                                              lastDate: DateTime(2099),
+                                            );
+                                            if (picked != null &&
+                                                picked != selectedDate) {
+                                              _selectedDateNotifier.value =
+                                                  picked;
+                                            }
+                                          },
+                                        );
                                       },
+                                    ),
+                                    10.sbH,
+
+                                    // File attachment section
+                                    DottedBorder(
+                                      borderType: BorderType.RRect,
+                                      radius: Radius.circular(12.r),
+                                      dashPattern: const [8, 4],
+                                      color: Palette.greyColor.withOpacity(0.4),
+                                      strokeWidth: 1.5,
+                                      child: Container(
+                                        width: double.infinity,
+                                        padding: 20.0.padA,
+                                        decoration: BoxDecoration(
+                                          color: Palette.greyColor
+                                              .withOpacity(0.05),
+                                          borderRadius:
+                                              BorderRadius.circular(12.r),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              PhosphorIconsFill.paperclip,
+                                              color: Palette.greyColor,
+                                              size: 32.h,
+                                            ),
+                                            8.sbH,
+                                            "Attach Invoice".txt14(
+                                              color: Palette.greyColor,
+                                              fontW: F.w5,
+                                            ),
+                                            4.sbH,
+                                            "Optional".txt12(
+                                              color: Palette.greyColor
+                                                  .withOpacity(0.7),
+                                            ),
+                                          ],
+                                        ),
+                                      ).tap(onTap: () {
+                                        _onInvoiceScan();
+                                      }),
                                     ),
                                     30.sbH,
 
@@ -472,7 +634,8 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                       padding: 15.0.padA,
                                       decoration: BoxDecoration(
                                         color: backgroundColor.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(12.r),
+                                        borderRadius:
+                                            BorderRadius.circular(12.r),
                                         border: Border.all(
                                             color: backgroundColor
                                                 .withOpacity(0.3)),
@@ -518,14 +681,15 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                         _transactionDescriptionController,
                                       ]),
                                       builder: (context, child) {
-                                        final isEnabled = _transactionTypeController
-                                                .text.isNotEmpty &&
-                                            _transactionCategoryController
-                                                .text.isNotEmpty &&
-                                            _transactionAmountController
-                                                .text.isNotEmpty &&
-                                            _transactionDescriptionController
-                                                .text.isNotEmpty;
+                                        final isEnabled =
+                                            _transactionTypeController
+                                                    .text.isNotEmpty &&
+                                                _transactionCategoryController
+                                                    .text.isNotEmpty &&
+                                                _transactionAmountController
+                                                    .text.isNotEmpty &&
+                                                _transactionDescriptionController
+                                                    .text.isNotEmpty;
 
                                         return AppButton(
                                           isEnabled: isEnabled,
