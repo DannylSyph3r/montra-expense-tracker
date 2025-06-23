@@ -161,11 +161,12 @@ class _FinanceViewState extends State<FinanceView>
                       color: Palette.whiteColor,
                       size: 24.h,
                     ),
-                  ).animate().fadeIn(duration: 400.ms).slideY(
-                      begin: 1,
-                      end: 0,
-                      duration: 300.ms,
-                      curve: Curves.easeOut),
+                  ),
+                  // .animate().fadeIn(duration: 400.ms).slideY(
+                  //     begin: 1,
+                  //     end: 0,
+                  //     duration: 300.ms,
+                  //     curve: Curves.easeOut),
                   80.sbH
                 ],
               ),
@@ -279,11 +280,12 @@ class _FinanceViewState extends State<FinanceView>
                 LineChartMonthly(
                   transactions: transactions,
                   currencySymbol: 'N',
-                ).animate().fadeIn(duration: 400.ms).slideX(
-                    begin: -0.1,
-                    end: 0,
-                    duration: 300.ms,
-                    curve: Curves.easeOutQuad),
+                ),
+              // .animate().fadeIn(duration: 400.ms).slideX(
+              //     begin: -0.1,
+              //     end: 0,
+              //     duration: 300.ms,
+              //     curve: Curves.easeOutQuad),
 
               // Category Distribution Chart (visible when displayType is 1)
               if (displayType == 1)
@@ -294,11 +296,12 @@ class _FinanceViewState extends State<FinanceView>
                   onCategoryTap: (category, amount) {
                     // Handle category tap
                   },
-                ).animate().fadeIn(duration: 400.ms).slideX(
-                    begin: 0.1,
-                    end: 0,
-                    duration: 300.ms,
-                    curve: Curves.easeOutQuad),
+                ),
+              // .animate().fadeIn(duration: 400.ms).slideX(
+              //     begin: 0.1,
+              //     end: 0,
+              //     duration: 300.ms,
+              //     curve: Curves.easeOutQuad),
             ],
           );
         }),
@@ -351,10 +354,10 @@ class _FinanceViewState extends State<FinanceView>
                 onMoreTap: () {
                   _showBudgetOptions(activeBudgets[index]);
                 },
-              )
-                  .animate(delay: Duration(milliseconds: index * 100))
-                  .fadeIn(duration: 400.ms)
-                  .slideX(begin: 0.2, end: 0, duration: 400.ms);
+              );
+              // .animate(delay: Duration(milliseconds: index * 100))
+              // .fadeIn(duration: 400.ms)
+              // .slideX(begin: 0.2, end: 0, duration: 400.ms);
             },
             separatorBuilder: (context, index) => 12.sbH,
           ),

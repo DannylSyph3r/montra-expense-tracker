@@ -28,25 +28,12 @@ class _NewAccountViewState extends State<NewAccountView> {
   final TextEditingController _clusterNameController = TextEditingController();
   final TextEditingController _clusterStartingAmountController =
       TextEditingController();
-  final TextEditingController _clusterTypeController = TextEditingController();
+  final TextEditingController _bankInstitutionController =
+      TextEditingController();
+  final TextEditingController _accountNumberController =
+      TextEditingController();
 
-  final ValueNotifier<String> _balanceNotifier =
-      ValueNotifier<String>("0.00");
-
-  final List<Map<String, dynamic>> accountTypes = [
-    {
-      'icon': PhosphorIconsFill.bank,
-      'label': 'Bank',
-    },
-    {
-      'icon': PhosphorIconsFill.cardholder,
-      'label': 'Card',
-    },
-    {
-      'icon': PhosphorIconsFill.wallet,
-      'label': 'Fintech Wallet',
-    },
-  ];
+  final ValueNotifier<String> _balanceNotifier = ValueNotifier<String>("0.00");
 
   @override
   void initState() {
@@ -58,7 +45,8 @@ class _NewAccountViewState extends State<NewAccountView> {
   void dispose() {
     _clusterNameController.dispose();
     _clusterStartingAmountController.dispose();
-    _clusterTypeController.dispose();
+    _bankInstitutionController.dispose();
+    _accountNumberController.dispose();
     _balanceNotifier.dispose();
     super.dispose();
   }
@@ -226,38 +214,12 @@ class _NewAccountViewState extends State<NewAccountView> {
                               ),
                               10.sbH,
 
-                              // Account Type Selection
+                              // Bank/Institution Name Input
                               TextInputWidget(
-                                onTap: () {
-                                  showCustomModal(context,
-                                      modalHeight: 230.h,
-                                      child: ListView.builder(
-                                        padding: 15.padH,
-                                        shrinkWrap: true,
-                                        itemCount: accountTypes.length,
-                                        itemBuilder: (context, index) {
-                                          return OptionSelectionListTile(
-                                            leadingIcon: accountTypes[index]
-                                                ['icon'] as IconData,
-                                            interactiveTrailing: false,
-                                            titleFontSize: 15.sp,
-                                            titleLabel: accountTypes[index]
-                                                ['label'] as String,
-                                            onTileTap: () {
-                                              _clusterTypeController.text =
-                                                  accountTypes[index]['label']
-                                                      as String;
-                                              goBack(context);
-                                            },
-                                          );
-                                        },
-                                      ));
-                                },
-                                isTextFieldEnabled: false,
+                                maxLength: 50,
+                                hintText: "Bank/Institution Name",
                                 hintTextSize: 14.sp,
                                 inputtedTextSize: 14.sp,
-                                hintText: AppTexts.clusterAccountType,
-                                controller: _clusterTypeController,
                                 prefix: Padding(
                                   padding: 12.5.padA,
                                   child: Container(
@@ -268,17 +230,43 @@ class _NewAccountViewState extends State<NewAccountView> {
                                         child: Padding(
                                             padding: 4.0.padH,
                                             child: Icon(
-                                              PhosphorIconsBold.list,
+                                              PhosphorIconsFill.bank,
                                               color: Palette.greyColor,
                                               size: 20.h,
                                             ))),
                                   ),
                                 ),
-                                suffixIcon: Padding(
-                                  padding: 15.padH,
-                                  child: Icon(PhosphorIconsRegular.caretDown,
-                                      size: 20.h, color: Palette.textFieldGrey),
+                                controller: _bankInstitutionController,
+                              ),
+                              10.sbH,
+
+                              // Account Number Input
+                              TextInputWidget(
+                                maxLength: 20,
+                                hintText: "Account Number",
+                                hintTextSize: 14.sp,
+                                inputtedTextSize: 14.sp,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                prefix: Padding(
+                                  padding: 12.5.padA,
+                                  child: Container(
+                                    decoration: const BoxDecoration(),
+                                    height: 26.h,
+                                    width: 26.h,
+                                    child: Center(
+                                        child: Padding(
+                                            padding: 4.0.padH,
+                                            child: Icon(
+                                              PhosphorIconsFill.creditCard,
+                                              color: Palette.greyColor,
+                                              size: 20.h,
+                                            ))),
+                                  ),
                                 ),
+                                controller: _accountNumberController,
                               ),
                               30.sbH,
 
@@ -311,7 +299,7 @@ class _NewAccountViewState extends State<NewAccountView> {
                                       ],
                                     ),
                                     8.sbH,
-                                    "This account can be for your bank, credit card or your fintech wallet."
+                                    "Please enter accurate account details."
                                         .txt(
                                             size: 11.sp,
                                             color: Palette.greyColor),
@@ -329,14 +317,17 @@ class _NewAccountViewState extends State<NewAccountView> {
                                 listenable: Listenable.merge([
                                   _clusterNameController,
                                   _clusterStartingAmountController,
-                                  _clusterTypeController,
+                                  _bankInstitutionController,
+                                  _accountNumberController,
                                 ]),
                                 builder: (context, child) {
                                   final isEnabled = _clusterNameController
                                           .text.isNotEmpty &&
                                       _clusterStartingAmountController
                                           .text.isNotEmpty &&
-                                      _clusterTypeController.text.isNotEmpty;
+                                      _bankInstitutionController
+                                          .text.isNotEmpty &&
+                                      _accountNumberController.text.isNotEmpty;
 
                                   return AppButton(
                                     isEnabled: isEnabled,
@@ -345,7 +336,8 @@ class _NewAccountViewState extends State<NewAccountView> {
                                     onTap: () {
                                       goTo(
                                           context: context,
-                                          view: const ClusterConfirmationView());
+                                          view:
+                                              const ClusterConfirmationView());
                                     },
                                   );
                                 },

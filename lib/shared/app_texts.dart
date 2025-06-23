@@ -36,7 +36,7 @@ abstract class AppTexts {
   static const String clusterMainInstruction1 =
       'Let’s setup your Account cluster!';
   static const String clusterMainInstruction2 =
-      'This Account can be for your bank, credit card or your fintech wallet.';
+      'Hey Friend, you will need to enter your financial account details to start tracking your money effectively';
 
   //! Main App
   static const String invoiceAttachementInstructions =

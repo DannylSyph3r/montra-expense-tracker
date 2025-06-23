@@ -543,7 +543,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                       builder: (context, selectedDate, _) {
                                         return TextInputWidget(
                                           isTextFieldEnabled: false,
-                                          hintText: "Date",
+                                          hintText: "Date & Time",
                                           hintTextSize: 14.sp,
                                           inputtedTextSize: 14.sp,
                                           prefix: Padding(
@@ -565,21 +565,90 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                             ),
                                           ),
                                           controller: TextEditingController(
-                                            text: DateFormat('dd/MM/yyyy')
+                                            text: DateFormat('dd/MM/yyyy HH:mm')
                                                 .format(selectedDate),
                                           ),
                                           onTap: () async {
-                                            DateTime? picked =
+                                            // First show date picker
+                                            DateTime? pickedDate =
                                                 await showDatePicker(
                                               context: context,
                                               initialDate: selectedDate,
                                               firstDate: DateTime(2000),
                                               lastDate: DateTime(2099),
                                             );
-                                            if (picked != null &&
-                                                picked != selectedDate) {
-                                              _selectedDateNotifier.value =
-                                                  picked;
+
+                                            if (pickedDate != null) {
+                                              // Then show time picker with smaller text/numbers
+                                              TimeOfDay? pickedTime =
+                                                  await showTimePicker(
+                                                context: context,
+                                                initialTime:
+                                                    TimeOfDay.fromDateTime(
+                                                        selectedDate),
+                                                builder: (context, child) {
+                                                  return Theme(
+                                                    data: Theme.of(context)
+                                                        .copyWith(
+                                                      timePickerTheme:
+                                                          TimePickerThemeData(
+                                                        // Make the hour/minute numbers smaller
+                                                        hourMinuteTextStyle:
+                                                            TextStyle(
+                                                          fontSize: 40
+                                                              .sp, // Reduced from default (~60sp)
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                        // Make the AM/PM text smaller
+                                                        dayPeriodTextStyle:
+                                                            TextStyle(
+                                                          fontSize: 12
+                                                              .sp, // Reduced from default (~16sp)
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                        // Customize other elements if needed
+                                                        dialTextStyle:
+                                                            TextStyle(
+                                                          fontSize: 14
+                                                              .sp, // Numbers on the clock dial
+                                                        ),
+                                                        helpTextStyle:
+                                                            TextStyle(
+                                                          fontSize: 12
+                                                              .sp, // "Select time" text
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    child: child!,
+                                                  );
+                                                },
+                                              );
+
+                                              if (pickedTime != null) {
+                                                // Combine date and time
+                                                final newDateTime = DateTime(
+                                                  pickedDate.year,
+                                                  pickedDate.month,
+                                                  pickedDate.day,
+                                                  pickedTime.hour,
+                                                  pickedTime.minute,
+                                                );
+                                                _selectedDateNotifier.value =
+                                                    newDateTime;
+                                              } else {
+                                                // If user cancels time picker, just update with date and keep current time
+                                                final newDateTime = DateTime(
+                                                  pickedDate.year,
+                                                  pickedDate.month,
+                                                  pickedDate.day,
+                                                  selectedDate.hour,
+                                                  selectedDate.minute,
+                                                );
+                                                _selectedDateNotifier.value =
+                                                    newDateTime;
+                                              }
                                             }
                                           },
                                         );
