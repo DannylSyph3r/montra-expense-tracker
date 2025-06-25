@@ -36,7 +36,7 @@ abstract class AppTexts {
   static const String clusterMainInstruction1 =
       'Let’s setup your Account cluster!';
   static const String clusterMainInstruction2 =
-      'Hey Friend, you will need to enter your financial account details to start tracking your money effectively';
+      'We need you to provide some information so we can create your account cluster.';
 
   //! Main App
   static const String invoiceAttachementInstructions =

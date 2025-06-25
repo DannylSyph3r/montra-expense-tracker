@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 
 class FinanceView extends StatefulWidget {
@@ -184,28 +183,8 @@ class _FinanceViewState extends State<FinanceView>
       children: [
         20.sbH,
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
-              decoration: BoxDecoration(
-                border: Border.all(color: Palette.blackColor),
-                borderRadius: BorderRadius.circular(30.r),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    PhosphorIconsBold.caretCircleDown,
-                    size: 22.h,
-                    color: Palette.montraPurple,
-                  ),
-                  5.sbW,
-                  "Month".txt14()
-                ],
-              ),
-            ),
             _switchNotifier.sync(builder: (context, displayType, child) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,

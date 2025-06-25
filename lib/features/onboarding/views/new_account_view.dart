@@ -1,5 +1,4 @@
 import 'package:expense_tracker_app/features/onboarding/views/confirmation_view.dart';
-import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
 import 'package:expense_tracker_app/shared/app_texts.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
@@ -7,7 +6,6 @@ import 'package:expense_tracker_app/utils/app_constants.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/nav.dart';
 import 'package:expense_tracker_app/utils/widgets/button.dart';
-import 'package:expense_tracker_app/utils/widgets/custom_modal_bottomsheet.dart';
 import 'package:expense_tracker_app/utils/widgets/row_railer.dart';
 import 'package:expense_tracker_app/utils/widgets/serrated_painter.dart';
 import 'package:expense_tracker_app/utils/widgets/text_input.dart';

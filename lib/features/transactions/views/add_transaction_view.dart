@@ -2,7 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_tracker_app/features/onboarding/widgets/option_seletion_tile.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
-import 'package:expense_tracker_app/shared/app_texts.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_constants.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';

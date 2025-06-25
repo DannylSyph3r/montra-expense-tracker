@@ -66,13 +66,13 @@ class _LoginViewState extends State<LoginView> {
                   return TextInputWidget(
                     hintText: AppTexts.passwordFieldHint,
                     controller: _passwordController,
-                    obscuretext: _passwordVisible.value,
+                    obscuretext: !_passwordVisible.value,
                     suffixIcon: Padding(
                         padding: 15.padH,
                         child: Icon(
                           PhosphorIconsRegular.eye,
                           size: 25.h,
-                          color: _passwordVisible.value == false
+                          color: _passwordVisible.value == true
                               ? Palette.montraPurple
                               : Palette.greyColor,
                         )).tap(onTap: () {

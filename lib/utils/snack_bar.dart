@@ -32,7 +32,7 @@ showBanner({
   Flushbar(
     message: theMessage,
     messageSize: 15.sp,
-    duration: const Duration(seconds: 4),
+    duration: const Duration(seconds: 2),
     flushbarPosition: FlushbarPosition.TOP,
     flushbarStyle: FlushbarStyle.FLOATING,
     margin: EdgeInsets.symmetric(horizontal: 10.w),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker_app/features/transactions/models/transactions_model.dart';
@@ -27,40 +28,23 @@ class LineChartMonthly extends StatefulWidget {
   State<LineChartMonthly> createState() => _LineChartMonthlyState();
 }
 
-class _LineChartMonthlyState extends State<LineChartMonthly>
-    with SingleTickerProviderStateMixin {
+class _LineChartMonthlyState extends State<LineChartMonthly> {
   final ValueNotifier<int> _tabNotifier = 0.notifier;
   final ValueNotifier<bool> _sortNotifier = true.notifier;
-  late AnimationController _animationController;
-  double _animationProgress = 0.0;
+  final ValueNotifier<DateTime> _selectedMonthNotifier = ValueNotifier<DateTime>(DateTime.now());
   late double _globalUpperLimit;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    )..addListener(() {
-        setState(() {
-          _animationProgress = _animationController.value;
-        });
-      });
-
-    _animationController.forward();
-    _tabNotifier.addListener(() {
-      _animationController.reset();
-      _animationController.forward();
-    });
-
     _globalUpperLimit = _calculateGlobalUpperLimit();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
     _tabNotifier.dispose();
     _sortNotifier.dispose();
+    _selectedMonthNotifier.dispose();
     super.dispose();
   }
 
@@ -70,6 +54,8 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
 
     return Column(
       children: [
+        _buildMonthSelector(),
+        20.sbH,
         _buildLineChartSection(),
         30.sbH,
         _buildTabToggle(),
@@ -79,18 +65,123 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
     );
   }
 
+  Widget _buildMonthSelector() {
+    return _selectedMonthNotifier.sync(builder: (context, selectedMonth, child) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          border: Border.all(color: Palette.blackColor),
+          borderRadius: BorderRadius.circular(30.r),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              PhosphorIconsBold.caretCircleDown,
+              size: 22.h,
+              color: Palette.montraPurple,
+            ),
+            5.sbW,
+            DateFormat('MMMM yyyy').format(selectedMonth).txt14()
+          ],
+        ),
+      ).tap(onTap: _showMonthSelector);
+    });
+  }
+
+  void _showMonthSelector() {
+    final availableMonths = _getAvailableMonths();
+    
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
+      builder: (context) => Container(
+        padding: 20.0.padA,
+        height: 450.h,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40.w,
+                height: 4.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2.r),
+                ),
+              ),
+            ),
+            20.sbH,
+            "Select Month".txt18(fontW: F.w6),
+            15.sbH,
+            Expanded(
+              child: ListView.separated(
+                itemCount: availableMonths.length,
+                itemBuilder: (context, index) {
+                  final month = availableMonths[index];
+                  final isSelected = month.month == _selectedMonthNotifier.value.month &&
+                                   month.year == _selectedMonthNotifier.value.year;
+                  
+                  return ListTile(
+                    onTap: () {
+                      _selectedMonthNotifier.value = month;
+                      Navigator.pop(context);
+                    },
+                    title: DateFormat('MMMM yyyy').format(month).txt14(),
+                    trailing: isSelected 
+                      ? Icon(PhosphorIconsBold.check, color: Palette.montraPurple, size: 20.h)
+                      : null,
+                    tileColor: isSelected 
+                      ? Palette.montraPurple.withOpacity(0.1)
+                      : null,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => 5.sbH,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<DateTime> _getAvailableMonths() {
+    final now = DateTime.now();
+    final currentYear = now.year;
+    final currentMonth = now.month;
+    
+    List<DateTime> months = [];
+    
+    // Add months from January of current year up to current month
+    for (int month = 1; month <= currentMonth; month++) {
+      months.add(DateTime(currentYear, month));
+    }
+    
+    // Reverse to show most recent first
+    return months.reversed.toList();
+  }
+
   Widget _buildLineChartSection() {
     return _tabNotifier.sync(builder: (context, tabIndex, child) {
       final selectedType =
           tabIndex == 0 ? TransactionType.expense : TransactionType.income;
 
-      final dailySpendingData = _processDailySpendingData(selectedType);
+      return _selectedMonthNotifier.sync(builder: (context, selectedMonth, child) {
+        final dailySpendingData = _processDailySpendingData(selectedType, selectedMonth);
 
-      return AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: _buildLineChart(dailySpendingData, selectedType,
-            key: ValueKey('chart-$tabIndex')),
-      );
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          child: _buildLineChart(dailySpendingData, selectedType,
+              key: ValueKey('chart-$tabIndex-${selectedMonth.month}')),
+        );
+      });
     });
   }
 
@@ -144,7 +235,10 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
                   maxY: upperLimit,
                   lineBarsData: [
                     LineChartBarData(
-                      spots: _createAnimatedSpots(dailySpendingData),
+                      spots: dailySpendingData
+                          .map((spending) => FlSpot(
+                              spending.date.day.toDouble(), spending.amount))
+                          .toList(),
                       isCurved: true,
                       color: type == TransactionType.expense
                           ? widget.lineColor
@@ -198,7 +292,18 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
                     handleBuiltInTouches: true,
                   ),
                 ),
-              ),
+              )
+                  .animate()
+                  .fadeIn(duration: 400.ms)
+                  .slideY(
+                      begin: 0.2,
+                      end: 0,
+                      duration: 500.ms,
+                      curve: Curves.easeOutQuad)
+                  .then(delay: 200.ms)
+                  .shimmer(
+                      duration: 1000.ms,
+                      color: Palette.greyColor.withOpacity(0.7)),
             ),
     );
   }
@@ -271,121 +376,115 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
     return _tabNotifier.sync(builder: (context, tabIndex, child) {
       final TransactionType typeFilter =
           tabIndex == 0 ? TransactionType.expense : TransactionType.income;
-      final now = DateTime.now();
-      final currentMonth = DateTime(now.year, now.month);
 
-      final monthlyTransactions = widget.transactions
-          .where((t) =>
-              t.transactionType == typeFilter &&
-              t.transactionDate.year == currentMonth.year &&
-              t.transactionDate.month == currentMonth.month)
-          .toList();
+      return _selectedMonthNotifier.sync(builder: (context, selectedMonth, child) {
+        final monthlyTransactions = widget.transactions
+            .where((t) =>
+                t.transactionType == typeFilter &&
+                t.transactionDate.year == selectedMonth.year &&
+                t.transactionDate.month == selectedMonth.month)
+            .toList();
 
-      _sortNotifier.sync(builder: (context, sortAscending, child) {
-        monthlyTransactions.sort((a, b) => sortAscending
-            ? b.transactionDate.compareTo(a.transactionDate)
-            : a.transactionDate.compareTo(b.transactionDate));
-        return const SizedBox.shrink();
-      });
+        _sortNotifier.sync(builder: (context, sortAscending, child) {
+          monthlyTransactions.sort((a, b) => sortAscending
+              ? b.transactionDate.compareTo(a.transactionDate)
+              : a.transactionDate.compareTo(b.transactionDate));
+          return const SizedBox.shrink();
+        });
 
-      final total = monthlyTransactions.fold(
-          0.0, (sum, item) => sum + item.transactionAmount);
+        final total = monthlyTransactions.fold(
+            0.0, (sum, item) => sum + item.transactionAmount);
 
-      return AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: Column(
-          key: ValueKey('transactions-$tabIndex'),
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    tabIndex == 0
-                        ? 'Expense Transactions'
-                        : 'Income Transactions',
-                    style: TextStyle(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[700],
-                    ),
-                  ),
-                  _sortNotifier.sync(
-                    builder: (context, sortType, child) => Icon(
-                      sortType
-                          ? PhosphorIconsBold.sortAscending
-                          : PhosphorIconsBold.sortDescending,
-                      size: 22.h,
-                      color: Palette.montraPurple,
-                    ).tap(
-                        onTap: () =>
-                            _sortNotifier.value = !_sortNotifier.value),
-                  ),
-                ],
-              ),
-            ),
-            10.sbH,
-            monthlyTransactions.isEmpty
-                ? Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Text(
-                        'No ${tabIndex == 0 ? 'expenses' : 'income'} for this month',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14,
-                        ),
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: Column(
+            key: ValueKey('transactions-$tabIndex-${selectedMonth.month}'),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      tabIndex == 0
+                          ? 'Expense Transactions'
+                          : 'Income Transactions',
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey[700],
                       ),
                     ),
-                  )
-                : ListView.separated(
-                    padding: const EdgeInsets.all(0),
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: monthlyTransactions.length > 30
-                        ? 30
-                        : monthlyTransactions.length,
-                    itemBuilder: (context, index) => AnimatedBuilder(
-                      animation: _animationController,
-                      builder: (context, child) {
-                        final shouldShow = index <=
-                            (_animationController.value *
-                                monthlyTransactions.length);
-                        return AnimatedOpacity(
-                          opacity: shouldShow ? 1.0 : 0.0,
-                          duration: const Duration(milliseconds: 300),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            transform: Matrix4.translationValues(
-                                0, shouldShow ? 0 : 20, 0),
-                            child: TransactionTile(
-                              transaction: monthlyTransactions[index],
-                              onTileTap: () {},
-                            ),
-                          ),
-                        );
-                      },
+                    _sortNotifier.sync(
+                      builder: (context, sortType, child) => Icon(
+                        sortType
+                            ? PhosphorIconsBold.sortAscending
+                            : PhosphorIconsBold.sortDescending,
+                        size: 22.h,
+                        color: Palette.montraPurple,
+                      ).tap(
+                          onTap: () =>
+                              _sortNotifier.value = !_sortNotifier.value),
                     ),
-                    separatorBuilder: (context, index) => 10.sbH,
-                  ),
-          ],
-        ),
-      );
+                  ],
+                ),
+              ),
+              10.sbH,
+              monthlyTransactions.isEmpty
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Text(
+                          'No ${tabIndex == 0 ? 'expenses' : 'income'} for this month',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    )
+                  : ListView.separated(
+                      padding: const EdgeInsets.all(0),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: monthlyTransactions.length > 30
+                          ? 30
+                          : monthlyTransactions.length,
+                      itemBuilder: (context, index) => TransactionTile(
+                        transaction: monthlyTransactions[index],
+                        onTileTap: () {},
+                      )
+                          .animate(delay: Duration(milliseconds: index * 100))
+                          .fadeIn(duration: 400.ms)
+                          .slideX(begin: 0.2, end: 0, duration: 400.ms),
+                      separatorBuilder: (context, index) => 10.sbH,
+                    ),
+            ],
+          ),
+        );
+      });
     });
   }
 
   double _calculateGlobalUpperLimit() {
     final now = DateTime.now();
-    final year = now.year;
-    final month = now.month;
 
-    double maxExpenseAmount = _processDailySpendingData(TransactionType.expense)
-        .fold(0.0, (max, data) => data.amount > max ? data.amount : max);
+    double maxExpenseAmount = 0.0;
+    double maxIncomeAmount = 0.0;
 
-    double maxIncomeAmount = _processDailySpendingData(TransactionType.income)
-        .fold(0.0, (max, data) => data.amount > max ? data.amount : max);
+    // Calculate limits for all available months
+    final availableMonths = _getAvailableMonths();
+    for (final month in availableMonths) {
+      final expenseData = _processDailySpendingData(TransactionType.expense, month);
+      final incomeData = _processDailySpendingData(TransactionType.income, month);
+      
+      final monthMaxExpense = expenseData.fold(0.0, (max, data) => data.amount > max ? data.amount : max);
+      final monthMaxIncome = incomeData.fold(0.0, (max, data) => data.amount > max ? data.amount : max);
+      
+      if (monthMaxExpense > maxExpenseAmount) maxExpenseAmount = monthMaxExpense;
+      if (monthMaxIncome > maxIncomeAmount) maxIncomeAmount = monthMaxIncome;
+    }
 
     final maxAmount = [maxExpenseAmount, maxIncomeAmount].reduce(math.max);
 
@@ -393,13 +492,16 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
     return (maxAmount / 50).ceil() * 50.0;
   }
 
-  List<DailySpending> _processDailySpendingData(TransactionType type) {
-    final now = DateTime.now();
-    final year = now.year;
-    final month = now.month;
+  List<DailySpending> _processDailySpendingData(TransactionType type, DateTime selectedMonth) {
+    final year = selectedMonth.year;
+    final month = selectedMonth.month;
     final daysInMonth = DateTime(year, month + 1, 0).day;
+    final now = DateTime.now();
+    final isCurrentMonth = year == now.year && month == now.month;
 
-    final dailySpending = { for (var day in List.generate(daysInMonth, (i) => i + 1)) day : 0.0 };
+    final dailySpending = {
+      for (var day in List.generate(daysInMonth, (i) => i + 1)) day: 0.0
+    };
 
     double cumulativeSpending = 0;
     for (final transaction in widget.transactions) {
@@ -411,11 +513,14 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
       }
 
       final day = date.day;
-      // REMOVED DIVISION BY 1000 HERE
       dailySpending[day] = dailySpending[day]! + transaction.transactionAmount;
     }
 
-    return List.generate(now.day, (i) {
+    // For current month, only show up to today
+    // For past months, show all days
+    final maxDay = isCurrentMonth ? now.day : daysInMonth;
+
+    return List.generate(maxDay, (i) {
       final day = i + 1;
       cumulativeSpending += dailySpending[day]!;
       return DailySpending(
@@ -424,26 +529,6 @@ class _LineChartMonthlyState extends State<LineChartMonthly>
         cumulativeAmount: cumulativeSpending,
       );
     });
-  }
-
-  List<FlSpot> _createAnimatedSpots(List<DailySpending> data) {
-    final progress = _animationProgress;
-    final animatedIndex = (data.length * progress).floor();
-
-    return data.asMap().entries.map((entry) {
-      final i = entry.key;
-      final spending = entry.value;
-
-      if (i > animatedIndex) return FlSpot(spending.date.day.toDouble(), 0);
-
-      if (i == animatedIndex) {
-        final fractionalProgress = (data.length * progress) - animatedIndex;
-        return FlSpot(
-            spending.date.day.toDouble(), spending.amount * fractionalProgress);
-      }
-
-      return FlSpot(spending.date.day.toDouble(), spending.amount);
-    }).toList();
   }
 }
 

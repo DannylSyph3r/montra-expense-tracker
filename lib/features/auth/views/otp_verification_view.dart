@@ -40,10 +40,6 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
   void initState() {
     super.initState();
     _startTimer();
-    // Auto focus on OTP field
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _otpFocusNode.requestFocus();
-    });
   }
 
   void _startTimer() {
@@ -89,13 +85,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
 
     _isVerifyingNotifier.value = false;
 
-    if (enteredOtp == _correctOtp) {
-      showBanner(
-        context: context,
-        theMessage: "Email verified successfully!",
-        theType: NotificationType.success,
-      );
-      
+    if (enteredOtp == _correctOtp) {      
       // Navigate to next screen after a short delay
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
@@ -293,6 +283,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                   controller: _otpController,
                   focusNode: _otpFocusNode,
                   length: 5,
+                  autofocus: false,
                   defaultPinTheme: defaultPinTheme,
                   focusedPinTheme: focusedPinTheme,
                   submittedPinTheme: submittedPinTheme,

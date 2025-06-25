@@ -28,59 +28,75 @@ class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final ValueNotifier _passwordVisible = false.notifier;
   final ValueNotifier _confirmPasswordVisible = false.notifier;
   final ValueNotifier _toc = false.notifier;
   final ValueNotifier<bool> _passwordsMatch = ValueNotifier<bool>(false);
 
   void passwordVisibility() => _passwordVisible.value = !_passwordVisible.value;
-  void confirmPasswordVisibility() => _confirmPasswordVisible.value = !_confirmPasswordVisible.value;
+  void confirmPasswordVisibility() =>
+      _confirmPasswordVisible.value = !_confirmPasswordVisible.value;
   void agreetoToc() => _toc.value = !_toc.value;
 
   void _checkPasswordMatch() {
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
-    
+
     if (confirmPassword.isEmpty) {
       _passwordsMatch.value = false;
       return;
     }
-    
+
     _passwordsMatch.value = password == confirmPassword;
   }
 
-void _handleSignUp() {
-  final password = _passwordController.text;
-  final confirmPassword = _confirmPasswordController.text;
-  
-  if (password != confirmPassword) {
+  void _handleSignUp() {
+    final fullname = _fullnameController.text;
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    if (password != confirmPassword) {
+      showBanner(
+        context: context,
+        theMessage: "Passwords do not match. Please check and try again.",
+        theType: NotificationType.failure,
+      );
+      return;
+    }
+
+    if (fullname.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
+      showBanner(
+        context: context,
+        theMessage: "Please fill in all fields.",
+        theType: NotificationType.failure,
+      );
+      return;
+    }
+
     showBanner(
       context: context,
-      theMessage: "Passwords do not match. Please check and try again.",
-      theType: NotificationType.failure,
+      theMessage: "Account created successfully!",
+      theType: NotificationType.success,
     );
-    return;
-  }
-  
-  showBanner(
-    context: context,
-    theMessage: "Account created successfully!",
-    theType: NotificationType.success,
-  );
 
-  Future.delayed(const Duration(milliseconds: 1500), () {
-    if (mounted) {
-      goTo(
-        context: context, 
-        view: OtpVerificationView(
-          email: _emailController.text,
-          fullName: _fullnameController.text,
-        ),
-      );
-    }
-  });
-}
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (mounted) {
+        goTo(
+          context: context,
+          view: OtpVerificationView(
+            email: _emailController.text,
+            fullName: _fullnameController.text,
+          ),
+        );
+      }
+    });
+  }
 
   @override
   void initState() {
@@ -134,13 +150,13 @@ void _handleSignUp() {
                   return TextInputWidget(
                     hintText: AppTexts.passwordFieldHint,
                     controller: _passwordController,
-                    obscuretext: _passwordVisible.value,
+                    obscuretext: !_passwordVisible.value,
                     suffixIcon: Padding(
                         padding: 15.padH,
                         child: Icon(
                           PhosphorIconsRegular.eye,
                           size: 25.h,
-                          color: _passwordVisible.value == false
+                          color: _passwordVisible.value == true
                               ? Palette.montraPurple
                               : Palette.greyColor,
                         )).tap(onTap: () {
@@ -151,17 +167,18 @@ void _handleSignUp() {
                 10.sbH,
 
                 //! Confirm Password Field
-                _confirmPasswordVisible.sync(builder: (context, isVisible, child) {
+                _confirmPasswordVisible.sync(
+                    builder: (context, isVisible, child) {
                   return TextInputWidget(
                     hintText: AppTexts.confirmPasswordFieldHint,
                     controller: _confirmPasswordController,
-                    obscuretext: _confirmPasswordVisible.value,
+                    obscuretext: !_confirmPasswordVisible.value,
                     suffixIcon: Padding(
                         padding: 15.padH,
                         child: Icon(
                           PhosphorIconsRegular.eye,
                           size: 25.h,
-                          color: _confirmPasswordVisible.value == false
+                          color: _confirmPasswordVisible.value == true
                               ? Palette.montraPurple
                               : Palette.greyColor,
                         )).tap(onTap: () {
@@ -177,29 +194,29 @@ void _handleSignUp() {
                     if (_confirmPasswordController.text.isEmpty) {
                       return const SizedBox.shrink();
                     }
-                    
+
                     return Padding(
                       padding: EdgeInsets.only(top: 8.h),
                       child: Row(
                         children: [
                           Icon(
-                            passwordsMatch 
-                                ? PhosphorIconsBold.checkCircle 
+                            passwordsMatch
+                                ? PhosphorIconsBold.checkCircle
                                 : PhosphorIconsBold.xCircle,
                             size: 16.h,
-                            color: passwordsMatch 
-                                ? Palette.greenColor 
+                            color: passwordsMatch
+                                ? Palette.greenColor
                                 : Palette.redColor,
                           ),
                           8.sbW,
                           Text(
-                            passwordsMatch 
-                                ? "Passwords match" 
+                            passwordsMatch
+                                ? "Passwords match"
                                 : "Passwords don't match",
                             style: TextStyle(
                               fontSize: 12.sp,
-                              color: passwordsMatch 
-                                  ? Palette.greenColor 
+                              color: passwordsMatch
+                                  ? Palette.greenColor
                                   : Palette.redColor,
                               fontWeight: FontWeight.w500,
                             ),
@@ -209,7 +226,7 @@ void _handleSignUp() {
                     );
                   },
                 ),
-                
+
                 20.sbH,
 
                 //! TOC checker
