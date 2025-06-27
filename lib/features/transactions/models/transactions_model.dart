@@ -405,7 +405,7 @@ List<Transaction> transactions = [
   Transaction(
     transactionType: TransactionType.income,
     transactionCategory: TransactionCategory.dividendsInterest,
-    transactionDescription: 'Stock dividends from Apple',
+    transactionDescription: 'Stock dividends from Apple but im actually a tweaker tis is a test',
     transactionAmount: 120.50,
     transactionDate: DateTime.now().subtract(const Duration(days: 2)),
   ),

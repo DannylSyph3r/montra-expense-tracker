@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:expense_tracker_app/features/base_nav/bloc/nav_cubit.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:badges/badges.dart' as badges;
@@ -38,6 +39,23 @@ class _HomeViewState extends State<HomeView> {
     _currentCluster.dispose();
     _unreadNotifications.dispose();
     super.dispose();
+  }
+
+  // Helper method to create enhanced privacy blur effect
+  Widget _buildPrivacyBlur({
+    required Widget child,
+    required bool isPrivacyOn,
+    double blurIntensity = 8.0,
+  }) {
+    if (!isPrivacyOn) return child;
+
+    return ImageFiltered(
+      imageFilter: ImageFilter.blur(
+        sigmaX: blurIntensity,
+        sigmaY: blurIntensity,
+      ),
+      child: child,
+    );
   }
 
   @override
@@ -74,12 +92,15 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ],
                         ).tap(onTap: () {
-                          goTo(context: context, view: ClusterSelectionView(
-                            currentCluster: currentCluster, 
-                            onClusterSelected: (String selectedCluster) {
-                              _currentCluster.value = selectedCluster;
-                              // Update all other cluster related data here
-                           },));
+                          goTo(
+                              context: context,
+                              view: ClusterSelectionView(
+                                currentCluster: currentCluster,
+                                onClusterSelected: (String selectedCluster) {
+                                  _currentCluster.value = selectedCluster;
+                                  // Update all other cluster related data here
+                                },
+                              ));
                         });
                       },
                     ),
@@ -123,12 +144,12 @@ class _HomeViewState extends State<HomeView> {
                         builder: (context, unreadCount, child) {
                           return badges.Badge(
                             position:
-                                badges.BadgePosition.topEnd(top: -5, end: -5),
+                                badges.BadgePosition.topEnd(top: -9, end: -6),
                             showBadge: unreadCount > 0,
                             ignorePointer: false,
                             badgeContent: unreadCount > 9
                                 ? Icon(Icons.more_horiz,
-                                    color: Colors.white, size: 10.h)
+                                    color: Colors.white, size: 12.h)
                                 : Text(
                                     unreadCount.toString(),
                                     style: TextStyle(
@@ -148,23 +169,24 @@ class _HomeViewState extends State<HomeView> {
                             badgeStyle: badges.BadgeStyle(
                               shape: badges.BadgeShape.circle,
                               badgeColor: Palette.redColor,
-                              padding: EdgeInsets.all(4.w),
-                              borderRadius: BorderRadius.circular(12.r),
+                              padding: EdgeInsets.all(6.w),
+                              borderRadius: BorderRadius.circular(14.r),
                               borderSide:
                                   BorderSide(color: Colors.white, width: 1.5),
                               elevation: 2,
                             ),
                             child: Container(
-                              height: 35.h,
-                              width: 35.h,
+                              height: 38.h,
+                              width: 38.h,
                               decoration: BoxDecoration(
                                 color: Palette.greyFill.withOpacity(0.3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8.r)),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 PhosphorIconsRegular.bellSimple,
                                 color: Palette.whiteColor,
+                                size: 25.h,
                               ).tap(onTap: () {
                                 goTo(
                                     context: context,
@@ -260,8 +282,8 @@ class _HomeViewState extends State<HomeView> {
                                       builder: (context, privacyOn, child) {
                                     return Icon(
                                       privacyOn
-                                          ? PhosphorIconsRegular.eye
-                                          : PhosphorIconsRegular.eyeSlash,
+                                          ? PhosphorIconsRegular.eyeSlash
+                                          : PhosphorIconsRegular.eye,
                                       color: Palette.whiteColor,
                                       size: 25.h,
                                     ).tap(onTap: () {
@@ -275,20 +297,13 @@ class _HomeViewState extends State<HomeView> {
                                   children: [
                                     _privacyFilter.sync(
                                         builder: (context, privacyOn, child) {
-                                      return ImageFiltered(
-                                        imageFilter: ImageFilter.blur(
-                                          sigmaX: privacyOn ? 7 : 0,
-                                          sigmaY: privacyOn ? 7 : 0,
-                                        ),
-                                        child: privacyOn
-                                            ? "N 3,450".txt(
-                                                size: 32.sp,
-                                                fontW: F.w8,
-                                                color: Palette.whiteColor)
-                                            : "N 345,000.00".txt(
-                                                size: 30.sp,
-                                                fontW: F.w8,
-                                                color: Palette.whiteColor),
+                                      return _buildPrivacyBlur(
+                                        isPrivacyOn: privacyOn,
+                                        blurIntensity: 10.0,
+                                        child: "N 345,000.00".txt(
+                                            size: 30.sp,
+                                            fontW: F.w8,
+                                            color: Palette.whiteColor),
                                       );
                                     }),
                                   ],
@@ -354,38 +369,24 @@ class _HomeViewState extends State<HomeView> {
                                   rowPadding: EdgeInsets.zero,
                                   leading: _privacyFilter.sync(
                                       builder: (context, privacyOn, child) {
-                                    return ImageFiltered(
-                                      imageFilter: ImageFilter.blur(
-                                        sigmaX: privacyOn ? 5 : 0,
-                                        sigmaY: privacyOn ? 5 : 0,
-                                      ),
-                                      child: privacyOn
-                                          ? "N 3,450".txt(
-                                              size: 17.sp,
-                                              fontW: F.w3,
-                                              color: Palette.whiteColor)
-                                          : "N 745,000.00".txt(
-                                              size: 17.sp,
-                                              fontW: F.w3,
-                                              color: Palette.whiteColor),
+                                    return _buildPrivacyBlur(
+                                      isPrivacyOn: privacyOn,
+                                      blurIntensity: 6.0,
+                                      child: "N 745,000.00".txt(
+                                          size: 17.sp,
+                                          fontW: F.w3,
+                                          color: Palette.whiteColor),
                                     );
                                   }),
                                   trailing: _privacyFilter.sync(
                                       builder: (context, privacyOn, child) {
-                                    return ImageFiltered(
-                                      imageFilter: ImageFilter.blur(
-                                        sigmaX: privacyOn ? 5 : 0,
-                                        sigmaY: privacyOn ? 5 : 0,
-                                      ),
-                                      child: privacyOn
-                                          ? "N 3,450".txt(
-                                              size: 17.sp,
-                                              fontW: F.w3,
-                                              color: Palette.whiteColor)
-                                          : "N 400,000.00".txt(
-                                              size: 17.sp,
-                                              fontW: F.w3,
-                                              color: Palette.whiteColor),
+                                    return _buildPrivacyBlur(
+                                      isPrivacyOn: privacyOn,
+                                      blurIntensity: 6.0,
+                                      child: "N 400,000.00".txt(
+                                          size: 17.sp,
+                                          fontW: F.w3,
+                                          color: Palette.whiteColor),
                                     );
                                   }),
                                 ),
@@ -449,9 +450,44 @@ class _HomeViewState extends State<HomeView> {
                 return TransactionTile(
                   transaction: transactions[index],
                   onTileTap: () {
+                    final transaction = transactions[index];
+
+                    // Helper function to format currency
+                    String formatCurrency(double amount) {
+                      return "N${amount.toStringAsFixed(2)}";
+                    }
+
+                    // Helper function to format time from DateTime
+                    String formatTime(DateTime dateTime) {
+                      return DateFormat('h:mm a').format(dateTime);
+                    }
+
+                    // Helper function to format date from DateTime
+                    String formatDate(DateTime dateTime) {
+                      return DateFormat('EEEE dd MMMM, yyyy').format(dateTime);
+                    }
+
                     goTo(
-                        context: context,
-                        view: const TransactionsDetailsView());
+                      context: context,
+                      view: TransactionsDetailsView(
+                        transactionAmount:
+                            formatCurrency(transaction.transactionAmount),
+                        transactionType:
+                            transaction.transactionType.name.toCapitalized(),
+                        category: transaction.transactionCategory.label,
+                        time: formatTime(transaction.transactionDate),
+                        date: formatDate(transaction.transactionDate),
+                        description: transaction.transactionDescription,
+                        attachmentImages:
+                            null, // Your model doesn't have this field yet
+                        onDelete: () {
+                          // Handle delete logic here
+                          setState(() {
+                            transactions.removeAt(index);
+                          });
+                        },
+                      ),
+                    );
                   },
                 )
                     .animate(delay: Duration(milliseconds: index * 100))

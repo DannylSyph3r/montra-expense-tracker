@@ -26,7 +26,6 @@ class TransactionsView extends StatefulWidget {
 
 class _TransactionsViewState extends State<TransactionsView>
     with TickerProviderStateMixin {
-  
   // FAB state
   final ValueNotifier<bool> _isFabExpandedNotifier = ValueNotifier<bool>(false);
   final ValueNotifier<bool> _isFabVisibleNotifier = ValueNotifier<bool>(true);
@@ -49,6 +48,40 @@ class _TransactionsViewState extends State<TransactionsView>
     _isFabExpandedNotifier.dispose();
     _isFabVisibleNotifier.dispose();
     super.dispose();
+  }
+
+  // Helper functions for formatting
+  String _formatCurrency(double amount) {
+    return "N${amount.toStringAsFixed(2)}";
+  }
+
+  String _formatTime(DateTime dateTime) {
+    return DateFormat('h:mm a').format(dateTime);
+  }
+
+  String _formatDate(DateTime dateTime) {
+    return DateFormat('EEEE dd MMMM, yyyy').format(dateTime);
+  }
+
+  void _navigateToTransactionDetails(Transaction transaction, int index) {
+    goTo(
+      context: context,
+      view: TransactionsDetailsView(
+        transactionAmount: _formatCurrency(transaction.transactionAmount),
+        transactionType: transaction.transactionType.name.toCapitalized(),
+        category: transaction.transactionCategory.label,
+        time: _formatTime(transaction.transactionDate),
+        date: _formatDate(transaction.transactionDate),
+        description: transaction.transactionDescription,
+        attachmentImages: null, // Your model doesn't have this field yet
+        onDelete: () {
+          // Handle delete logic here
+          setState(() {
+            transactions.removeAt(index);
+          });
+        },
+      ),
+    );
   }
 
   void _onScroll() {
@@ -95,7 +128,8 @@ class _TransactionsViewState extends State<TransactionsView>
       context: context,
       builder: (context) => DocPickerModalBottomSheet(
         headerText: "Receipt Scanner",
-        descriptionText: "Take a photo of your receipt or select from gallery. We'll automatically extract transaction details for you.",
+        descriptionText:
+            "Take a photo of your receipt or select from gallery. We'll automatically extract transaction details for you.",
         onTakeDocPicture: () {
           goBack(context);
           // TODO: Add receipt scanning logic here
@@ -145,7 +179,9 @@ class _TransactionsViewState extends State<TransactionsView>
             PhosphorIconsFill.funnel,
             color: Palette.montraPurple,
             size: 28.h,
-          ).tap(onTap: () => goTo(context: context, view: const TransactionFilterView())),
+          ).tap(
+              onTap: () =>
+                  goTo(context: context, view: const TransactionFilterView())),
         )
       ],
       sliverBottom: AppBar(
@@ -174,12 +210,12 @@ class _TransactionsViewState extends State<TransactionsView>
             labelColor: Palette.montraPurple,
             unselectedLabelColor: Colors.black,
             labelStyle: GoogleFonts.montserrat(
-              textStyle: TextStyle(
-                  fontSize: 16.sp, fontWeight: FontWeight.w600),
+              textStyle:
+                  TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             unselectedLabelStyle: GoogleFonts.montserrat(
-              textStyle: TextStyle(
-                  fontSize: 16.sp, fontWeight: FontWeight.w300),
+              textStyle:
+                  TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w300),
             ),
             tabs: ['Day', 'Week', 'Month', 'Year']
                 .map((label) => SizedBox(
@@ -284,10 +320,11 @@ class _TransactionsViewState extends State<TransactionsView>
             ),
           ),
           itemBuilder: (BuildContext context, Transaction transaction) {
+            final index = transactions.indexOf(transaction);
             return TransactionTile(
               transaction: transaction,
               onTileTap: () {
-                goTo(context: context, view: const TransactionsDetailsView());
+                _navigateToTransactionDetails(transaction, index);
               },
             );
           },
@@ -325,7 +362,7 @@ class _TransactionsViewState extends State<TransactionsView>
         return TransactionTile(
           transaction: transactions[index],
           onTileTap: () {
-            goTo(context: context, view: const TransactionsDetailsView());
+            _navigateToTransactionDetails(transactions[index], index);
           },
         );
       },
@@ -431,8 +468,9 @@ class _TransactionsViewState extends State<TransactionsView>
           ),
         ),
       ],
-    ).animate()
-     .fadeIn(duration: 200.ms, delay: Duration(milliseconds: delay))
-     .slideX(begin: 0.5, duration: 250.ms);
+    )
+        .animate()
+        .fadeIn(duration: 200.ms, delay: Duration(milliseconds: delay))
+        .slideX(begin: 0.5, duration: 250.ms);
   }
 }

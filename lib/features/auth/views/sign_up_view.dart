@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:expense_tracker_app/features/auth/views/login_view.dart';
 import 'package:expense_tracker_app/features/auth/views/otp_verification_view.dart';
 import 'package:expense_tracker_app/shared/app_graphics.dart';
@@ -34,6 +35,9 @@ class _SignUpViewState extends State<SignUpView> {
   final ValueNotifier _confirmPasswordVisible = false.notifier;
   final ValueNotifier _toc = false.notifier;
   final ValueNotifier<bool> _passwordsMatch = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> _showPasswordFeedback = ValueNotifier<bool>(false);
+
+  Timer? _passwordMatchTimer;
 
   void passwordVisibility() => _passwordVisible.value = !_passwordVisible.value;
   void confirmPasswordVisibility() =>
@@ -44,12 +48,29 @@ class _SignUpViewState extends State<SignUpView> {
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
 
-    if (confirmPassword.isEmpty) {
-      _passwordsMatch.value = false;
+    // Cancel any existing timer
+    _passwordMatchTimer?.cancel();
+
+    // Hide feedback if either field is empty
+    if (password.isEmpty || confirmPassword.isEmpty) {
+      _showPasswordFeedback.value = false;
       return;
     }
 
-    _passwordsMatch.value = password == confirmPassword;
+    // Check if passwords match
+    bool passwordsMatch = password == confirmPassword;
+
+    if (passwordsMatch) {
+      // Show "match" immediately
+      _passwordsMatch.value = true;
+      _showPasswordFeedback.value = true;
+    } else {
+      // Show "don't match" after 1 second delay
+      _passwordMatchTimer = Timer(const Duration(seconds: 1), () {
+        _passwordsMatch.value = false;
+        _showPasswordFeedback.value = true;
+      });
+    }
   }
 
   void _handleSignUp() {
@@ -98,6 +119,51 @@ class _SignUpViewState extends State<SignUpView> {
     });
   }
 
+  Widget _buildPasswordMatchIndicator() {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _showPasswordFeedback,
+      builder: (context, showFeedback, child) {
+        if (!showFeedback) {
+          return const SizedBox.shrink();
+        }
+
+        return ValueListenableBuilder<bool>(
+          valueListenable: _passwordsMatch,
+          builder: (context, passwordsMatch, child) {
+            return Padding(
+              padding: EdgeInsets.only(top: 8.h),
+              child: Row(
+                children: [
+                  Icon(
+                    passwordsMatch
+                        ? PhosphorIconsBold.checkCircle
+                        : PhosphorIconsBold.xCircle,
+                    size: 16.h,
+                    color:
+                        passwordsMatch ? Palette.greenColor : Palette.redColor,
+                  ),
+                  8.sbW,
+                  Text(
+                    passwordsMatch
+                        ? "Passwords match"
+                        : "Passwords do not match",
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: passwordsMatch
+                          ? Palette.greenColor
+                          : Palette.redColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -107,6 +173,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   @override
   void dispose() {
+    _passwordMatchTimer?.cancel();
     _fullnameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
@@ -115,6 +182,7 @@ class _SignUpViewState extends State<SignUpView> {
     _confirmPasswordVisible.dispose();
     _toc.dispose();
     _passwordsMatch.dispose();
+    _showPasswordFeedback.dispose();
     super.dispose();
   }
 
@@ -188,117 +256,95 @@ class _SignUpViewState extends State<SignUpView> {
                 }),
 
                 //! Password Match Indicator
-                ValueListenableBuilder<bool>(
-                  valueListenable: _passwordsMatch,
-                  builder: (context, passwordsMatch, child) {
-                    if (_confirmPasswordController.text.isEmpty) {
-                      return const SizedBox.shrink();
-                    }
-
-                    return Padding(
-                      padding: EdgeInsets.only(top: 8.h),
-                      child: Row(
-                        children: [
-                          Icon(
-                            passwordsMatch
-                                ? PhosphorIconsBold.checkCircle
-                                : PhosphorIconsBold.xCircle,
-                            size: 16.h,
-                            color: passwordsMatch
-                                ? Palette.greenColor
-                                : Palette.redColor,
-                          ),
-                          8.sbW,
-                          Text(
-                            passwordsMatch
-                                ? "Passwords match"
-                                : "Passwords don't match",
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: passwordsMatch
-                                  ? Palette.greenColor
-                                  : Palette.redColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                _buildPasswordMatchIndicator(),
 
                 20.sbH,
 
                 //! TOC checker
-                Row(
-                  children: [
-                    _toc.sync(
-                        builder: (context, value, child) => Container(
-                              height: 22.w,
-                              width: 22.w,
-                              decoration: BoxDecoration(
-                                color: _toc.value == true
-                                    ? Palette.montraPurple
-                                    : null,
-                                borderRadius: BorderRadius.circular(3.r),
-                                border: Border.all(
-                                  width: 1.5,
-                                  color: Palette.montraPurple,
-                                ),
+                _toc.sync(builder: (context, tocAccepted, child) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 3.h),
+                        child: Icon(
+                          tocAccepted
+                              ? PhosphorIconsBold.checkSquare
+                              : PhosphorIconsRegular.square,
+                          size: 20.h,
+                          color: tocAccepted
+                              ? Palette.montraPurple
+                              : Palette.greyColor,
+                        ),
+                      ).tap(onTap: () {
+                        agreetoToc();
+                      }),
+                      8.sbW,
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            text: "By signing up, you agree to the ",
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                color: Palette.greyColor,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
                               ),
-                              child: Center(
-                                child: Icon(
-                                  PhosphorIconsRegular.check,
-                                  size: 14.sp,
-                                  color: Palette.whiteColor,
-                                ),
-                              ),
-                            ).tap(
-                              onTap: () {
-                                _toc.value = !_toc.value;
-                              },
-                            )),
-                    10.sbW,
-                    Expanded(
-                      child: RichText(
-                        textAlign: TextAlign.left,
-                        text: TextSpan(
-                          text: AppTexts.proceeding.toCapitalized(),
-                          style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                              color: Palette.greyColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
                             ),
-                          ),
-                          children: [
-                            TextSpan(
-                              text: AppTexts.terms,
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                  color: Palette.montraPurple,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
+                            children: [
+                              TextSpan(
+                                text: "Terms of Service",
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    color: Palette.montraPurple,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                               ),
-                            )
-                          ],
+                              TextSpan(
+                                text: " and ",
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    color: Palette.greyColor,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Privacy Policy",
+                                style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                    color: Palette.montraPurple,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                30.sbH,
+                    ],
+                  );
+                }),
+
+                20.sbH,
 
                 //! sign Up Buttons
                 AppButton(
-                  onTap: _handleSignUp,
+                  onTap: () {
+                    _handleSignUp();
+                  },
                   text: "Sign Up",
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
                 10.sbH,
-                "Or with".txt16(fontW: F.w7, color: Palette.greyColor),
+                "Or with".txt14(fontW: F.w7, color: Palette.greyColor),
                 10.sbH,
                 TransparentButton(
                   onTap: () {},
@@ -308,17 +354,16 @@ class _SignUpViewState extends State<SignUpView> {
                       children: [
                         const MyIcon(icon: AppGraphics.googleIcon),
                         10.sbW,
-                        "Sign Up with Google".txt16(fontW: F.w6)
+                        "Sign up with Google".txt16(fontW: F.w6)
                       ]),
                 ),
                 30.sbH,
 
                 //! switch to Login View
-
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: AppTexts.switchToLogin.toCapitalized(),
+                    text: "Already have an account?",
                     style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                         color: Palette.greyColor,
