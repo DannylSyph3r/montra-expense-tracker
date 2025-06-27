@@ -54,11 +54,11 @@ class _NotificationsViewState extends State<NotificationsView> {
                 curve: Curves.easeInOut,
                 height: hasUnread ? 80.h : 0,
                 width: double.infinity,
-                padding: hasUnread 
+                padding: hasUnread
                     ? EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h)
                     : EdgeInsets.zero,
                 decoration: BoxDecoration(
-                  color: hasUnread 
+                  color: hasUnread
                       ? Palette.montraPurple.withOpacity(0.05)
                       : Colors.transparent,
                   border: hasUnread
@@ -92,7 +92,8 @@ class _NotificationsViewState extends State<NotificationsView> {
                           TextButton(
                             onPressed: _markAllAsRead,
                             style: TextButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 19.w),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 6.h, horizontal: 19.w),
                               minimumSize: Size.zero,
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
@@ -105,43 +106,18 @@ class _NotificationsViewState extends State<NotificationsView> {
                       )
                     : null,
               ),
-              
-              // Notifications List
-              Expanded(
-                child: ListView.builder(
-                  padding: 15.padH,
-                  itemCount: _groupNotificationsByDate(notifications).length,
-                  itemBuilder: (context, index) {
-                    final group = _groupNotificationsByDate(notifications)[index];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Date header
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15.h),
-                          child: group['date'].toString().txt14(
-                                fontW: F.w6,
-                                color: Palette.greyColor,
-                              ),
-                        ),
 
-                        // Notifications for this date
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount:
-                              (group['notifications'] as List<NotificationItem>)
-                                  .length,
-                          separatorBuilder: (context, index) => 12.sbH,
-                          itemBuilder: (context, notificationIndex) {
-                            final notification = (group['notifications']
-                                as List<NotificationItem>)[notificationIndex];
-                            return _buildNotificationTile(notification);
-                          },
-                        ),
-                        20.sbH,
-                      ],
-                    );
+              // Notifications List - Direct listing without date grouping
+              Expanded(
+                child: ListView.separated(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                  itemCount: notifications.length,
+                  separatorBuilder: (context, index) =>
+                      8.sbH, // More compact spacing
+                  itemBuilder: (context, index) {
+                    final notification = notifications[index];
+                    return _buildNotificationTile(notification);
                   },
                 ),
               ),
@@ -154,10 +130,10 @@ class _NotificationsViewState extends State<NotificationsView> {
 
   Widget _buildNotificationTile(NotificationItem notification) {
     return Container(
-      padding: 12.0.padA, // Reduced from 16
+      padding: 10.0.padA, // Reduced from 12
       decoration: BoxDecoration(
         color: notification.isRead ? Palette.whiteColor : Palette.greyFill,
-        borderRadius: BorderRadius.circular(12.r), // Reduced from 15
+        borderRadius: BorderRadius.circular(10.r), // Reduced from 12
         border: Border.all(
           color: notification.isRead
               ? Palette.greyColor.withOpacity(0.2)
@@ -179,11 +155,11 @@ class _NotificationsViewState extends State<NotificationsView> {
         children: [
           // Notification Icon - smaller
           Container(
-            height: 36.h, // Reduced from 50
-            width: 36.h, // Reduced from 50
+            height: 32.h, // Reduced from 36
+            width: 32.h, // Reduced from 36
             decoration: BoxDecoration(
               color: notification.color.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(10.r), // Reduced from 12
+              borderRadius: BorderRadius.circular(8.r), // Reduced from 10
               border: Border.all(
                 color: notification.color.withOpacity(0.2),
                 width: 1,
@@ -191,11 +167,11 @@ class _NotificationsViewState extends State<NotificationsView> {
             ),
             child: Icon(
               notification.icon,
-              size: 18.h, // Reduced from 24
+              size: 16.h, // Reduced from 18
               color: notification.color,
             ),
           ),
-          12.sbW, // Reduced from 15
+          10.sbW, // Reduced from 12
 
           // Notification Content
           Expanded(
@@ -205,8 +181,8 @@ class _NotificationsViewState extends State<NotificationsView> {
                 Row(
                   children: [
                     Expanded(
-                      child: notification.title.txt14(
-                        // Reduced from txt16
+                      child: notification.title.txt(
+                        size: 13.sp,
                         fontW: F.w6,
                         color: notification.isRead
                             ? Palette.blackColor
@@ -215,8 +191,8 @@ class _NotificationsViewState extends State<NotificationsView> {
                     ),
                     if (!notification.isRead)
                       Container(
-                        width: 6.w, // Reduced from 8
-                        height: 6.w, // Reduced from 8
+                        width: 5.w, // Reduced from 6
+                        height: 5.w, // Reduced from 6
                         decoration: const BoxDecoration(
                           color: Palette.montraPurple,
                           shape: BoxShape.circle,
@@ -224,20 +200,21 @@ class _NotificationsViewState extends State<NotificationsView> {
                       ),
                   ],
                 ),
-                6.sbH, // Reduced from 8
-                notification.message.txt12(
-                  // Reduced from txt14
+                4.sbH,
+                notification.message.txt(
+                  size: 11.sp,
                   color: Palette.greyColor,
-                  maxLines: 3, // Reduced from 4
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  height: 1.3, // Reduced from 1.4
+                  height: 1.2,
                 ),
-                8.sbH, // Reduced from 10
+                8.sbH,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _formatTimestamp(notification.timestamp).txt(
-                      size: 10.sp,
+                    // Date display on bottom left with new formatting
+                    _formatTileDate(notification.timestamp).txt(
+                      size: 9.sp, // Reduced from 10
                       color: Palette.greyColor.withOpacity(0.8),
                       fontW: F.w5,
                     ),
@@ -252,6 +229,29 @@ class _NotificationsViewState extends State<NotificationsView> {
         ],
       ),
     ).tap(onTap: () => _onNotificationTap(notification));
+  }
+
+  String _formatTileDate(DateTime timestamp) {
+    final now = DateTime.now();
+    final difference = now.difference(timestamp);
+
+    // Only show dd/mm/yyyy format for notifications older than 14 days
+    if (difference.inDays >= 14) {
+      return DateFormat('dd/MM/yyyy').format(timestamp);
+    } else {
+      // For items newer than 14 days, show relative format
+      if (difference.inMinutes < 1) {
+        return 'Just now';
+      } else if (difference.inMinutes < 60) {
+        return '${difference.inMinutes}m ago';
+      } else if (difference.inHours < 24) {
+        return '${difference.inHours}h ago';
+      } else if (difference.inDays == 1) {
+        return 'Yesterday';
+      } else {
+        return '${difference.inDays}d ago';
+      }
+    }
   }
 
   bool _shouldShowActionButton(NotificationItem notification) {
@@ -284,13 +284,15 @@ class _NotificationsViewState extends State<NotificationsView> {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      padding:
+          EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h), // More compact
       decoration: BoxDecoration(
         color: buttonColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8.r),
+        borderRadius: BorderRadius.circular(6.r), // Reduced from 8
         border: Border.all(color: buttonColor.withOpacity(0.3)),
       ),
-      child: buttonText.txt12(
+      child: buttonText.txt(
+        size: 11.sp,
         color: buttonColor,
         fontW: F.w6,
       ),
@@ -360,70 +362,6 @@ class _NotificationsViewState extends State<NotificationsView> {
         ),
       ),
     );
-  }
-
-  List<Map<String, dynamic>> _groupNotificationsByDate(
-      List<NotificationItem> notifications) {
-    final Map<String, List<NotificationItem>> grouped = {};
-
-    for (final notification in notifications) {
-      final dateKey = _getDateKey(notification.timestamp);
-      if (!grouped.containsKey(dateKey)) {
-        grouped[dateKey] = [];
-      }
-      grouped[dateKey]!.add(notification);
-    }
-
-    // Sort by date and create the final structure
-    final sortedKeys = grouped.keys.toList()..sort((a, b) => b.compareTo(a));
-
-    return sortedKeys
-        .map((key) => {
-              'date': _formatDateKey(key),
-              'notifications': grouped[key]!,
-            })
-        .toList();
-  }
-
-  String _getDateKey(DateTime date) {
-    return DateFormat('yyyy-MM-dd').format(date);
-  }
-
-  String _formatDateKey(String dateKey) {
-    final date = DateTime.parse(dateKey);
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final yesterday = today.subtract(const Duration(days: 1));
-    final notificationDate = DateTime(date.year, date.month, date.day);
-
-    if (notificationDate == today) {
-      return 'Today';
-    } else if (notificationDate == yesterday) {
-      return 'Yesterday';
-    } else if (now.difference(notificationDate).inDays < 7) {
-      return DateFormat('EEEE').format(date);
-    } else {
-      return DateFormat('MMM dd, yyyy').format(date);
-    }
-  }
-
-  String _formatTimestamp(DateTime timestamp) {
-    final now = DateTime.now();
-    final difference = now.difference(timestamp);
-
-    if (difference.inMinutes < 1) {
-      return 'Just now';
-    } else if (difference.inMinutes < 60) {
-      return '${difference.inMinutes}m ago';
-    } else if (difference.inHours < 24) {
-      return '${difference.inHours}h ago';
-    } else if (difference.inDays == 1) {
-      return 'Yesterday';
-    } else if (difference.inDays < 7) {
-      return '${difference.inDays}d ago';
-    } else {
-      return DateFormat('MMM dd').format(timestamp);
-    }
   }
 
   void _onNotificationTap(NotificationItem notification) {

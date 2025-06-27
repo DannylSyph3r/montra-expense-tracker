@@ -160,9 +160,9 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
         ),
         15.sbH,
         Wrap(
-          spacing: 12.w,
+          spacing: 5.w,
           runSpacing: 10.h,
-          children: ["Today", "This Week", "This Month", "All"]
+          children: ["Today", "This Week", "This Month"]
               .map((filter) => _buildQuickFilterChip(filter))
               .toList(),
         ),
