@@ -34,13 +34,10 @@ class ProfileView extends StatelessWidget {
                 Column(
                   children: [
                     30.sbH,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        "Profile"
-                          .txt18(color: Palette.whiteColor, fontW: F.w6),
-                      ]
-                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      "Profile".txt(
+                          size: 18.sp, color: Palette.whiteColor, fontW: F.w6),
+                    ]),
                     50.sbH,
 
                     // Profile Picture and Info
@@ -71,13 +68,17 @@ class ProfileView extends StatelessWidget {
 
                         // User Name
                         "Minato Namikaze"
-                            .txt18(color: Palette.whiteColor, fontW: F.w6)
+                            .txt(
+                                size: 18.sp,
+                                color: Palette.whiteColor,
+                                fontW: F.w6)
                             .alignCenter(),
                         5.sbH,
 
                         // User Handle/Email
                         "@minato.namikaze"
-                            .txt14(
+                            .txt(
+                                size: 14.sp,
                                 color: Palette.whiteColor.withOpacity(0.8),
                                 fontW: F.w4)
                             .alignCenter(),
@@ -166,7 +167,8 @@ class ProfileView extends StatelessWidget {
                                           size: 18.h,
                                         ),
                                         10.sbW,
-                                        "App Information".txt14(fontW: F.w5),
+                                        "App Information"
+                                            .txt(size: 14.sp, fontW: F.w5),
                                       ],
                                     ),
                                     10.sbH,
@@ -174,9 +176,10 @@ class ProfileView extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        "Version"
-                                            .txt12(color: Palette.greyColor),
-                                        "1.0.0".txt12(fontW: F.w5),
+                                        "Version".txt(
+                                            size: 12.sp,
+                                            color: Palette.greyColor),
+                                        "1.0.0".txt(size: 12.sp, fontW: F.w5),
                                       ],
                                     ),
                                     5.sbH,
@@ -184,8 +187,10 @@ class ProfileView extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        "Build".txt12(color: Palette.greyColor),
-                                        "1".txt12(fontW: F.w5),
+                                        "Build".txt(
+                                            size: 12.sp,
+                                            color: Palette.greyColor),
+                                        "1".txt(size: 12.sp, fontW: F.w5),
                                       ],
                                     ),
                                   ],
@@ -196,13 +201,17 @@ class ProfileView extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  "Made with ".txt12(),
+                                  "Made with ".txt(
+                                    size: 12.sp,
+                                  ),
                                   Icon(
                                     PhosphorIconsFill.heartStraight,
                                     color: Palette.montraPurple,
                                     size: 18.h,
                                   ),
-                                  " by Slethware".txt12()
+                                  " by Slethware".txt(
+                                    size: 12.sp,
+                                  )
                                 ],
                               ),
 
@@ -254,12 +263,14 @@ class ProfileView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                title.txt16(
+                title.txt(
+                  size: 16.sp,
                   fontW: F.w5,
                   color: titleColor,
                 ),
                 4.sbH,
-                subtitle.txt12(
+                subtitle.txt(
+                  size: 12.sp,
                   color: Palette.greyColor,
                 ),
               ],
@@ -284,9 +295,10 @@ class ProfileView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            "Log Out".txt16(fontW: F.w6),
+            "Log Out".txt(size: 16.sp, fontW: F.w6),
             15.sbH,
-            "Are you sure you want to log out of your account?".txt14(
+            "Are you sure you want to log out of your account?".txt(
+              size: 14.sp,
               color: Palette.greyColor,
               textAlign: TextAlign.center,
             ),
@@ -305,7 +317,8 @@ class ProfileView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                     ),
-                    child: "Cancel".txt14(
+                    child: "Cancel".txt(
+                      size: 14.sp,
                       color: Palette.greyColor,
                       fontW: F.w5,
                     ),
@@ -325,7 +338,8 @@ class ProfileView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                     ),
-                    child: "Log Out".txt14(
+                    child: "Log Out".txt(
+                      size: 14.sp,
                       color: Palette.whiteColor,
                       fontW: F.w6,
                     ),

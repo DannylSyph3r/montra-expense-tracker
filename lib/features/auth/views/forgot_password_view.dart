@@ -27,7 +27,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //! appBar
+        //! AppBar
         appBar: customAppBar(
             title: "Forgot Password",
             context: context,
@@ -42,21 +42,22 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               Column(children: [
                 30.sbH,
                 AppTexts.forgotPassword1
-                    .txt(size: 32.sp, fontW: F.w6)
+                    .txt(size: 24.sp, fontW: F.w6)
                     .alignCenterLeft(),
-                AppTexts.forgotPassword2.txt(size: 32.sp, fontW: F.w6),
+                15.sbH,
+                AppTexts.forgotPassword2.txt(size: 16.sp, fontW: F.w4),
                 50.sbH,
 
-                //! textInput
+                //! Text Input (Email)
                 TextInputWidget(
                     hintText: AppTexts.emailFieldHint,
                     controller: _emailController),
                 10.sbH,
 
-                //! sign Up Buttons
+                //! Action Button
                 AppButton(
                   onTap: () {
-                    goToAndReset(context: context, view: PasswordMailView());
+                    goToAndReset(context: context, view: const PasswordMailView());
                   },
                   text: "Continue",
                   fontSize: 16.sp,

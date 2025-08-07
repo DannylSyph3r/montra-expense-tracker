@@ -1,18 +1,18 @@
-//! THIS FILE CONTAINS HOPEFULLY, ALL EXTENSIONS USED IN THE APP.
+// Application Extensions
 import "dart:developer" as dev_tools show log;
 import "dart:io";
 import "package:flutter/material.dart";
 import "package:flutter_animate/flutter_animate.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:google_fonts/google_fonts.dart";
 import "package:intl/intl.dart";
-// import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
-//! LOG EXTENSION - THIS HELPS TO CALL A .log() ON ANY OBJECT
+// Log Extension - Call .log() on any object
 extension Log on Object {
   void log() => dev_tools.log(toString());
 }
 
-//! HELPS TO CALL A .dismissKeyboard ON A WIDGET
+// Call .dismissKeyboard on any widget to dismiss the keyboard
 extension DismissKeyboard on Widget {
   void dismissKeyboard() => FocusManager.instance.primaryFocus?.unfocus();
 }
@@ -21,11 +21,12 @@ const ext = 0;
 final formatCurrency =
     NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
 
-//Formats the amount and returns a formatted amount
+// Formats the amount and returns a formatted amount
 String formatPrice(String amount) {
   return formatCurrency.format(num.parse(amount)).toString();
 }
 
+// String Casing Extensions - Format strings with different case styles
 extension StringCasingExtension on String {
   String? camelCase() => toBeginningOfSentenceCase(this);
   String toCapitalized() =>
@@ -39,35 +40,7 @@ extension StringCasingExtension on String {
   String removeSpacesAndLower() => replaceAll(' ', '').toLowerCase();
 }
 
-// extension StyledTextExtensionHeading on String {
-//   Text txtHeading({
-//     double? size,
-//     Color? color,
-//     FontWeight? fontWeight,
-//     String? fontFamily,
-//     FontStyle? fontStyle,
-//     TextOverflow? overflow,
-//     TextDecoration? decoration,
-//     TextAlign? textAlign,
-//     int? maxLines,
-//   }) {
-//     return Text(this,
-//         overflow: overflow,
-//         textAlign: textAlign,
-//         maxLines: maxLines,
-//         style: GoogleFonts.inter(
-//           textStyle: TextStyle(
-//             fontSize: size ?? 14.sp,
-//             color: color ?? Colors.black,
-//             fontWeight: fontWeight,
-//             fontFamily: fontFamily,
-//             fontStyle: fontStyle,
-//             decoration: decoration,
-//           ),
-//         ));
-//   }
-// }
-
+// Text Styling Extension - Create styled text widgets with Inter font
 extension StyledTextExtension on String {
   Widget txt({
     double? size,
@@ -88,354 +61,51 @@ extension StyledTextExtension on String {
         overflow: overflow,
         textAlign: textAlign,
         maxLines: maxLines,
-        style: TextStyle(
-          height: height,
-          fontSize: size ?? 14.sp,
-          color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
-          fontWeight: switch (fontW) {
-            F.w1 => FontWeight.w100,
-            F.w2 => FontWeight.w200,
-            F.w3 => FontWeight.w300,
-            F.w4 => FontWeight.w400,
-            F.w5 => FontWeight.w500,
-            F.w6 => FontWeight.w600,
-            F.w7 => FontWeight.w700,
-            F.w8 => FontWeight.w800,
-            _ => fontWeight,
-          },
-          fontFamily: fontFamily,
-          fontStyle: fontStyle,
-          decoration: decoration,
+        style: GoogleFonts.poppins(
+          textStyle: TextStyle(
+            height: height,
+            fontSize: size ?? 14.sp,
+            color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
+            fontWeight: switch (fontW) {
+              F.w1 => FontWeight.w100,
+              F.w2 => FontWeight.w200,
+              F.w3 => FontWeight.w300,
+              F.w4 => FontWeight.w400,
+              F.w5 => FontWeight.w500,
+              F.w6 => FontWeight.w600,
+              F.w7 => FontWeight.w700,
+              F.w8 => FontWeight.w800,
+              _ => fontWeight,
+            },
+            fontStyle: fontStyle,
+            decoration: decoration,
+          ),
         ),
       ),
     );
   }
 }
 
-extension StyledTextExtension14 on String {
-  Widget txt14({
-    double? size,
-    Color? color,
-    FontWeight? fontWeight,
-    String? fontFamily,
-    FontStyle? fontStyle,
-    TextOverflow? overflow,
-    TextDecoration? decoration,
-    TextAlign? textAlign,
-    int? maxLines,
-    double? height,
-    F? fontW,
-  }) {
-    return Builder(
-      builder: (BuildContext context) => Text(
-        this,
-        overflow: overflow,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        style: TextStyle(
-          height: height,
-          fontSize: size ?? 14.sp,
-          color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
-          fontWeight: switch (fontW) {
-            F.w1 => FontWeight.w100,
-            F.w2 => FontWeight.w200,
-            F.w3 => FontWeight.w300,
-            F.w4 => FontWeight.w400,
-            F.w5 => FontWeight.w500,
-            F.w6 => FontWeight.w600,
-            F.w7 => FontWeight.w700,
-            F.w8 => FontWeight.w800,
-            _ => fontWeight,
-          },
-          fontFamily: fontFamily,
-          fontStyle: fontStyle,
-          decoration: decoration,
-        ),
-      ),
-    );
-  }
-}
-
-extension StyledTextExtension12 on String {
-  Widget txt12({
-    double? size,
-    Color? color,
-    FontWeight? fontWeight,
-    String? fontFamily,
-    FontStyle? fontStyle,
-    TextOverflow? overflow,
-    TextDecoration? decoration,
-    TextAlign? textAlign,
-    int? maxLines,
-    double? height,
-    F? fontW,
-  }) {
-    return Builder(
-      builder: (BuildContext context) => Text(
-        this,
-        overflow: overflow,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        style: TextStyle(
-          height: height,
-          fontSize: size ?? 12.sp,
-          color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
-          fontWeight: switch (fontW) {
-            F.w1 => FontWeight.w100,
-            F.w2 => FontWeight.w200,
-            F.w3 => FontWeight.w300,
-            F.w4 => FontWeight.w400,
-            F.w5 => FontWeight.w500,
-            F.w6 => FontWeight.w600,
-            F.w7 => FontWeight.w700,
-            F.w8 => FontWeight.w800,
-            _ => fontWeight,
-          },
-          fontFamily: fontFamily,
-          fontStyle: fontStyle,
-          decoration: decoration,
-        ),
-      ),
-    );
-  }
-}
-
-extension StyledTextExtension16 on String {
-  Widget txt16({
-    double? size,
-    Color? color,
-    FontWeight? fontWeight,
-    String? fontFamily,
-    FontStyle? fontStyle,
-    TextOverflow? overflow,
-    TextDecoration? decoration,
-    TextAlign? textAlign,
-    int? maxLines,
-    double? height,
-    F? fontW,
-  }) {
-    return Builder(
-      builder: (BuildContext context) => Text(
-        this,
-        overflow: overflow,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        style: TextStyle(
-          height: height,
-          fontSize: size ?? 16.sp,
-          color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
-          fontWeight: switch (fontW) {
-            F.w1 => FontWeight.w100,
-            F.w2 => FontWeight.w200,
-            F.w3 => FontWeight.w300,
-            F.w4 => FontWeight.w400,
-            F.w5 => FontWeight.w500,
-            F.w6 => FontWeight.w600,
-            F.w7 => FontWeight.w700,
-            F.w8 => FontWeight.w800,
-            _ => fontWeight,
-          },
-          fontFamily: fontFamily,
-          fontStyle: fontStyle,
-          decoration: decoration,
-        ),
-      ),
-    );
-  }
-}
-
-extension StyledTextExtension18 on String {
-  Widget txt18({
-    double? size,
-    Color? color,
-    FontWeight? fontWeight,
-    String? fontFamily,
-    FontStyle? fontStyle,
-    TextOverflow? overflow,
-    TextDecoration? decoration,
-    TextAlign? textAlign,
-    int? maxLines,
-    double? height,
-    F? fontW,
-  }) {
-    return Builder(
-      builder: (BuildContext context) => Text(
-        this,
-        overflow: overflow,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        style: TextStyle(
-          height: height,
-          fontSize: size ?? 18.sp,
-          color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
-          fontWeight: switch (fontW) {
-            F.w1 => FontWeight.w100,
-            F.w2 => FontWeight.w200,
-            F.w3 => FontWeight.w300,
-            F.w4 => FontWeight.w400,
-            F.w5 => FontWeight.w500,
-            F.w6 => FontWeight.w600,
-            F.w7 => FontWeight.w700,
-            F.w8 => FontWeight.w800,
-            _ => fontWeight,
-          },
-          fontFamily: fontFamily,
-          fontStyle: fontStyle,
-          decoration: decoration,
-        ),
-      ),
-    );
-  }
-}
-
-extension StyledTextExtension24 on String {
-  Widget txt24({
-    double? size,
-    Color? color,
-    FontWeight? fontWeight,
-    String? fontFamily,
-    FontStyle? fontStyle,
-    TextOverflow? overflow,
-    TextDecoration? decoration,
-    TextAlign? textAlign,
-    int? maxLines,
-    double? height,
-    F? fontW,
-  }) {
-    return Builder(
-      builder: (BuildContext context) => Text(
-        this,
-        overflow: overflow,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        style: TextStyle(
-          height: height,
-          fontSize: size ?? 24.sp,
-          color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
-          fontWeight: switch (fontW) {
-            F.w1 => FontWeight.w100,
-            F.w2 => FontWeight.w200,
-            F.w3 => FontWeight.w300,
-            F.w4 => FontWeight.w400,
-            F.w5 => FontWeight.w500,
-            F.w6 => FontWeight.w600,
-            F.w7 => FontWeight.w700,
-            F.w8 => FontWeight.w800,
-            _ => fontWeight,
-          },
-          fontFamily: fontFamily,
-          fontStyle: fontStyle,
-          decoration: decoration,
-        ),
-      ),
-    );
-  }
-}
-
-extension StyledTextExtension30 on String {
-  Widget txt30({
-    double? size,
-    Color? color,
-    FontWeight? fontWeight,
-    String? fontFamily,
-    FontStyle? fontStyle,
-    TextOverflow? overflow,
-    TextDecoration? decoration,
-    TextAlign? textAlign,
-    int? maxLines,
-    double? height,
-    F? fontW,
-  }) {
-    return Builder(
-      builder: (BuildContext context) => Text(
-        this,
-        overflow: overflow,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        style: TextStyle(
-          height: height,
-          fontSize: size ?? 30.sp,
-          color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
-          fontWeight: switch (fontW) {
-            F.w1 => FontWeight.w100,
-            F.w2 => FontWeight.w200,
-            F.w3 => FontWeight.w300,
-            F.w4 => FontWeight.w400,
-            F.w5 => FontWeight.w500,
-            F.w6 => FontWeight.w600,
-            F.w7 => FontWeight.w700,
-            F.w8 => FontWeight.w800,
-            _ => fontWeight,
-          },
-          fontFamily: fontFamily,
-          fontStyle: fontStyle,
-          decoration: decoration,
-        ),
-      ),
-    );
-  }
-}
-
-extension StyledTextExtension20 on String {
-  Widget txt20({
-    double? size,
-    Color? color,
-    FontWeight? fontWeight,
-    String? fontFamily,
-    FontStyle? fontStyle,
-    TextOverflow? overflow,
-    TextDecoration? decoration,
-    TextAlign? textAlign,
-    int? maxLines,
-    double? height,
-    F? fontW,
-  }) {
-    return Builder(
-      builder: (BuildContext context) => Text(
-        this,
-        overflow: overflow,
-        textAlign: textAlign,
-        maxLines: maxLines,
-        style: TextStyle(
-          height: height,
-          fontSize: size ?? 20.sp,
-          color: color ?? Theme.of(context).textTheme.bodyLarge?.color,
-          fontWeight: switch (fontW) {
-            F.w1 => FontWeight.w100,
-            F.w2 => FontWeight.w200,
-            F.w3 => FontWeight.w300,
-            F.w4 => FontWeight.w400,
-            F.w5 => FontWeight.w500,
-            F.w6 => FontWeight.w600,
-            F.w7 => FontWeight.w700,
-            F.w8 => FontWeight.w800,
-            _ => fontWeight,
-          },
-          fontFamily: fontFamily,
-          fontStyle: fontStyle,
-          decoration: decoration,
-        ),
-      ),
-    );
-  }
-}
-
+// Image Path Extensions - Generate image file paths
 extension ImagePath on String {
   String get png => 'lib/assets/images/$this.png';
   String get jpg => 'lib/assets/images/$this.jpg';
   String get gif => 'lib/assets/images/$this.gif';
 }
 
+// Icon Path Extensions - Generate icon file paths
 extension IconPath on String {
   String get iconPng => 'lib/assets/icons/$this.png';
   String get iconSvg => 'lib/assets/icons/$this.svg';
 }
 
+// Number Extensions for Integers - Calculate percentages
 extension NumExtensions on int {
   num addPercentage(num v) => this + ((v / 100) * this);
   num getPercentage(num v) => ((v / 100) * this);
 }
 
+// Number Extensions for Numeric Types - Calculate percentages
 extension NumExtensionss on num {
   num addPercentage(num v) => this + ((v / 100) * this);
   num getPercentage(num v) => ((v / 100) * this);
@@ -449,6 +119,7 @@ extension NumExtensionss on num {
 //   launchUrl(Uri.parse("mailto:$receiver?subject=$title&body=$body"));
 // }
 
+// Widget Extensions for Numeric Types - Create sized boxes and padding
 extension WidgetExtensionss on num {
   Widget get sbH => SizedBox(
         height: h,
@@ -463,6 +134,7 @@ extension WidgetExtensionss on num {
   EdgeInsetsGeometry get padH => EdgeInsets.symmetric(horizontal: w);
 }
 
+// Widget Extensions for Double - Create sized boxes and padding with all directions
 extension WidgetExtensions on double {
   Widget get sbH => SizedBox(
         height: h,
@@ -479,6 +151,7 @@ extension WidgetExtensions on double {
   EdgeInsetsGeometry get padH => EdgeInsets.symmetric(horizontal: w);
 }
 
+// Image Asset Extension - Create Image widgets from asset paths
 extension ImageExtension on String {
   Image myImage({
     Color? color,
@@ -496,6 +169,7 @@ extension ImageExtension on String {
   }
 }
 
+// Duration Extension - Create Duration objects from integers
 extension DurationExtension on int {
   Duration duration({
     int days = 0,
@@ -516,6 +190,7 @@ extension DurationExtension on int {
   }
 }
 
+// InkWell Tap Extension - Add tap gestures with Material Design ripple effects
 extension InkWellExtension on Widget {
   InkWell tap({
     required GestureTapCallback? onTap,
@@ -537,6 +212,7 @@ extension InkWellExtension on Widget {
   }
 }
 
+// Gesture Tap Extension
 extension GestureTap on Widget {
   GestureDetector gestureTap({
     VoidCallback? onTap,
@@ -552,6 +228,7 @@ extension GestureTap on Widget {
   }
 }
 
+// Alignment Extension - Easily align widgets in different positions
 extension AlignExtension on Widget {
   Align align(Alignment alignment) {
     return Align(
@@ -622,12 +299,9 @@ extension AlignExtension on Widget {
       child: this,
     );
   }
-
-  // Add more alignment methods as needed
-
-  // Example: alignTopCenter, alignBottomRight, etc.
 }
 
+// Widget Animation Extension
 extension WidgetAnimation on Widget {
   Animate fadeInFromTop({
     Duration? delay,
@@ -664,7 +338,7 @@ extension WidgetAnimation on Widget {
       );
 }
 
-//! enum for fontweight
+// Font Weight Enum
 enum F {
   w1,
   w2,
@@ -676,14 +350,14 @@ enum F {
   w8,
 }
 
-/// Extension for creating a ValueNotifier from a value directly.
+// ValueNotifier Creation Extension - Create ValueNotifier from any value
 extension ValueNotifierExtension<T> on T {
   ValueNotifier<T> get notifier {
     return ValueNotifier<T>(this);
   }
 }
 
-/// extension for listening to ValueNotifier instances.
+// ValueNotifier Builder Extension - Create reactive widgets from ValueNotifier
 extension ValueNotifierBuilderExtension<T> on ValueNotifier<T> {
   Widget sync({
     required Widget Function(BuildContext context, T value, Widget? child)
@@ -696,6 +370,7 @@ extension ValueNotifierBuilderExtension<T> on ValueNotifier<T> {
   }
 }
 
+// Multiple Listenable Builder Extension - Listen to multiple ValueNotifiers
 extension ListenableBuilderExtension on List<Listenable> {
   Widget syncPro({
     required Widget Function(BuildContext context, Widget? child) builder,

@@ -12,7 +12,7 @@ abstract class AppTexts {
   static const String clusterStartingBalance = 'Cluster Starting Balance';
 
   //! Onboarding
-  static const String onboardingTitle1 = 'Gain total control of your money';
+  static const String onboardingTitle1 = 'Gain total control of your Expenses';
   static const String onboardingTitle2 = 'Know where your money goes';
   static const String onboardingTitle3 = 'Planning ahead';
   static const String onboardingdescription1 =
@@ -29,10 +29,8 @@ abstract class AppTexts {
   static const String switchToSignup = 'Don\'t have an account yet?';
   static const String forgotPassword1 = 'Don\'t worry.';
   static const String forgotPassword2 =
-      'Enter your email and we\'ll send you a link to reset your password :)';
+      'Enter your Email Address and we\'ll send you a code to reset your password :)';
   static const String mailConfirmation = 'Your email is on the way';
-  static const String mailInstructions =
-      'Check your email test@test.com and follow the instructions to reset your password';
   static const String clusterMainInstruction1 =
       'Let’s setup your Account cluster!';
   static const String clusterMainInstruction2 =

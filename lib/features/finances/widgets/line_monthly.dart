@@ -83,7 +83,7 @@ class _LineChartMonthlyState extends State<LineChartMonthly> {
               color: Palette.montraPurple,
             ),
             5.sbW,
-            DateFormat('MMMM yyyy').format(selectedMonth).txt14()
+            DateFormat('MMMM yyyy').format(selectedMonth).txt(size: 12.sp)
           ],
         ),
       ).tap(onTap: _showMonthSelector);
@@ -116,7 +116,7 @@ class _LineChartMonthlyState extends State<LineChartMonthly> {
               ),
             ),
             20.sbH,
-            "Select Month".txt18(fontW: F.w6),
+            "Select Month".txt(size:18.sp, fontW: F.w6),
             15.sbH,
             Expanded(
               child: ListView.separated(
@@ -131,7 +131,7 @@ class _LineChartMonthlyState extends State<LineChartMonthly> {
                       _selectedMonthNotifier.value = month;
                       Navigator.pop(context);
                     },
-                    title: DateFormat('MMMM yyyy').format(month).txt14(),
+                    title: DateFormat('MMMM yyyy').format(month).txt(size: 14.sp),
                     trailing: isSelected 
                       ? Icon(PhosphorIconsBold.check, color: Palette.montraPurple, size: 20.h)
                       : null,

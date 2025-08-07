@@ -15,24 +15,29 @@ class PasswordMailView extends StatelessWidget {
     return Scaffold(
         body: Padding(
       padding: 15.padH,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Column(
           children: [
+
+            //! Mail Asset
             AppGraphics.forgotPassword.png.myImage(
-              height: 346.h,
+              height: 400.h,
             ),
             30.sbH,
-            AppTexts.mailConfirmation.txt(size: 32.sp, fontW: F.w6),
-            20.sbH,
-            AppTexts.mailInstructions
-                .txt(size: 16.sp, fontW: F.w6, textAlign: TextAlign.center),
+
+            //! Confirmation Text
+            AppTexts.mailConfirmation.txt(size: 26.sp, fontW: F.w6, textAlign: TextAlign.center),
+            30.sbH,
+
+            //! Content
+            "Check your email test@test.com and follow the instructions to reset your password"
+                .txt(size: 16.sp, fontW: F.w4, textAlign: TextAlign.center),
             50.sbH,
           ],
         ),
-      
-        //! sign Up Buttons
+
+        //! Action Button
         Column(
           children: [
             AppButton(

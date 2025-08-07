@@ -9,7 +9,7 @@ void showCustomSelectionBottomSheet(BuildContext context, double? modalHeight,
     context: context,
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(35.r), topRight: Radius.circular(35.r))),
+            topLeft: Radius.circular(35.r), topRight: Radius.circular(35.r))), 
     builder: (context) {
       return SizedBox(
         height: modalHeight, // Change the background color as needed
@@ -27,7 +27,7 @@ void showCustomSelectionBottomSheet(BuildContext context, double? modalHeight,
                 ),
               ),
               30.sbH,
-              title.txt16(fontW: F.w6),
+              title.txt(size: 16.sp, fontW: F.w6),
               20.sbH,
               sheetContent,
             ],

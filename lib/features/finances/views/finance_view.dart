@@ -311,8 +311,8 @@ class _FinanceViewState extends State<FinanceView>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              "Active Budgets".txt16(fontW: F.w6),
-              "${activeBudgets.length} budgets".txt12(
+              "Active Budgets".txt(size: 16.sp, fontW: F.w6),
+              "${activeBudgets.length} budgets".txt(size: 12.sp,
                 color: Palette.greyColor,
                 fontW: F.w5,
               ),
@@ -348,8 +348,8 @@ class _FinanceViewState extends State<FinanceView>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              "Expired Budgets".txt16(fontW: F.w6),
-              "${expiredBudgets.length} budgets".txt12(
+              "Expired Budgets".txt(size: 16.sp, fontW: F.w6),
+              "${expiredBudgets.length} budgets".txt(size: 12.sp,
                 color: Palette.greyColor,
                 fontW: F.w5,
               ),
@@ -396,9 +396,10 @@ class _FinanceViewState extends State<FinanceView>
           goTo(context: context, view: const CreateBudgetView());
         }),
         15.sbH,
-        "No budgets created".txt14(fontW: F.w6),
+        "No budgets created".txt(size: 14.sp, fontW: F.w6),
         8.sbH,
-        "Create your first budget to start tracking your spending".txt12(
+        "Create your first budget to start tracking your spending".txt(
+          size: 12.sp,
           color: Palette.greyColor,
           textAlign: TextAlign.center,
         ),
@@ -436,9 +437,9 @@ class _FinanceViewState extends State<FinanceView>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      budget.category.label.txt16(fontW: F.w6),
+                      budget.category.label.txt(size: 16.sp ,fontW: F.w6),
                       4.sbH,
-                      budget.description.txt12(color: Palette.greyColor),
+                      budget.description.txt(size: 12.sp, color: Palette.greyColor),
                     ],
                   ),
                 ),
@@ -476,7 +477,7 @@ class _FinanceViewState extends State<FinanceView>
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                "Progress".txt14(fontW: F.w6),
+                "Progress".txt(size: 14.sp, fontW: F.w6),
                 8.sbH,
                 Stack(
                   children: [
@@ -504,7 +505,7 @@ class _FinanceViewState extends State<FinanceView>
                 ),
                 8.sbH,
                 "${(budget.progressPercentage * 100).toStringAsFixed(1)}% used"
-                    .txt12(
+                    .txt(size: 12.sp,
                   color: Palette.greyColor,
                 ),
               ],
@@ -521,8 +522,8 @@ class _FinanceViewState extends State<FinanceView>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          label.txt12(color: Palette.greyColor),
-          value.txt12(fontW: F.w5),
+          label.txt(size:12.sp, color: Palette.greyColor),
+          value.txt(size: 12.sp, fontW: F.w5),
         ],
       ),
     );
@@ -539,7 +540,7 @@ class _FinanceViewState extends State<FinanceView>
             ListTile(
               leading: const Icon(PhosphorIconsBold.pencil,
                   color: Palette.montraPurple),
-              title: "Edit Budget".txt14(),
+              title: "Edit Budget".txt(size: 14.sp),
               onTap: () {
                 Navigator.pop(context);
                 _showEditBudget(budget);
@@ -548,7 +549,7 @@ class _FinanceViewState extends State<FinanceView>
             ListTile(
               leading:
                   const Icon(PhosphorIconsBold.trash, color: Palette.redColor),
-              title: "Delete Budget".txt14(color: Palette.redColor),
+              title: "Delete Budget".txt(size: 14.sp, color: Palette.redColor),
               onTap: () {
                 Navigator.pop(context);
                 _showDeleteConfirmation(budget);
@@ -586,10 +587,10 @@ class _FinanceViewState extends State<FinanceView>
         padding: 20.padH,
         child: Column(
           children: [
-            "Delete Budget?".txt16(fontW: F.w6),
+            "Delete Budget?".txt(size: 16.sp, fontW: F.w6),
             10.sbH,
             "This action cannot be undone. The budget for ${budget.category.label} will be permanently deleted."
-                .txt12(
+                .txt(size: 12.sp,
               color: Palette.greyColor,
               textAlign: TextAlign.center,
             ),

@@ -14,6 +14,7 @@ import 'package:expense_tracker_app/utils/widgets/myicon.dart';
 import 'package:expense_tracker_app/utils/widgets/text_input.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -66,13 +67,14 @@ class _SignUpViewState extends State<SignUpView> {
       _showPasswordFeedback.value = true;
     } else {
       // Show "don't match" after 1 second delay
-      _passwordMatchTimer = Timer(const Duration(seconds: 1), () {
+      _passwordMatchTimer = Timer(1.seconds, () {
         _passwordsMatch.value = false;
         _showPasswordFeedback.value = true;
       });
     }
   }
 
+  //! Validation Function for Sign up
   void _handleSignUp() {
     final fullname = _fullnameController.text;
     final email = _emailController.text;
@@ -119,6 +121,7 @@ class _SignUpViewState extends State<SignUpView> {
     });
   }
 
+  //! Password Match Indicator
   Widget _buildPasswordMatchIndicator() {
     return ValueListenableBuilder<bool>(
       valueListenable: _showPasswordFeedback,
@@ -189,7 +192,8 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //! appBar
+
+        //! AppBar
         appBar: customAppBar(
             title: "Sign Up",
             implyLeading: false,
@@ -205,15 +209,19 @@ class _SignUpViewState extends State<SignUpView> {
               Column(children: [
                 30.sbH,
 
-                //! textInput
+                //! Text Input (Full Name)
                 TextInputWidget(
                     hintText: AppTexts.nameFieldHint,
                     controller: _fullnameController),
                 10.sbH,
+
+                //! Text Input (Email)
                 TextInputWidget(
                     hintText: AppTexts.emailFieldHint,
                     controller: _emailController),
                 10.sbH,
+
+                //! Password Field
                 _passwordVisible.sync(builder: (context, isVisible, child) {
                   return TextInputWidget(
                     hintText: AppTexts.passwordFieldHint,
@@ -260,7 +268,7 @@ class _SignUpViewState extends State<SignUpView> {
 
                 20.sbH,
 
-                //! TOC checker
+                //! TOC (Terms and Conditions) checker
                 _toc.sync(builder: (context, tocAccepted, child) {
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,7 +342,7 @@ class _SignUpViewState extends State<SignUpView> {
 
                 20.sbH,
 
-                //! sign Up Buttons
+                //! Sign Up Buttons
                 AppButton(
                   onTap: () {
                     _handleSignUp();
@@ -343,9 +351,11 @@ class _SignUpViewState extends State<SignUpView> {
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
-                10.sbH,
-                "Or with".txt14(fontW: F.w7, color: Palette.greyColor),
-                10.sbH,
+                15.sbH,
+
+                "Or".txt(size: 14.sp, fontW: F.w7, color: Palette.greyColor),
+                15.sbH,
+
                 TransparentButton(
                   onTap: () {},
                   isText: false,
@@ -354,12 +364,12 @@ class _SignUpViewState extends State<SignUpView> {
                       children: [
                         const MyIcon(icon: AppGraphics.googleIcon),
                         10.sbW,
-                        "Sign up with Google".txt16(fontW: F.w6)
+                        "Sign up with Google".txt(size: 16.sp, fontW: F.w6)
                       ]),
                 ),
                 30.sbH,
 
-                //! switch to Login View
+                //! Switch to Login View
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(

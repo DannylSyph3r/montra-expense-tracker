@@ -187,8 +187,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                   .tap(onTap: () {
                                 goBack(context);
                               }),
-                              middle: "$transactionText Transaction".txt16(
-                                  color: Palette.whiteColor, fontW: F.w5),
+                              middle: "$transactionText Transaction".txt(
+                                  size: 16.sp,
+                                  color: Palette.whiteColor,
+                                  fontW: F.w5),
                             ),
                             40.sbH,
                             Padding(
@@ -679,12 +681,14 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                               size: 32.h,
                                             ),
                                             8.sbH,
-                                            "Attach Invoice".txt14(
+                                            "Attach Invoice".txt(
+                                              size: 14.sp,
                                               color: Palette.greyColor,
                                               fontW: F.w5,
                                             ),
                                             4.sbH,
-                                            "Optional".txt12(
+                                            "Optional".txt(
+                                              size: 12.sp,
                                               color: Palette.greyColor
                                                   .withOpacity(0.7),
                                             ),
@@ -720,7 +724,8 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                                 size: 16.h,
                                               ),
                                               8.sbW,
-                                              "Transaction Details".txt12(
+                                              "Transaction Details".txt(
+                                                size: 12.sp,
                                                 color: backgroundColor,
                                                 fontW: F.w6,
                                               ),

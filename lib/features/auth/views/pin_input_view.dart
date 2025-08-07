@@ -67,7 +67,7 @@ class _PinInputViewState extends State<PinInputView> {
             if (_confirmPinNotifier.value.join() == _pinNotifier.value.join()) {
               _pinStatus.value = "PIN confirmed";
               _delayedResetPinState();
-              goTo(context: context, view: ClusterSetupView());
+              goTo(context: context, view: const ClusterSetupView());
             } else {
               _pinStatus.value = "Incorrect PIN";
               _delayedResetPinState();

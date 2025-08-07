@@ -94,8 +94,10 @@ class _NewAccountViewState extends State<NewAccountView> {
                             .tap(onTap: () {
                           goBack(context);
                         }),
-                        middle: "Add New Account"
-                            .txt16(color: Palette.whiteColor, fontW: F.w5),
+                        middle: "Add New Account".txt(
+                            size: 16.sp,
+                            color: Palette.whiteColor,
+                            fontW: F.w5),
                       ),
                       40.sbH,
                       Padding(
@@ -290,7 +292,8 @@ class _NewAccountViewState extends State<NewAccountView> {
                                           size: 16.h,
                                         ),
                                         8.sbW,
-                                        "Account Details".txt12(
+                                        "Account Details".txt(
+                                          size: 12.sp,
                                           color: Palette.montraPurple,
                                           fontW: F.w6,
                                         ),

@@ -82,7 +82,7 @@ class _HomeViewState extends State<HomeView> {
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            currentCluster.txt16(
+                            currentCluster.txt(size: 16.sp,
                                 color: Palette.whiteColor, fontW: F.w6),
                             5.sbW,
                             Icon(
@@ -111,7 +111,7 @@ class _HomeViewState extends State<HomeView> {
                           Row(
                             children: [
                               "Good Morning"
-                                  .txt18(color: Palette.whiteColor, fontW: F.w4)
+                                  .txt(size: 18.sp, color: Palette.whiteColor, fontW: F.w4)
                                   .alignCenterLeft(),
                               3.sbW,
                               Icon(
@@ -123,7 +123,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           5.sbH,
                           "Minato Namikaze"
-                              .txt18(
+                              .txt(size: 18.sp,
                                   color: Palette.whiteColor,
                                   fontW: F.w6,
                                   overflow: TextOverflow.ellipsis)
@@ -276,7 +276,7 @@ class _HomeViewState extends State<HomeView> {
                               children: [
                                 RowRailer(
                                   rowPadding: EdgeInsets.zero,
-                                  leading: "Total Balance".txt16(
+                                  leading: "Total Balance".txt(size: 16.sp,
                                       fontW: F.w3, color: Palette.whiteColor),
                                   trailing: _privacyFilter.sync(
                                       builder: (context, privacyOn, child) {
@@ -424,7 +424,7 @@ class _HomeViewState extends State<HomeView> {
             100.sbH,
             RowRailer(
               rowPadding: EdgeInsets.zero,
-              leading: "Recent Transactions".txt16(fontW: F.w5),
+              leading: "Recent Transactions".txt(size: 16.sp, fontW: F.w5),
               trailing: Container(
                 height: 27.h,
                 width: 67.w,
@@ -433,7 +433,7 @@ class _HomeViewState extends State<HomeView> {
                     color: Palette.montraPurple.withOpacity(0.25)),
                 child: Center(
                   child: "See All"
-                      .txt14(color: Palette.montraPurple, fontW: F.w5)
+                      .txt(size: 14.sp, color: Palette.montraPurple, fontW: F.w5)
                       .tap(onTap: () {
                     context.read<BaseNavCubit>().moveToPage(1);
                   }),

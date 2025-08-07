@@ -14,7 +14,8 @@ void showSnackBar({required BuildContext context, required String text}) {
     ..showSnackBar(
       SnackBar(
         duration: const Duration(milliseconds: 2000),
-        content: text.txt16(
+        content: text.txt(
+          size: 16.sp,
           fontWeight: FontWeight.w500,
           color: Palette.whiteColor,
         ),
@@ -22,7 +23,7 @@ void showSnackBar({required BuildContext context, required String text}) {
     );
 }
 
-//! SHOW BANNER
+// Show Flush Banner at the top of the screen
 showBanner({
   required BuildContext context,
   required String theMessage,

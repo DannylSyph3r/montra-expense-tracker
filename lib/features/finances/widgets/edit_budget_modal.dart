@@ -190,9 +190,9 @@ class _EditBudgetModalState extends State<EditBudgetModal> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    "Edit Budget".txt16(fontW: F.w6),
+                    "Edit Budget".txt(size: 16.sp, fontW: F.w6),
                     widget.budget.category.label
-                        .txt12(color: Palette.greyColor),
+                        .txt(size: 12.sp, color: Palette.greyColor),
                   ],
                 ),
               ),
@@ -222,7 +222,8 @@ class _EditBudgetModalState extends State<EditBudgetModal> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        "Limited Editing".txt12(
+                        "Limited Editing".txt(
+                          size: 12.sp,
                           color: Colors.orange,
                           fontW: F.w6,
                         ),
@@ -270,7 +271,7 @@ class _EditBudgetModalState extends State<EditBudgetModal> {
                   15.sbH,
 
                   // Description Field (Always editable)
-                  "Description".txt14(fontW: F.w5).alignCenterLeft(),
+                  "Description".txt(size: 14.sp, fontW: F.w5).alignCenterLeft(),
                   8.sbH,
                   TextInputWidget(
                     controller: _budgetDescriptionController,
@@ -486,15 +487,17 @@ class _EditBudgetModalState extends State<EditBudgetModal> {
                         size: 20.h,
                       ),
                       12.sbW,
-                      "Recurring Budget".txt14(fontW: F.w5),
+                      "Recurring Budget".txt(size: 14.sp, fontW: F.w5),
                       const Spacer(),
                       if (widget.budget.isRecurring)
-                        "Yes".txt12(
+                        "Yes".txt(
+                          size: 14.sp,
                           color: Palette.greenColor,
                           fontW: F.w6,
                         )
                       else
-                        "No".txt12(
+                        "No".txt(
+                          size: 12.sp,
                           color: Palette.greyColor,
                           fontW: F.w6,
                         ),
@@ -534,7 +537,7 @@ class _EditBudgetModalState extends State<EditBudgetModal> {
                 child: AppButton(
                   color: Palette.montraPurple,
                   text: "Save Changes",
-                  onTap: (){},
+                  onTap: () {},
                 ),
               ),
             ],
@@ -555,7 +558,7 @@ class _EditBudgetModalState extends State<EditBudgetModal> {
       children: [
         Row(
           children: [
-            label.txt14(fontW: F.w5),
+            label.txt(size: 14.sp, fontW: F.w5),
             if (!canEdit) ...[
               8.sbW,
               Icon(
@@ -592,7 +595,7 @@ class _EditBudgetModalState extends State<EditBudgetModal> {
 
           return ListTile(
             leading: Icon(icons[index], color: Palette.montraPurple),
-            title: period.name.toCapitalized().txt14(),
+            title: period.name.toCapitalized().txt(size: 14.sp),
             onTap: () {
               _selectedPeriodNotifier.value = period;
               _budgetPeriodController.text = period.name.toCapitalized();

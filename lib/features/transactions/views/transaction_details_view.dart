@@ -120,8 +120,10 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                             .tap(onTap: () {
                           goBack(context);
                         }),
-                        middle: "Transaction Details"
-                            .txt16(color: Palette.whiteColor, fontW: F.w5),
+                        middle: "Transaction Details".txt(
+                            size: 16.sp,
+                            color: Palette.whiteColor,
+                            fontW: F.w5),
                         trailing: widget.onDelete != null
                             ? const Icon(PhosphorIconsFill.trash,
                                     color: Palette.whiteColor)
@@ -134,10 +136,12 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          "Remove this Transaction?".txt16(),
+                                          "Remove this Transaction?"
+                                              .txt(size: 16.sp),
                                           15.sbH,
                                           AppTexts.removeTransactionConfirmation
-                                              .txt14(
+                                              .txt(
+                                                  size: 14.sp,
                                                   color: Palette.greyColor,
                                                   textAlign: TextAlign.center),
                                           20.sbH,
@@ -235,7 +239,8 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                                       size: 14.sp,
                                     ),
                                     5.sbW,
-                                    widget.transactionType.txt14(
+                                    widget.transactionType.txt(
+                                      size: 14.sp,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -246,7 +251,8 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                               // Category
                               _buildDetailRow(
                                 label: "Category",
-                                content: widget.category.txt14(
+                                content: widget.category.txt(
+                                  size: 14.sp,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.end,
@@ -256,7 +262,8 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                               // Time
                               _buildDetailRow(
                                 label: "Time",
-                                content: widget.time.txt14(
+                                content: widget.time.txt(
+                                  size: 14.sp,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.end,
@@ -312,8 +319,10 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                                 ),
                                 20.sbH, // Reduced from 30.sbH
                                 "Attachment"
-                                    .txt14(
-                                        color: Palette.greyColor, fontW: F.w6)
+                                    .txt(
+                                        size: 14.sp,
+                                        color: Palette.greyColor,
+                                        fontW: F.w6)
                                     .alignCenterLeft(),
                                 10.sbH,
                                 _buildAttachmentCarousel(),
@@ -362,7 +371,8 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          label.txt14(
+          label.txt(
+            size: 14.sp,
             color: Palette.greyColor,
             fontW: F.w6,
           ),
@@ -403,7 +413,8 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                label.txt14(
+                label.txt(
+                  size: 14.sp,
                   color: Palette.greyColor,
                   fontW: F.w6,
                 ),
@@ -419,7 +430,8 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                       width: 1,
                     ),
                   ),
-                  child: value.txt14(
+                  child: value.txt(
+                    size: 14.sp,
                     maxLines: maxLines,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
@@ -431,13 +443,15 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                label.txt14(
+                label.txt(
+                  size: 14.sp,
                   color: Palette.greyColor,
                   fontW: F.w6,
                 ),
                 10.sbW,
                 Flexible(
-                  child: value.txt14(
+                  child: value.txt(
+                    size: 14.sp,
                     maxLines: maxLines,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.end,

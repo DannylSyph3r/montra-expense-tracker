@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomModal extends StatelessWidget {
   final double modalHeight;
   final Color? color;
-  final Widget child; // Accept any widget as a child
+  final Widget child;
 
   const CustomModal({
     required this.modalHeight,
@@ -59,13 +59,13 @@ void showCustomModal(
   VoidCallback? onDismissed,
 }) {
   showModalBottomSheet(
-    isScrollControlled: true, // This is key!
+    isScrollControlled: true,
     enableDrag: true,
     backgroundColor: Colors.transparent,
     context: context,
     builder: (context) => Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom, // Keyboard padding
+        bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: CustomModal(
         modalHeight: modalHeight,

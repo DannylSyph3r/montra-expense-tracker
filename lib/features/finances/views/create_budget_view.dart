@@ -91,68 +91,69 @@ class _CreateBudgetViewState extends State<CreateBudgetView> {
     }
   }
 
-void _createBudget() {
-  // Validate inputs
-  if (_selectedCategoryNotifier.value == null) {
-    showBanner(
-      context: context,
-      theMessage: "Please select a category",
-      theType: NotificationType.failure,
+  void _createBudget() {
+    // Validate inputs
+    if (_selectedCategoryNotifier.value == null) {
+      showBanner(
+        context: context,
+        theMessage: "Please select a category",
+        theType: NotificationType.failure,
+      );
+      return;
+    }
+
+    if (_budgetAmountController.text.isEmpty) {
+      showBanner(
+        context: context,
+        theMessage: "Please enter budget amount",
+        theType: NotificationType.failure,
+      );
+      return;
+    }
+
+    if (_selectedPeriodNotifier.value == null) {
+      showBanner(
+        context: context,
+        theMessage: "Please select budget period",
+        theType: NotificationType.failure,
+      );
+      return;
+    }
+
+    final amount =
+        double.tryParse(_budgetAmountController.text.replaceAll(',', ''));
+    if (amount == null || amount <= 0) {
+      showBanner(
+        context: context,
+        theMessage: "Please enter a valid amount",
+        theType: NotificationType.failure,
+      );
+      return;
+    }
+
+    // Create budget
+    final budget = Budget(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      category: _selectedCategoryNotifier.value!,
+      amount: amount,
+      description: _budgetDescriptionController.text.isEmpty
+          ? '${_selectedPeriodNotifier.value!.name.toCapitalized()} ${_selectedCategoryNotifier.value!.label} budget'
+          : _budgetDescriptionController.text,
+      period: _selectedPeriodNotifier.value!,
+      startDate: _selectedDateNotifier.value,
+      endDate: _selectedEndDateNotifier.value,
+      isRecurring: _isRecurringNotifier.value,
+      status: BudgetStatus.active,
+      spentAmount: 0.0,
+      createdAt: DateTime.now(),
     );
-    return;
-  }
 
-  if (_budgetAmountController.text.isEmpty) {
-    showBanner(
+    // Navigate to confirmation page
+    goToAndReplace(
       context: context,
-      theMessage: "Please enter budget amount",
-      theType: NotificationType.failure,
+      view: BudgetConfirmationView(budget: budget),
     );
-    return;
   }
-
-  if (_selectedPeriodNotifier.value == null) {
-    showBanner(
-      context: context,
-      theMessage: "Please select budget period",
-      theType: NotificationType.failure,
-    );
-    return;
-  }
-
-  final amount = double.tryParse(_budgetAmountController.text.replaceAll(',', ''));
-  if (amount == null || amount <= 0) {
-    showBanner(
-      context: context,
-      theMessage: "Please enter a valid amount",
-      theType: NotificationType.failure,
-    );
-    return;
-  }
-
-  // Create budget
-  final budget = Budget(
-    id: DateTime.now().millisecondsSinceEpoch.toString(),
-    category: _selectedCategoryNotifier.value!,
-    amount: amount,
-    description: _budgetDescriptionController.text.isEmpty
-        ? '${_selectedPeriodNotifier.value!.name.toCapitalized()} ${_selectedCategoryNotifier.value!.label} budget'
-        : _budgetDescriptionController.text,
-    period: _selectedPeriodNotifier.value!,
-    startDate: _selectedDateNotifier.value,
-    endDate: _selectedEndDateNotifier.value,
-    isRecurring: _isRecurringNotifier.value,
-    status: BudgetStatus.active,
-    spentAmount: 0.0,
-    createdAt: DateTime.now(),
-  );
-
-  // Navigate to confirmation page
-  goToAndReplace(
-    context: context,
-    view: BudgetConfirmationView(budget: budget),
-  );
-}
 
   @override
   Widget build(BuildContext context) {
@@ -190,8 +191,10 @@ void _createBudget() {
                             .tap(onTap: () {
                           goBack(context);
                         }),
-                        middle: "Create a Budget"
-                            .txt16(color: Palette.whiteColor, fontW: F.w5),
+                        middle: "Create a Budget".txt(
+                            size: 16.sp,
+                            color: Palette.whiteColor,
+                            fontW: F.w5),
                       ),
                       40.sbH,
                       Padding(
@@ -451,8 +454,10 @@ void _createBudget() {
                                   return Column(
                                     children: [
                                       // Start Date
-                                      "${isCustomPeriod ? 'Start Date' : 'Budget Start Date'}"
-                                          .txt14(fontW: F.w5)
+                                      (isCustomPeriod
+                                              ? 'Start Date'
+                                              : 'Budget Start Date')
+                                          .txt(size: 14.sp, fontW: F.w5)
                                           .alignCenterLeft(),
                                       8.sbH,
                                       ValueListenableBuilder<DateTime>(
@@ -516,7 +521,7 @@ void _createBudget() {
                                       if (isCustomPeriod) ...[
                                         15.sbH,
                                         "End Date"
-                                            .txt14(fontW: F.w5)
+                                            .txt(size: 14.sp, fontW: F.w5)
                                             .alignCenterLeft(),
                                         8.sbH,
                                         ValueListenableBuilder<DateTime>(
@@ -679,7 +684,8 @@ void _createBudget() {
                                                   size: 16.h,
                                                 ),
                                                 8.sbW,
-                                                "Budget Period".txt12(
+                                                "Budget Period".txt(
+                                                  size: 12.sp,
                                                   color: Palette.montraPurple,
                                                   fontW: F.w6,
                                                 ),

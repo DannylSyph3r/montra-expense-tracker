@@ -35,7 +35,7 @@ class OptionSelectionListTile extends StatelessWidget {
       isThreeLine: isThreeLines ?? false,
       minVerticalPadding: 10.h,
       minLeadingWidth: 5.w,
-      subtitle: subtitleLabel?.txt12(),
+      subtitle: subtitleLabel?.txt(size: 12.sp),
       leading: leadingIcon != null
           ? Icon(
               leadingIcon,

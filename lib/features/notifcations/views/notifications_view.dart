@@ -82,7 +82,8 @@ class _NotificationsViewState extends State<NotificationsView> {
                               ),
                               5.sbW,
                               "You have ${notifications.where((n) => !n.isRead).length} unread notifications"
-                                  .txt12(
+                                  .txt(
+                                size: 12.sp,
                                 color: Palette.greyColor,
                                 fontW: F.w5,
                               ),
@@ -97,7 +98,8 @@ class _NotificationsViewState extends State<NotificationsView> {
                               minimumSize: Size.zero,
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                            child: "Mark all as read".txt12(
+                            child: "Mark all as read".txt(
+                              size: 12.sp,
                               color: Palette.montraPurple,
                               fontW: F.w6,
                             ),
@@ -324,10 +326,11 @@ class _NotificationsViewState extends State<NotificationsView> {
               ),
             ),
             25.sbH,
-            "No Notifications".txt20(fontW: F.w6),
+            "No Notifications".txt(size: 20.sp, fontW: F.w6),
             15.sbH,
             "You're all caught up! Check back later for updates on your transactions, budgets, and new features."
-                .txt14(
+                .txt(
+              size: 14.sp,
               color: Palette.greyColor,
               textAlign: TextAlign.center,
               height: 1.5,
@@ -351,7 +354,8 @@ class _NotificationsViewState extends State<NotificationsView> {
                     color: Palette.montraPurple,
                   ),
                   8.sbW,
-                  "Enable notifications to stay updated".txt12(
+                  "Enable notifications to stay updated".txt(
+                    size: 12.sp,
                     color: Palette.montraPurple,
                     fontW: F.w5,
                   ),

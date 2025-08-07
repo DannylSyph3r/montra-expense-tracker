@@ -37,7 +37,7 @@ class FilterTab extends StatelessWidget {
         mainAxisSize:
             MainAxisSize.min, // This ensures it expands based on its content
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [tabLabel.txt12()],
+        children: [tabLabel.txt(size: 12.sp)],
       ),
     );
   }

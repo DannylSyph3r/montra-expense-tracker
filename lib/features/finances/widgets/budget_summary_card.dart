@@ -54,12 +54,12 @@ class BudgetSummaryCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  "Budget Overview".txt16(
+                  "Budget Overview".txt(size: 16.sp,
                     color: Palette.whiteColor,
                     fontW: F.w6,
                   ),
                   4.sbH,
-                  "${activeBudgets.length} active budgets".txt12(
+                  "${activeBudgets.length} active budgets".txt(size: 12.sp,
                     color: Palette.whiteColor.withValues(alpha: 0.8),
                   ),
                 ],
@@ -85,7 +85,7 @@ class BudgetSummaryCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              "Total Spent".txt12(
+              "Total Spent".txt(size: 12.sp,
                 color: Palette.whiteColor.withValues(alpha: 0.8),
               ),
               4.sbH,
@@ -103,7 +103,7 @@ class BudgetSummaryCard extends StatelessWidget {
                 ],
               ),
               4.sbH,
-              "of N${currencyFormat.format(totalBudgeted)} budgeted".txt12(
+              "of N${currencyFormat.format(totalBudgeted)} budgeted".txt(size: 12.sp,
                 color: Palette.whiteColor.withValues(alpha: 0.8),
               ),
             ],
@@ -118,10 +118,10 @@ class BudgetSummaryCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  "Overall Progress".txt12(
+                  "Overall Progress".txt(size: 12.sp,
                     color: Palette.whiteColor.withValues(alpha: 0.8),
                   ),
-                  "${((totalSpent / totalBudgeted) * 100).toStringAsFixed(1)}%".txt12(
+                  "${((totalSpent / totalBudgeted) * 100).toStringAsFixed(1)}%".txt(size: 12.sp,
                     color: Palette.whiteColor,
                     fontW: F.w6,
                   ),

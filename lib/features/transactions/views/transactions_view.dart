@@ -314,7 +314,7 @@ class _TransactionsViewState extends State<TransactionsView>
                 5.sbW,
                 DateFormat.yMMMM()
                     .format(transaction.transactionDate)
-                    .txt12(fontW: F.w6)
+                    .txt(size: 12.sp, fontW: F.w6)
                     .alignCenterLeft(),
               ],
             ),
@@ -346,7 +346,7 @@ class _TransactionsViewState extends State<TransactionsView>
             size: 25.h,
           ),
           5.sbW,
-          dateText.txt12(fontW: F.w6)
+          dateText.txt(size: 12.sp, fontW: F.w6)
         ],
       ),
     );
@@ -450,7 +450,8 @@ class _TransactionsViewState extends State<TransactionsView>
             color: Palette.blackColor,
             borderRadius: BorderRadius.circular(8.r),
           ),
-          child: label.txt12(
+          child: label.txt(
+            size: 12.sp,
             color: Palette.whiteColor,
             fontW: F.w5,
           ),

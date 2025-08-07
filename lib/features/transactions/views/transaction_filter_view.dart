@@ -110,12 +110,13 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
           size: 24.h,
         ),
       ),
-      title: "Filter Transactions".txt18(fontW: F.w6),
+      title: "Filter Transactions".txt(size: 18.sp, fontW: F.w6),
       centerTitle: true,
       actions: [
         TextButton(
           onPressed: _resetFilters,
-          child: "Reset".txt14(
+          child: "Reset".txt(
+            size: 14.sp,
             color: Palette.montraPurple,
             fontW: F.w6,
           ),
@@ -151,11 +152,12 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
               color: Palette.montraPurple,
             ),
             8.sbW,
-            "Quick Filters".txt18(fontW: F.w6),
+            "Quick Filters".txt(size: 18.sp, fontW: F.w6),
           ],
         ),
         8.sbH,
-        "Filter transactions by common time periods".txt12(
+        "Filter transactions by common time periods".txt(
+          size: 12.sp,
           color: Palette.greyColor,
         ),
         15.sbH,
@@ -182,11 +184,12 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
               color: Palette.montraPurple,
             ),
             8.sbW,
-            "Transaction Type".txt18(fontW: F.w6),
+            "Transaction Type".txt(size: 18.sp, fontW: F.w6),
           ],
         ),
         8.sbH,
-        "Choose between income and expense transactions".txt12(
+        "Choose between income and expense transactions".txt(
+          size: 12.sp,
           color: Palette.greyColor,
         ),
         15.sbH,
@@ -219,11 +222,12 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
               color: Palette.montraPurple,
             ),
             8.sbW,
-            "Sort By".txt18(fontW: F.w6),
+            "Sort By".txt(size: 18.sp, fontW: F.w6),
           ],
         ),
         8.sbH,
-        "Order transactions by date or amount".txt12(
+        "Order transactions by date or amount".txt(
+          size: 12.sp,
           color: Palette.greyColor,
         ),
         15.sbH,
@@ -261,7 +265,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
                       color: Palette.montraPurple,
                     ),
                     8.sbW,
-                    "Categories".txt18(fontW: F.w6),
+                    "Categories".txt(size: 18.sp, fontW: F.w6),
                     if (selectedCategories.isNotEmpty) ...[
                       10.sbW,
                       Container(
@@ -284,7 +288,8 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
             ),
             8.sbH,
             "Filter by spending categories. You can select multiple categories."
-                .txt12(
+                .txt(
+              size: 12.sp,
               color: Palette.greyColor,
             ),
             15.sbH,
@@ -346,13 +351,15 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
             color: Palette.greyColor,
           ),
           12.sbH,
-          title.txt16(
+          title.txt(
+            size: 16.sp,
             color: Palette.blackColor,
             fontW: F.w6,
             textAlign: TextAlign.center,
           ),
           6.sbH,
-          subtitle.txt12(
+          subtitle.txt(
+            size: 12.sp,
             color: Palette.greyColor,
             textAlign: TextAlign.center,
           ),

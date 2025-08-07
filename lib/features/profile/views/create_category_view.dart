@@ -67,7 +67,7 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
           onPressed: () => goBack(context),
         ),
         title: "${widget.isEditing ? 'Edit' : 'Create'} Category"
-            .txt18(fontW: F.w6),
+            .txt(size: 18.sp, fontW: F.w6),
         centerTitle: true,
       ),
       body: ListView(
@@ -76,7 +76,7 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
           20.sbH,
 
           // Category Name Input
-          "Category Name".txt16(fontW: F.w6),
+          "Category Name".txt(size: 16.sp, fontW: F.w6),
           10.sbH,
           TextInputWidget(
             controller: _categoryNameController,
@@ -94,10 +94,10 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
           30.sbH,
 
           // Icon Selection
-          "Choose Icon".txt16(fontW: F.w6),
+          "Choose Icon".txt(size: 16.sp, fontW: F.w6),
           10.sbH,
           "Select an icon that represents your category"
-              .txt12(color: Palette.greyColor),
+              .txt(size: 12.sp, color: Palette.greyColor),
           15.sbH,
           ValueListenableBuilder<IconData?>(
             valueListenable: _selectedIconNotifier,
@@ -130,7 +130,7 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
                       ),
                       15.sbH,
                     ],
-                    
+
                     // Icon grid
                     GridView.builder(
                       shrinkWrap: true,
@@ -179,10 +179,10 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
           30.sbH,
 
           // Color Selection
-          "Choose Color".txt16(fontW: F.w6),
+          "Choose Color".txt(size: 16.sp, fontW: F.w6),
           10.sbH,
           "Pick a color that helps you identify this category quickly"
-              .txt12(color: Palette.greyColor),
+              .txt(size: 12.sp, color: Palette.greyColor),
           15.sbH,
           ValueListenableBuilder<Color?>(
             valueListenable: _selectedColorNotifier,
@@ -210,12 +210,12 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
                             ),
                           ),
                           15.sbW,
-                          "Selected Color".txt14(fontW: F.w5),
+                          "Selected Color".txt(size: 14.sp, fontW: F.w5),
                         ],
                       ),
                       15.sbH,
                     ],
-                    
+
                     // Color grid
                     GridView.builder(
                       shrinkWrap: true,
@@ -297,7 +297,7 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
 
     // Navigate back first, then show the success message
     goBack(context);
-    
+
     // Use a small delay to ensure navigation completes before showing banner
     Future.delayed(const Duration(milliseconds: 100), () {
       widget.onCategoryCreated(categoryData);

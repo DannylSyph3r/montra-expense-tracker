@@ -17,7 +17,7 @@ class OtpVerificationView extends StatefulWidget {
   final String email;
   final String fullName;
   const OtpVerificationView({
-    super.key, 
+    super.key,
     required this.email,
     required this.fullName,
   });
@@ -32,9 +32,9 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
   final ValueNotifier<int> _remainingTimeNotifier = ValueNotifier<int>(60);
   final ValueNotifier<bool> _canResendNotifier = ValueNotifier<bool>(false);
   final ValueNotifier<bool> _isVerifyingNotifier = ValueNotifier<bool>(false);
-  
+
   Timer? _timer;
-  final String _correctOtp = "12345"; // This would come from your backend
+  final String _correctOtp = "12345"; // Mock OTP for demonstration
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
   void _startTimer() {
     _remainingTimeNotifier.value = 60;
     _canResendNotifier.value = false;
-    
+
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingTimeNotifier.value > 0) {
         _remainingTimeNotifier.value--;
@@ -57,7 +57,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
   }
 
   void _resendOtp() {
-    // Add your resend OTP logic here
+    //! Rend OTP logic here
     showBanner(
       context: context,
       theMessage: "OTP code sent successfully to ${widget.email}",
@@ -66,52 +66,52 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
     _startTimer();
   }
 
-  void _verifyOtp() async {
-    final enteredOtp = _otpController.text;
-    
-    if (enteredOtp.length != 5) {
-      showBanner(
-        context: context,
-        theMessage: "Please enter the complete 5-digit code",
-        theType: NotificationType.failure,
-      );
-      return;
-    }
+void _verifyOtp() async {
+  final enteredOtp = _otpController.text;
 
-    _isVerifyingNotifier.value = true;
-
-    // Simulate API call delay
-    await Future.delayed(const Duration(seconds: 2));
-
-    _isVerifyingNotifier.value = false;
-
-    if (enteredOtp == _correctOtp) {      
-      // Navigate to next screen after a short delay
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted) {
-          goToAndReset(context: context, view: const PinInputView());
-        }
-      });
-    } else {
-      showBanner(
-        context: context,
-        theMessage: "Invalid verification code. Please try again.",
-        theType: NotificationType.failure,
-      );
-      _otpController.clear();
-    }
+  if (enteredOtp.length != 5) {
+    showBanner(
+      context: context,
+      theMessage: "Please enter the complete 5-digit code",
+      theType: NotificationType.failure,
+    );
+    return;
   }
+
+  _isVerifyingNotifier.value = true;
+
+  // Simulate API call delay
+  await Future.delayed(const Duration(seconds: 2));
+
+  if (!mounted) return;
+
+  _isVerifyingNotifier.value = false;
+
+  if (enteredOtp == _correctOtp) {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (!mounted) return;
+      goToAndReset(context: context, view: const PinInputView());
+    });
+  } else {
+    showBanner(
+      context: context,
+      theMessage: "Invalid verification code. Please try again.",
+      theType: NotificationType.failure,
+    );
+    _otpController.clear();
+  }
+}
 
   String _getFirstName(String fullName) {
     // Extract first name and handle lengthy names
     final nameParts = fullName.trim().split(' ');
     final firstName = nameParts.isNotEmpty ? nameParts.first : fullName;
-    
+
     // Truncate if too long (more than 12 characters)
     if (firstName.length > 12) {
       return '${firstName.substring(0, 12)}...';
     }
-    
+
     return firstName;
   }
 
@@ -145,7 +145,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
       decoration: BoxDecoration(
         color: Palette.greyFill,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Palette.greyColor.withOpacity(0.3)),
+        border: Border.all(color: Palette.greyColor.withValues(alpha: 0.3)),
       ),
     );
 
@@ -156,7 +156,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
 
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration?.copyWith(
-        color: Palette.montraPurple.withOpacity(0.1),
+        color: Palette.montraPurple.withValues(alpha: 0.1),
         border: Border.all(color: Palette.montraPurple),
       ),
     );
@@ -183,7 +183,7 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                   height: 80.h,
                   width: 80.h,
                   decoration: BoxDecoration(
-                    color: Palette.montraPurple.withOpacity(0.1),
+                    color: Palette.montraPurple.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -215,9 +215,9 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                       begin: const Offset(1.1, 1.1),
                       end: const Offset(1.0, 1.0),
                     ),
-              20.sbH,
+                20.sbH,
 
-                // Title - More personal greeting
+                // Title - Personal greeting
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -226,7 +226,8 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                       fontSize: 18.sp,
                       color: Palette.blackColor,
                       fontWeight: FontWeight.w600,
-                      fontFamily: Theme.of(context).textTheme.bodyLarge?.fontFamily,
+                      fontFamily:
+                          Theme.of(context).textTheme.bodyLarge?.fontFamily,
                     ),
                     children: [
                       TextSpan(
@@ -235,7 +236,8 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                           fontSize: 18.sp,
                           color: Palette.montraPurple,
                           fontWeight: FontWeight.w700,
-                          fontFamily: Theme.of(context).textTheme.bodyLarge?.fontFamily,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
                         ),
                       ),
                       TextSpan(
@@ -244,7 +246,8 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                           fontSize: 18.sp,
                           color: Palette.blackColor,
                           fontWeight: FontWeight.w600,
-                          fontFamily: Theme.of(context).textTheme.bodyLarge?.fontFamily,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
                         ),
                       ),
                     ],
@@ -261,7 +264,8 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                       fontSize: 16.sp,
                       color: Palette.greyColor,
                       fontWeight: FontWeight.w400,
-                      fontFamily: Theme.of(context).textTheme.bodyLarge?.fontFamily,
+                      fontFamily:
+                          Theme.of(context).textTheme.bodyLarge?.fontFamily,
                     ),
                     children: [
                       TextSpan(
@@ -270,7 +274,8 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                           fontSize: 16.sp,
                           color: Palette.montraPurple,
                           fontWeight: FontWeight.w600,
-                          fontFamily: Theme.of(context).textTheme.bodyLarge?.fontFamily,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyLarge?.fontFamily,
                         ),
                       ),
                     ],
@@ -311,23 +316,29 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              "Didn't receive the code? ".txt14(
+                              "Didn't receive the code? ".txt(
+                                size: 14.sp,
                                 color: Palette.greyColor,
                               ),
-                              "Resend".txt14(
-                                color: Palette.montraPurple,
-                                fontW: F.w6,
-                              ).tap(onTap: _resendOtp),
+                              "Resend"
+                                  .txt(
+                                    size: 14.sp,
+                                    color: Palette.montraPurple,
+                                    fontW: F.w6,
+                                  )
+                                  .tap(onTap: _resendOtp),
                             ],
                           );
                         } else {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              "Resend code in ".txt14(
+                              "Resend code in ".txt(
+                                size: 14.sp,
                                 color: Palette.greyColor,
                               ),
-                              _formatTime(remainingTime).txt14(
+                              _formatTime(remainingTime).txt(
+                                size: 14.sp,
                                 color: Palette.montraPurple,
                                 fontW: F.w6,
                               ),
@@ -360,16 +371,19 @@ class _OtpVerificationViewState extends State<OtpVerificationView> {
                   },
                 ),
                 15.sbH,
-                
+
                 // Back to sign up
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    "Wrong email? ".txt14(color: Palette.greyColor),
-                    "Change email".txt14(
+                    "Wrong email? ".txt(size: 14.sp, color: Palette.greyColor),
+                    "Change email"
+                        .txt(
+                      size: 14.sp,
                       color: Palette.montraPurple,
                       fontW: F.w6,
-                    ).tap(onTap: () {
+                    )
+                        .tap(onTap: () {
                       goBack(context);
                     }),
                   ],

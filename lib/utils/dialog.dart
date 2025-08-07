@@ -11,7 +11,7 @@ void showCustomSelectionDialog(
       return AlertDialog(
         contentPadding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.w),
         backgroundColor: Palette.whiteColor,
-        title: title.txt16(fontW: F.w6, maxLines: 2, overflow: TextOverflow.ellipsis).alignCenter(),
+        title: title.txt(size: 16.sp, fontW: F.w6, maxLines: 2, overflow: TextOverflow.ellipsis).alignCenter(),
         content: SizedBox(
           height: 500.h,
           width: 500.w,
@@ -21,7 +21,7 @@ void showCustomSelectionDialog(
             onPressed: () {
               Navigator.of(context).pop(); // Close the dialog
             },
-            child: "Close".txt14(),
+            child: "Close".txt(size: 14.sp),
           ),
         ],
       );

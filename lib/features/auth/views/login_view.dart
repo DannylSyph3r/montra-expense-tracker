@@ -41,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //! appBar
+        //! AppBar
         appBar: customAppBar(
             title: "Login",
             implyLeading: false,
@@ -57,11 +57,12 @@ class _LoginViewState extends State<LoginView> {
               Column(children: [
                 30.sbH,
 
-                //! textInput
+                //! Text Input (Email)
                 TextInputWidget(
                     hintText: AppTexts.emailFieldHint,
                     controller: _emailController),
                 10.sbH,
+                //! Text Input (Password)
                 _passwordVisible.sync(builder: (context, isVisible, child) {
                   return TextInputWidget(
                     hintText: AppTexts.passwordFieldHint,
@@ -82,30 +83,29 @@ class _LoginViewState extends State<LoginView> {
                 }),
                 20.sbH,
 
-                //! forgot Password
+                //! forgot Password?
                 "Forgot Password?"
-                    .txt14(fontW: F.w6, color: Palette.montraPurple)
+                    .txt(size:14.sp, fontW: F.w6, color: Palette.montraPurple)
                     .alignCenterRight()
                     .tap(onTap: () {
                   goTo(context: context, view: const ForgotPasswordView());
                 }),
-
-                //! TOC checker
-
                 20.sbH,
 
-                //! sign Up Buttons
+                //! Login Button
                 AppButton(
                   onTap: () {
-                    goToAndReset(context: context, view: BaseNavWrapper());
+                    goToAndReset(context: context, view: const BaseNavWrapper());
                   },
                   text: "Login",
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
-                10.sbH,
-                "Or with".txt14(fontW: F.w7, color: Palette.greyColor),
-                10.sbH,
+                15.sbH,
+                "Or".txt(size: 14.sp, fontW: F.w7, color: Palette.greyColor),
+                15.sbH,
+
+                //! Google Login Button
                 TransparentButton(
                   onTap: () {},
                   isText: false,
@@ -114,13 +114,12 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         const MyIcon(icon: AppGraphics.googleIcon),
                         10.sbW,
-                        "Login with Google".txt16(fontW: F.w6)
+                        "Login with Google".txt(size: 16.sp, fontW: F.w6)
                       ]),
                 ),
                 30.sbH,
 
-                //! switch to Login View
-
+                //! Switch to Sign up
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(

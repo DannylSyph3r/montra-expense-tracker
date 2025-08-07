@@ -22,20 +22,14 @@ class FrostedGlassLoader extends StatelessWidget {
         width: theWidth,
         height: theHeight,
         color: Colors.transparent,
-        //we use Stack(); because we want the effects be on top of each other,
-        //  just like layer in photoshop.
         child: Stack(
           children: [
             //blur effect ==> the third layer of stack
             BackdropFilter(
               filter: ImageFilter.blur(
-                //sigmaX is the Horizontal blur
                 sigmaX: 1.5,
-                //sigmaY is the Vertical blur
                 sigmaY: 1.5,
               ),
-              //we use this container to scale up the blur effect to fit its
-              //  parent, without this container the blur effect doesn't appear.
               child: Container(),
             ),
             //gradient effect ==> the second layer of stack
@@ -47,9 +41,7 @@ class FrostedGlassLoader extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      //begin color
                       Colors.white.withOpacity(0.15),
-                      //end color
                       Colors.white.withOpacity(0.05),
                     ]),
               ),

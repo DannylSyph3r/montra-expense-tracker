@@ -74,12 +74,13 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
               color: Palette.blackColor),
           onPressed: () => goBack(context),
         ),
-        title: "Edit Profile".txt18(fontW: F.w6),
+        title: "Edit Profile".txt(size: 18.sp, fontW: F.w6),
         centerTitle: true,
         actions: [
           TextButton(
             onPressed: _saveProfile,
-            child: "Save".txt14(color: Palette.montraPurple, fontW: F.w6),
+            child: "Save"
+                .txt(size: 14.sp, color: Palette.montraPurple, fontW: F.w6),
           ),
         ],
       ),
@@ -146,7 +147,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           30.sbH,
 
           // Username
-          "Username".txt14(fontW: F.w5),
+          "Username".txt(size: 14.sp, fontW: F.w5),
           8.sbH,
           TextInputWidget(
             controller: _usernameController,
@@ -163,7 +164,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           15.sbH,
 
           // Bio
-          "Bio".txt14(fontW: F.w5),
+          "Bio".txt(size: 14.sp, fontW: F.w5),
           8.sbH,
           TextInputWidget(
             controller: _bioController,
@@ -183,7 +184,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           15.sbH,
 
           // Country
-          "Country".txt14(fontW: F.w5),
+          "Country".txt(size: 14.sp, fontW: F.w5),
           8.sbH,
           TextInputWidget(
             onTap: () => _showCountryPicker(),
@@ -210,7 +211,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           15.sbH,
 
           // Birthdate
-          "Date of Birth".txt14(fontW: F.w5),
+          "Date of Birth".txt(size: 14.sp, fontW: F.w5),
           8.sbH,
           ValueListenableBuilder<DateTime>(
             valueListenable: _birthdateNotifier,
@@ -247,7 +248,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           20.sbH,
 
           // Default Currency
-          "Default Currency".txt14(fontW: F.w5),
+          "Default Currency".txt(size: 14.sp, fontW: F.w5),
           8.sbH,
           TextInputWidget(
             onTap: () => _showCurrencyPicker(),
@@ -305,10 +306,10 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      "Custom Categories".txt14(fontW: F.w5),
+                      "Custom Categories".txt(size: 14.sp, fontW: F.w5),
                       4.sbH,
                       "Create and manage custom categories"
-                          .txt12(color: Palette.greyColor),
+                          .txt(size: 12.sp, color: Palette.greyColor),
                     ],
                   ),
                 ),
@@ -330,7 +331,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
   }
 
   Widget _buildSectionHeader(String title) {
-    return title.txt16(fontW: F.w6, color: Palette.blackColor);
+    return title.txt(size: 16.sp, fontW: F.w6, color: Palette.blackColor);
   }
 
   void _showImagePickerModal() {
@@ -341,7 +342,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
         padding: 20.padH,
         child: Column(
           children: [
-            "Change Profile Picture".txt16(fontW: F.w6),
+            "Change Profile Picture".txt(size: 16.sp, fontW: F.w6),
             20.sbH,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -390,7 +391,9 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           ),
         ).tap(onTap: onTap),
         8.sbH,
-        label.txt12(),
+        label.txt(
+          size: 12.sp,
+        ),
       ],
     );
   }
@@ -468,31 +471,31 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
   }
 
   void _saveProfile() {
-  // Validate and save profile data
-  if (_usernameController.text.isEmpty) {
-    showBanner(
-      context: context,
-      theMessage: "Username is required",
-      theType: NotificationType.failure,
-    );
-    return;
-  }
-
-  // Store context reference before navigation
-  final currentContext = context;
-  
-  // Navigate back first
-  goBack(context);
-  
-  // Show success banner after a delay
-  Future.delayed(const Duration(milliseconds: 200), () {
-    if (mounted) {
+    // Validate and save profile data
+    if (_usernameController.text.isEmpty) {
       showBanner(
-        context: currentContext,
-        theMessage: "Profile updated successfully",
-        theType: NotificationType.success,
+        context: context,
+        theMessage: "Username is required",
+        theType: NotificationType.failure,
       );
+      return;
     }
-  });
-}
+
+    // Store context reference before navigation
+    final currentContext = context;
+
+    // Navigate back first
+    goBack(context);
+
+    // Show success banner after a delay
+    Future.delayed(const Duration(milliseconds: 200), () {
+      if (mounted) {
+        showBanner(
+          context: currentContext,
+          theMessage: "Profile updated successfully",
+          theType: NotificationType.success,
+        );
+      }
+    });
+  }
 }

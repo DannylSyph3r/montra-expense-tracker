@@ -57,7 +57,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
               color: Palette.blackColor),
           onPressed: () => goBack(context),
         ),
-        title: "Custom Categories".txt18(fontW: F.w6),
+        title: "Custom Categories".txt(size: 18.sp, fontW: F.w6),
         centerTitle: true,
       ),
       body: ValueListenableBuilder<List<Map<String, dynamic>>>(
@@ -85,13 +85,15 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
                           size: 20.h,
                         ),
                         10.sbW,
-                        "Custom Categories"
-                            .txt16(fontW: F.w6, color: Palette.montraPurple),
+                        "Custom Categories".txt(
+                            size: 16.sp,
+                            fontW: F.w6,
+                            color: Palette.montraPurple),
                       ],
                     ),
                     10.sbH,
                     "Create personalized categories for your unique spending habits. Add custom icons and colors to make tracking more intuitive."
-                        .txt12(color: Palette.greyColor),
+                        .txt(size: 12.sp, color: Palette.greyColor),
                   ],
                 ),
               ),
@@ -139,10 +141,11 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       (category['name'] as String)
-                                          .txt16(fontW: F.w5),
+                                          .txt(size: 16.sp, fontW: F.w5),
                                       4.sbH,
-                                      "Custom category"
-                                          .txt12(color: Palette.greyColor),
+                                      "Custom category".txt(
+                                          size: 12.sp,
+                                          color: Palette.greyColor),
                                     ],
                                   ),
                                 ),
@@ -242,10 +245,11 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
               ),
             ),
             20.sbH,
-            "No Custom Categories Yet".txt18(fontW: F.w6),
+            "No Custom Categories Yet".txt(size: 18.sp, fontW: F.w6),
             10.sbH,
             "Create personalized categories to better organize your expenses and income."
-                .txt14(
+                .txt(
+              size: 14.sp,
               color: Palette.greyColor,
               textAlign: TextAlign.center,
             ),
@@ -268,8 +272,8 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
         availableIcons: availableIcons,
         availableColors: availableColors,
         onCategoryCreated: (categoryData) {
-          final updatedList = List<Map<String, dynamic>>.from(
-              _customCategoriesNotifier.value);
+          final updatedList =
+              List<Map<String, dynamic>>.from(_customCategoriesNotifier.value);
           updatedList.add(categoryData);
           _customCategoriesNotifier.value = updatedList;
 
@@ -299,8 +303,8 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
         existingCategory: category,
         isEditing: true,
         onCategoryCreated: (categoryData) {
-          final updatedList = List<Map<String, dynamic>>.from(
-              _customCategoriesNotifier.value);
+          final updatedList =
+              List<Map<String, dynamic>>.from(_customCategoriesNotifier.value);
           updatedList[index] = categoryData;
           _customCategoriesNotifier.value = updatedList;
 
@@ -330,10 +334,11 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            "Delete Category?".txt16(fontW: F.w6),
+            "Delete Category?".txt(size: 16.sp, fontW: F.w6),
             15.sbH,
             "Are you sure you want to delete '${category['name']}'? This action cannot be undone."
-                .txt14(
+                .txt(
+              size: 14.sp,
               color: Palette.greyColor,
               textAlign: TextAlign.center,
             ),

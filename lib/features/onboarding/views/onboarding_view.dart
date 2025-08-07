@@ -65,7 +65,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 ],
               ),
 
-              //! dots indicator
+              //! Dots Indicator
               Positioned(
                   child: Column(
                 children: [
@@ -76,8 +76,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                       dotWidth: 12.w,
                       spacing: 13.w,
                       dotColor: state.pageIndex == 1
-                          ? Palette.whiteColor.withOpacity(0.25)
-                          : Palette.montraPurple.withOpacity(0.25),
+                          ? Palette.whiteColor.withValues(alpha: 0.25)
+                          : Palette.montraPurple.withValues(alpha: 0.25),
                       activeDotColor: state.pageIndex == 1
                           ? Palette.whiteColor
                           : Palette.montraPurple,
@@ -87,6 +87,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ).alignCenter(),
                   30.sbH,
 
+                   //! Signup Button
                   AnimatedOpacity(
                     opacity: state.pageIndex == 2 ? 1 : 0,
                     duration: 300.milliseconds,
@@ -99,7 +100,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                                 ? 160.w
                                 : 100.w,
                         decoration: BoxDecoration(
-                            color: Palette.montraPurple.withOpacity(0.1),
+                            color: Palette.montraPurple.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(15.r),
                             border: Border.all(color: Palette.montraPurple)),
                         child: Center(
@@ -109,14 +110,14 @@ class _OnboardingViewState extends State<OnboardingView> {
                               color: Palette.montraPurple),
                         )).tap(onTap: state.pageIndex == 2
                         ? (){
-                          goToAndReplaceUnanimated(context: context, view: SignUpView());
+                          goToAndReplaceUnanimated(context: context, view: const SignUpView());
                         }
                         : (){}
                         ),
                   ),
                   20.sbH,
 
-                  //! button
+                  //! Action/Login Button
                   AnimatedContainer(
                     duration: 500.milliseconds,
                     height: 50.h,
@@ -152,7 +153,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                     onTap: () {
                       state.pageIndex.log();
                       if (state.pageIndex == 2) {
-                        goToAndReplaceUnanimated(context: context, view: LoginView());
+                        goToAndReplaceUnanimated(context: context, view: const LoginView());
                       } else {
                         context
                             .read<OnboardingBloc>()

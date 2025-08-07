@@ -36,10 +36,11 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
         backgroundColor: Palette.whiteColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(PhosphorIconsBold.arrowLeft, color: Palette.blackColor),
+          icon: const Icon(PhosphorIconsBold.arrowLeft,
+              color: Palette.blackColor),
           onPressed: () => goBack(context),
         ),
-        title: "Account Settings".txt18(fontW: F.w6),
+        title: "Account Settings".txt(size: 18.sp, fontW: F.w6),
         centerTitle: true,
       ),
       body: ListView(
@@ -54,7 +55,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
             icon: PhosphorIconsBold.envelope,
             title: "Email Address",
             subtitle: "minato@konoha.com",
-            onTap: (){},
+            onTap: () {},
           ),
           10.sbH,
           _buildAccountInfoTile(
@@ -145,7 +146,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
   }
 
   Widget _buildSectionHeader(String title) {
-    return title.txt16(fontW: F.w6, color: Palette.blackColor);
+    return title.txt(size: 16.sp, fontW: F.w6, color: Palette.blackColor);
   }
 
   Widget _buildAccountInfoTile({
@@ -186,14 +187,16 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                 Row(
                   children: [
                     Expanded(
-                      child: title.txt14(
+                      child: title.txt(
+                        size: 14.sp,
                         fontW: F.w5,
                         color: titleColor ?? Palette.blackColor,
                       ),
                     ),
                     if (showBadge) ...[
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 2.h),
                         decoration: BoxDecoration(
                           color: badgeColor?.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12.r),
@@ -209,7 +212,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                 ),
                 if (!showBadge) ...[
                   4.sbH,
-                  subtitle.txt12(color: Palette.greyColor),
+                  subtitle.txt(size: 12.sp, color: Palette.greyColor),
                 ],
               ],
             ),
@@ -258,9 +261,9 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                title.txt14(fontW: F.w5),
+                title.txt(size: 14.sp, fontW: F.w5),
                 4.sbH,
-                subtitle.txt12(color: Palette.greyColor),
+                subtitle.txt(size: 12.sp, color: Palette.greyColor),
               ],
             ),
           ),
@@ -296,9 +299,10 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                "Premium Account".txt16(fontW: F.w6),
+                "Premium Account".txt(size: 16.sp, fontW: F.w6),
                 15.sbH,
-                "Your premium account includes:".txt14(color: Palette.greyColor),
+                "Your premium account includes:"
+                    .txt(size: 14.sp, color: Palette.greyColor),
                 10.sbH,
                 _buildFeatureItem("Unlimited transactions"),
                 _buildFeatureItem("Export data functionality"),
@@ -333,17 +337,21 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
             color: Palette.greenColor,
           ),
           10.sbW,
-          feature.txt12(),
+          feature.txt(
+            size: 12.sp,
+          ),
         ],
       ),
     );
   }
 
   void _showChangePasswordModal() {
-    final TextEditingController currentPasswordController = TextEditingController();
+    final TextEditingController currentPasswordController =
+        TextEditingController();
     final TextEditingController newPasswordController = TextEditingController();
-    final TextEditingController confirmPasswordController = TextEditingController();
-    
+    final TextEditingController confirmPasswordController =
+        TextEditingController();
+
     showCustomModal(
       context,
       modalHeight: 400.h,
@@ -352,7 +360,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            "Change Password".txt16(fontW: F.w6),
+            "Change Password".txt(size: 16.sp, fontW: F.w6),
             20.sbH,
             TextInputWidget(
               controller: currentPasswordController,
@@ -413,7 +421,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            "Plan Details".txt16(fontW: F.w6),
+            "Plan Details".txt(size: 16.sp, fontW: F.w6),
             20.sbH,
             Container(
               padding: 15.0.padA,
@@ -427,13 +435,18 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      "Premium Plan".txt14(fontW: F.w6),
-                      "N2,500/month".txt14(fontW: F.w6, color: Palette.montraPurple),
+                      "Premium Plan".txt(size: 14.sp, fontW: F.w6),
+                      "N2,500/month".txt(
+                          size: 14.sp,
+                          fontW: F.w6,
+                          color: Palette.montraPurple),
                     ],
                   ),
                   10.sbH,
-                  "Next billing date: January 15, 2025".txt12(color: Palette.greyColor),
-                  "Payment method: •••• 4567".txt12(color: Palette.greyColor),
+                  "Next billing date: January 15, 2025"
+                      .txt(size: 12.sp, color: Palette.greyColor),
+                  "Payment method: •••• 4567"
+                      .txt(size: 12.sp, color: Palette.greyColor),
                 ],
               ),
             ),
@@ -463,14 +476,18 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            "Billing History".txt16(fontW: F.w6),
+            "Billing History".txt(size: 16.sp, fontW: F.w6),
             20.sbH,
             Expanded(
               child: ListView.separated(
                 itemCount: 3,
                 separatorBuilder: (context, index) => 10.sbH,
                 itemBuilder: (context, index) {
-                  final dates = ["Dec 15, 2024", "Nov 15, 2024", "Oct 15, 2024"];
+                  final dates = [
+                    "Dec 15, 2024",
+                    "Nov 15, 2024",
+                    "Oct 15, 2024"
+                  ];
                   final amounts = ["N2,500", "N2,500", "N2,500"];
                   return Container(
                     padding: 12.0.padA,
@@ -484,11 +501,12 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            "Premium Plan".txt12(fontW: F.w5),
-                            dates[index].txt(size:11.sp, color: Palette.greyColor),
+                            "Premium Plan".txt(size: 12.sp, fontW: F.w5),
+                            dates[index]
+                                .txt(size: 11.sp, color: Palette.greyColor),
                           ],
                         ),
-                        amounts[index].txt12(fontW: F.w6),
+                        amounts[index].txt(size: 12.sp, fontW: F.w6),
                       ],
                     ),
                   );
@@ -516,15 +534,18 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
               color: Palette.redColor,
             ),
             15.sbH,
-            "Delete Account?".txt18(fontW: F.w6, color: Palette.redColor),
+            "Delete Account?"
+                .txt(size: 18.sp, fontW: F.w6, color: Palette.redColor),
             15.sbH,
             "This action cannot be undone. All your data including transactions, budgets, and account information will be permanently deleted."
-                .txt14(
+                .txt(
+              size: 14.sp,
               color: Palette.greyColor,
               textAlign: TextAlign.center,
             ),
             20.sbH,
-            "Type 'DELETE' to confirm:".txt12(color: Palette.greyColor),
+            "Type 'DELETE' to confirm:"
+                .txt(size: 12.sp, color: Palette.greyColor),
             10.sbH,
             TextInputWidget(
               controller: TextEditingController(),

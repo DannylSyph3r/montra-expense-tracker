@@ -33,57 +33,55 @@ class _DocPickerModalBottomSheetState extends State<DocPickerModalBottomSheet> {
   File? docPicture;
 
   void takeDocPicture() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-
-      if (image == null) {
-        return;
-      }
-
-      final imageTemp = File(image.path);
-      // Check if the provider is provided before updating the state
-      // if (widget.fileProvider != null) {
-      //   ref.read(widget.fileProvider!.notifier).state =
-      //       imageTemp; // Save to the specific provider
-      // }
-      widget.onTakeDocPicture();
-
-      setState(() => docPicture = imageTemp);
-    } on PlatformException catch (e) {
-      'Failed to pick image file :(: $e'.log();
-      showSnackBar(
-        // ignore: use_build_context_synchronously
-        context: context,
-        text: 'An error occurred',
-      );
+  try {
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    
+    if (!mounted) return;
+    
+    if (image == null) {
+      return;
     }
+
+    final imageTemp = File(image.path);
+    widget.onTakeDocPicture();
+
+    setState(() => docPicture = imageTemp);
+  } on PlatformException catch (e) {
+    'Failed to pick image file :(: $e'.log();
+    
+    if (!mounted) return;
+    
+    showSnackBar(
+      context: context,
+      text: 'An error occurred',
+    );
   }
+}
 
-  Future<void> pickImage() async {
-    try {
-      final result = await FilePicker.platform
-          .pickFiles(type: FileType.image, allowMultiple: false);
+Future<void> pickImage() async {
+  try {
+    final result = await FilePicker.platform
+        .pickFiles(type: FileType.image, allowMultiple: false);
+    
+    if (!mounted) return;
 
-      if (result == null || result.files.isEmpty) {
-        return;
-      }
-
-      final fileTemp = File(result.files.single.path!);
-      // Check if the provider is provided before updating the state
-      // if (widget.fileProvider != null) {
-      //   ref.read(widget.fileProvider!.notifier).state =
-      //       fileTemp; // Save to the specific provider
-      // }
-      widget.onTakeDocPicture();
-
-      setState(() => docPicture = fileTemp);
-    } catch (e) {
-      showSnackBar(
-        context: context,
-        text: 'An error occurred while picking the file',
-      );
+    if (result == null || result.files.isEmpty) {
+      return;
     }
+
+    final fileTemp = File(result.files.single.path!);
+    widget.onTakeDocPicture();
+
+    setState(() => docPicture = fileTemp);
+  } catch (e) {
+    if (!mounted) return;
+    
+    showSnackBar(
+      context: context,
+      text: 'An error occurred while picking the file',
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -118,10 +116,10 @@ class _DocPickerModalBottomSheetState extends State<DocPickerModalBottomSheet> {
                   ),
                 ),
                 20.sbH,
-                widget.headerText.txt18(fontW: F.w7),
+                widget.headerText.txt(size: 18.sp, fontW: F.w7),
                 20.sbH,
                 widget.descriptionText
-                    .txt14(maxLines: 4, overflow: TextOverflow.ellipsis),
+                    .txt(size:14.sp, maxLines: 4, overflow: TextOverflow.ellipsis),
               ],
             ),
             Column(
@@ -146,7 +144,7 @@ class _DocPickerModalBottomSheetState extends State<DocPickerModalBottomSheet> {
                             color: Palette.whiteColor,
                           ),
                           10.sbH,
-                          "Take Photo".txt12(color: Palette.whiteColor)
+                          "Take Photo".txt(size:12.sp, color: Palette.whiteColor)
                         ],
                       )),
                     ).tap(onTap: () {
@@ -170,7 +168,7 @@ class _DocPickerModalBottomSheetState extends State<DocPickerModalBottomSheet> {
                             color: Palette.greyColor,
                           ),
                           10.sbH,
-                          "Choose Images".txt12(
+                          "Choose Images".txt(size: 12.sp,
                             color: Palette.greyColor,
                           )
                         ],

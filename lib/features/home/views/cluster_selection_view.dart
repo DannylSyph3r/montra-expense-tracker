@@ -147,14 +147,15 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                   size: 24.h,
                 ),
                 12.sbW,
-                "Reactivate Account".txt18(fontW: F.w6),
+                "Reactivate Account".txt(size: 18.sp, fontW: F.w6),
               ],
             ),
 
             20.sbH,
 
             // Content
-            "Do you want to reactivate your ${clusters[index]['name']}?".txt14(
+            "Do you want to reactivate your ${clusters[index]['name']}?".txt(
+              size: 14.sp,
               color: Palette.greyColor,
             ),
 
@@ -188,13 +189,16 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        (clusters[index]['name'] as String).txt16(fontW: F.w6),
+                        (clusters[index]['name'] as String)
+                            .txt(size: 16.sp, fontW: F.w6),
                         6.sbH,
-                        (clusters[index]['type'] as String).txt12(
+                        (clusters[index]['type'] as String).txt(
+                          size: 12.sp,
                           color: Palette.greyColor,
                         ),
                         4.sbH,
-                        currencyFormat.format(clusters[index]['balance']).txt14(
+                        currencyFormat.format(clusters[index]['balance']).txt(
+                              size: 14.sp,
                               color: Palette.blackColor,
                               fontW: F.w6,
                             ),
@@ -359,7 +363,8 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    "Total Portfolio Balance".txt14(
+                    "Total Portfolio Balance".txt(
+                      size: 14.sp,
                       color: Palette.whiteColor.withOpacity(0.8),
                       fontW: F.w5,
                     ),
@@ -414,7 +419,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
           24.sbH,
 
           // Account Breakdown
-          "Account Breakdown".txt18(fontW: F.w6),
+          "Account Breakdown".txt(size: 18.sp, fontW: F.w6),
           16.sbH,
 
           ...clusters.asMap().entries.map((entry) {
@@ -476,7 +481,8 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                             5.sbH,
                             Row(
                               children: [
-                                currencyFormat.format(cluster['balance']).txt12(
+                                currencyFormat.format(cluster['balance']).txt(
+                                      size: 12.sp,
                                       color: Palette.greyColor,
                                     ),
                                 5.sbW,
@@ -500,7 +506,8 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                         ),
                       ),
                       "${((cluster['balance'] as double) / _getTotalBalance() * 100).toStringAsFixed(1)}%"
-                          .txt12(
+                          .txt(
+                        size: 12.sp,
                         color: Palette.greyColor,
                         fontW: F.w6,
                       ),
@@ -636,7 +643,8 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                     Row(
                       children: [
                         Expanded(
-                          child: (cluster['name'] as String).txt16(
+                          child: (cluster['name'] as String).txt(
+                            size: 16.sp,
                             fontW: F.w6,
                             color: isActive
                                 ? (isSelected
@@ -776,7 +784,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                       color: Palette.greyColor,
                     ),
                     6.sbW,
-                    (cluster['bank'] as String).txt12(
+                    (cluster['bank'] as String).txt(size: 12.sp,
                       color: Palette.greyColor,
                       fontW: F.w5,
                     ),
@@ -791,7 +799,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                       color: Palette.greyColor,
                     ),
                     6.sbW,
-                    "${cluster['accountNumber']}".txt12(
+                    "${cluster['accountNumber']}".txt(size: 12.sp,
                       color: Palette.greyColor,
                       fontW: F.w5,
                     ),
@@ -806,7 +814,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                       color: Palette.greyColor,
                     ),
                     6.sbW,
-                    (cluster['lastTransaction'] as String).txt12(
+                    (cluster['lastTransaction'] as String).txt(size: 12.sp,
                       color: Palette.greyColor,
                       fontW: F.w5,
                     ),
