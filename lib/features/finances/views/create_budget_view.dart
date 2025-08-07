@@ -665,12 +665,12 @@ class _CreateBudgetViewState extends State<CreateBudgetView> {
                                         padding: 12.0.padA,
                                         decoration: BoxDecoration(
                                           color: Palette.montraPurple
-                                              .withOpacity(0.1),
+                                              .withValues(alpha: 0.1),
                                           borderRadius:
                                               BorderRadius.circular(12.r),
                                           border: Border.all(
                                               color: Palette.montraPurple
-                                                  .withOpacity(0.3)),
+                                                  .withValues(alpha: 0.3)),
                                         ),
                                         child: Column(
                                           crossAxisAlignment:

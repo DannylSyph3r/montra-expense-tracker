@@ -18,7 +18,7 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Palette.montraPurple.withOpacity(0.94),
+      backgroundColor: Palette.montraPurple.withValues(alpha: 0.94),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -52,7 +52,7 @@ class ProfileView extends StatelessWidget {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                                color: Colors.black.withValues(alpha: 0.1),
                                 blurRadius: 10,
                                 offset: const Offset(0, 5),
                               ),
@@ -79,7 +79,7 @@ class ProfileView extends StatelessWidget {
                         "@minato.namikaze"
                             .txt(
                                 size: 14.sp,
-                                color: Palette.whiteColor.withOpacity(0.8),
+                                color: Palette.whiteColor.withValues(alpha: 0.8),
                                 fontW: F.w4)
                             .alignCenter(),
                       ],
@@ -249,7 +249,7 @@ class ProfileView extends StatelessWidget {
             height: 45.h,
             width: 45.h,
             decoration: BoxDecoration(
-              color: (iconColor ?? Palette.montraPurple).withOpacity(0.1),
+              color: (iconColor ?? Palette.montraPurple).withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Icon(

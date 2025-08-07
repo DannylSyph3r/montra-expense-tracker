@@ -59,12 +59,12 @@ class _NotificationsViewState extends State<NotificationsView> {
                     : EdgeInsets.zero,
                 decoration: BoxDecoration(
                   color: hasUnread
-                      ? Palette.montraPurple.withOpacity(0.05)
+                      ? Palette.montraPurple.withValues(alpha: 0.05)
                       : Colors.transparent,
                   border: hasUnread
                       ? Border(
                           bottom: BorderSide(
-                            color: Palette.greyColor.withOpacity(0.1),
+                            color: Palette.greyColor.withValues(alpha: 0.1),
                           ),
                         )
                       : null,
@@ -138,15 +138,15 @@ class _NotificationsViewState extends State<NotificationsView> {
         borderRadius: BorderRadius.circular(10.r), // Reduced from 12
         border: Border.all(
           color: notification.isRead
-              ? Palette.greyColor.withOpacity(0.2)
-              : notification.color.withOpacity(0.3),
+              ? Palette.greyColor.withValues(alpha: 0.2)
+              : notification.color.withValues(alpha: 0.3),
           width: notification.isRead ? 1 : 2,
         ),
         boxShadow: notification.isRead
             ? null
             : [
                 BoxShadow(
-                  color: notification.color.withOpacity(0.08),
+                  color: notification.color.withValues(alpha: 0.08),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -160,10 +160,10 @@ class _NotificationsViewState extends State<NotificationsView> {
             height: 32.h, // Reduced from 36
             width: 32.h, // Reduced from 36
             decoration: BoxDecoration(
-              color: notification.color.withOpacity(0.15),
+              color: notification.color.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(8.r), // Reduced from 10
               border: Border.all(
-                color: notification.color.withOpacity(0.2),
+                color: notification.color.withValues(alpha: 0.2),
                 width: 1,
               ),
             ),
@@ -217,7 +217,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                     // Date display on bottom left with new formatting
                     _formatTileDate(notification.timestamp).txt(
                       size: 9.sp, // Reduced from 10
-                      color: Palette.greyColor.withOpacity(0.8),
+                      color: Palette.greyColor.withValues(alpha: 0.8),
                       fontW: F.w5,
                     ),
                     // Action button for certain notification types
@@ -289,9 +289,9 @@ class _NotificationsViewState extends State<NotificationsView> {
       padding:
           EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h), // More compact
       decoration: BoxDecoration(
-        color: buttonColor.withOpacity(0.1),
+        color: buttonColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6.r), // Reduced from 8
-        border: Border.all(color: buttonColor.withOpacity(0.3)),
+        border: Border.all(color: buttonColor.withValues(alpha: 0.3)),
       ),
       child: buttonText.txt(
         size: 11.sp,
@@ -315,7 +315,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                 color: Palette.greyFill,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Palette.greyColor.withOpacity(0.2),
+                  color: Palette.greyColor.withValues(alpha: 0.2),
                   width: 2,
                 ),
               ),
@@ -339,10 +339,10 @@ class _NotificationsViewState extends State<NotificationsView> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
               decoration: BoxDecoration(
-                color: Palette.montraPurple.withOpacity(0.1),
+                color: Palette.montraPurple.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(
-                  color: Palette.montraPurple.withOpacity(0.3),
+                  color: Palette.montraPurple.withValues(alpha: 0.3),
                 ),
               ),
               child: Row(

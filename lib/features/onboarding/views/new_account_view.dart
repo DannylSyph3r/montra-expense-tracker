@@ -84,9 +84,13 @@ class _NewAccountViewState extends State<NewAccountView> {
                       height: 200.h,
                     ),
                   ),
+
+                  //! Amount Display
                   Column(
                     children: [
                       50.sbH,
+
+                      //! Psuedo AppBar
                       RowRailer(
                         rowPadding: 20.padH,
                         leading: const Icon(PhosphorIconsBold.arrowLeft,
@@ -111,8 +115,8 @@ class _NewAccountViewState extends State<NewAccountView> {
                               children: [
                                 Flexible(
                                   child: "N$balance".txt(
-                                    size: 30.sp,
-                                    fontW: F.w8,
+                                    size: 32.sp,
+                                    fontW: F.w6,
                                     color: Palette.whiteColor,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -129,6 +133,8 @@ class _NewAccountViewState extends State<NewAccountView> {
                   Column(
                     children: [
                       200.sbH,
+
+                      //! Serrated Edge (Top)
                       CustomPaint(
                         size: Size(double.infinity, 60.h),
                         painter: SerratedPainter(),
@@ -148,7 +154,7 @@ class _NewAccountViewState extends State<NewAccountView> {
                             children: [
                               20.sbH,
 
-                              // Account Name Input
+                              //! Account Name Input
                               TextInputWidget(
                                 maxLength: 50,
                                 hintText: AppTexts.clusterNameFieldHint,
@@ -174,7 +180,7 @@ class _NewAccountViewState extends State<NewAccountView> {
                               ),
                               10.sbH,
 
-                              // Starting Balance Input
+                              //! Starting Balance Input
                               TextInputWidget(
                                 hintText: AppTexts.clusterStartingBalance,
                                 controller: _clusterStartingAmountController,
@@ -214,7 +220,7 @@ class _NewAccountViewState extends State<NewAccountView> {
                               ),
                               10.sbH,
 
-                              // Bank/Institution Name Input
+                              //! Bank/Institution Name Input
                               TextInputWidget(
                                 maxLength: 50,
                                 hintText: "Bank/Institution Name",
@@ -240,7 +246,7 @@ class _NewAccountViewState extends State<NewAccountView> {
                               ),
                               10.sbH,
 
-                              // Account Number Input
+                              //! Account Number Input
                               TextInputWidget(
                                 maxLength: 20,
                                 hintText: "Account Number",
@@ -270,16 +276,16 @@ class _NewAccountViewState extends State<NewAccountView> {
                               ),
                               30.sbH,
 
-                              // Account Information Card
+                              //! Account Information Card
                               Container(
                                 width: double.infinity,
                                 padding: 15.0.padA,
                                 decoration: BoxDecoration(
-                                  color: Palette.montraPurple.withOpacity(0.1),
+                                  color: Palette.montraPurple.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12.r),
                                   border: Border.all(
                                       color: Palette.montraPurple
-                                          .withOpacity(0.3)),
+                                          .withValues(alpha: 0.3)),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,11 +306,7 @@ class _NewAccountViewState extends State<NewAccountView> {
                                       ],
                                     ),
                                     8.sbH,
-                                    "Please enter accurate account details."
-                                        .txt(
-                                            size: 11.sp,
-                                            color: Palette.greyColor),
-                                    "You can create multiple accounts to track different financial sources."
+                                    "Please ensure the account information is accurate for the best experience"
                                         .txt(
                                             size: 11.sp,
                                             color: Palette.greyColor),
@@ -313,7 +315,7 @@ class _NewAccountViewState extends State<NewAccountView> {
                               ),
                               20.sbH,
 
-                              // Create Account Button
+                              //! Action Button
                               ListenableBuilder(
                                 listenable: Listenable.merge([
                                   _clusterNameController,
@@ -347,6 +349,8 @@ class _NewAccountViewState extends State<NewAccountView> {
                           ),
                         ),
                       ),
+
+                      //! Serrated Edge (Bottom)
                       Transform.scale(
                         scaleY: -1,
                         child: CustomPaint(

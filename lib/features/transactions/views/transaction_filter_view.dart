@@ -131,7 +131,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
       children: [
         25.sbH,
         Divider(
-          color: Palette.greyColor.withOpacity(0.2),
+          color: Palette.greyColor.withValues(alpha: 0.2),
           thickness: 1,
           height: 1,
         ),
@@ -272,7 +272,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 8.w, vertical: 3.h),
                         decoration: BoxDecoration(
-                          color: Palette.montraPurple.withOpacity(0.1),
+                          color: Palette.montraPurple.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: "${selectedCategories.length} selected".txt(
@@ -339,7 +339,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
         color: Palette.greyFill,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          color: Palette.greyColor.withOpacity(0.2),
+          color: Palette.greyColor.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -386,7 +386,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
               border: Border.all(
                 color: isSelected
                     ? Palette.montraPurple
-                    : Palette.greyColor.withOpacity(0.2),
+                    : Palette.greyColor.withValues(alpha: 0.2),
                 width: 1.5,
               ),
             ),
@@ -425,7 +425,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
               border: Border.all(
                 color: isSelected
                     ? Palette.montraPurple
-                    : Palette.greyColor.withOpacity(0.2),
+                    : Palette.greyColor.withValues(alpha: 0.2),
                 width: 1.5,
               ),
             ),
@@ -472,7 +472,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
               border: Border.all(
                 color: isSelected
                     ? Palette.montraPurple
-                    : Palette.greyColor.withOpacity(0.2),
+                    : Palette.greyColor.withValues(alpha: 0.2),
                 width: 1.2,
               ),
             ),
@@ -526,7 +526,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
               border: Border.all(
                 color: isSelected
                     ? Palette.montraPurple
-                    : Palette.greyColor.withOpacity(0.2),
+                    : Palette.greyColor.withValues(alpha: 0.2),
                 width: 1.2,
               ),
             ),
@@ -570,7 +570,7 @@ class _TransactionFilterViewState extends State<TransactionFilterView> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             offset: const Offset(0, -2),
             blurRadius: 10,
           ),

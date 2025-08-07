@@ -162,6 +162,8 @@ void _verifyOtp() async {
     );
 
     return Scaffold(
+
+      //! AppBar
       appBar: customAppBar(
         title: "Email Verification",
         context: context,
@@ -178,17 +180,17 @@ void _verifyOtp() async {
               children: [
                 30.sbH,
 
-                // Animated Icon
+                // Animated Envelope Icon
                 Container(
-                  height: 80.h,
-                  width: 80.h,
+                  height: 100.h,
+                  width: 100.h,
                   decoration: BoxDecoration(
                     color: Palette.montraPurple.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    PhosphorIconsBold.envelope,
-                    size: 40.h,
+                    PhosphorIconsBold.envelopeSimple,
+                    size: 60.h,
                     color: Palette.montraPurple,
                   ),
                 )
@@ -223,9 +225,9 @@ void _verifyOtp() async {
                   text: TextSpan(
                     text: "Hey ",
                     style: TextStyle(
-                      fontSize: 18.sp,
+                      fontSize: 20.sp,
                       color: Palette.blackColor,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                       fontFamily:
                           Theme.of(context).textTheme.bodyLarge?.fontFamily,
                     ),
@@ -233,7 +235,7 @@ void _verifyOtp() async {
                       TextSpan(
                         text: _getFirstName(widget.fullName),
                         style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 20.sp,
                           color: Palette.montraPurple,
                           fontWeight: FontWeight.w700,
                           fontFamily:
@@ -241,9 +243,9 @@ void _verifyOtp() async {
                         ),
                       ),
                       TextSpan(
-                        text: " :)\nPlease check your email",
+                        text: " :)\nPlease check your email!",
                         style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 20.sp,
                           color: Palette.blackColor,
                           fontWeight: FontWeight.w600,
                           fontFamily:
@@ -253,7 +255,7 @@ void _verifyOtp() async {
                     ],
                   ),
                 ),
-                15.sbH,
+                50.sbH,
 
                 // Description
                 RichText(
@@ -352,10 +354,10 @@ void _verifyOtp() async {
               ],
             ),
 
-            // Add space to push buttons down but allow scrolling
+            // Space to push buttons down but allow scrolling
             SizedBox(height: MediaQuery.of(context).size.height * 0.2),
 
-            // Bottom buttons
+            // Action Button
             Column(
               children: [
                 ValueListenableBuilder<bool>(

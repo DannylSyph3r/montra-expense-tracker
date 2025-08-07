@@ -114,7 +114,7 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         const MyIcon(icon: AppGraphics.googleIcon),
                         10.sbW,
-                        "Login with Google".txt(size: 16.sp, fontW: F.w6)
+                        "Login with Google".txt(size: 16.sp, fontW: F.w4)
                       ]),
                 ),
                 30.sbH,

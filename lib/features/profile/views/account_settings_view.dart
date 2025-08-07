@@ -170,7 +170,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
             height: 40.h,
             width: 40.h,
             decoration: BoxDecoration(
-              color: Palette.montraPurple.withOpacity(0.1),
+              color: Palette.montraPurple.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Icon(
@@ -198,7 +198,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
                         padding: EdgeInsets.symmetric(
                             horizontal: 8.w, vertical: 2.h),
                         decoration: BoxDecoration(
-                          color: badgeColor?.withOpacity(0.1),
+                          color: badgeColor?.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: subtitle.txt(
@@ -247,7 +247,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
             height: 40.h,
             width: 40.h,
             decoration: BoxDecoration(
-              color: Palette.montraPurple.withOpacity(0.1),
+              color: Palette.montraPurple.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Icon(
@@ -426,7 +426,7 @@ class _AccountSettingsViewState extends State<AccountSettingsView> {
             Container(
               padding: 15.0.padA,
               decoration: BoxDecoration(
-                color: Palette.montraPurple.withOpacity(0.1),
+                color: Palette.montraPurple.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Column(

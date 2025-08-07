@@ -78,7 +78,7 @@ class BaseNavWrapper extends StatelessWidget {
                               child: Container(
                                 padding:
                                     EdgeInsets.only(left: 15.w, right: 15.w),
-                                color: Palette.greyColor.withOpacity(0.2),
+                                color: Palette.greyColor.withValues(alpha: 0.2),
                                 height: 60.h,
                                 width: width(context) * 0.87,
                                 child: Row(

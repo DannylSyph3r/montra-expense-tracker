@@ -151,7 +151,7 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                                                   child: AppButton(
                                                       color: Palette
                                                           .montraPurple
-                                                          .withOpacity(0.2),
+                                                          .withValues(alpha: 0.2),
                                                       text: "No",
                                                       textColor:
                                                           Palette.montraPurple,
@@ -423,10 +423,10 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
                   width: double.infinity,
                   padding: EdgeInsets.all(12.w),
                   decoration: BoxDecoration(
-                    color: Palette.greyFill.withOpacity(0.3),
+                    color: Palette.greyFill.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(8.r),
                     border: Border.all(
-                      color: Palette.greyColor.withOpacity(0.2),
+                      color: Palette.greyColor.withValues(alpha: 0.2),
                       width: 1,
                     ),
                   ),
@@ -470,7 +470,7 @@ class _TransactionsDetailsViewState extends State<TransactionsDetailsView> {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

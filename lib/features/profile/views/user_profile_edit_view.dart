@@ -292,7 +292,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
                   height: 40.h,
                   width: 40.h,
                   decoration: BoxDecoration(
-                    color: Palette.montraPurple.withOpacity(0.1),
+                    color: Palette.montraPurple.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Icon(
@@ -381,7 +381,7 @@ class _UserProfileEditViewState extends State<UserProfileEditView> {
           height: 60.h,
           width: 60.h,
           decoration: BoxDecoration(
-            color: Palette.montraPurple.withOpacity(0.1),
+            color: Palette.montraPurple.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(

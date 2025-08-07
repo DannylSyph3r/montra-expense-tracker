@@ -55,7 +55,7 @@ class BudgetConfirmationView extends StatelessWidget {
                               height: 75.h,
                               width: 75.h,
                               decoration: BoxDecoration(
-                                color: Palette.greenColor.withOpacity(0.1),
+                                color: Palette.greenColor.withValues(alpha: 0.1),
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
@@ -95,7 +95,7 @@ class BudgetConfirmationView extends StatelessWidget {
                                 color: Palette.greyFill,
                                 borderRadius: BorderRadius.circular(15.r),
                                 border: Border.all(
-                                  color: budget.category.color.withOpacity(0.3),
+                                  color: budget.category.color.withValues(alpha: 0.3),
                                   width: 1,
                                 ),
                               ),
@@ -109,7 +109,7 @@ class BudgetConfirmationView extends StatelessWidget {
                                         width: 45.h,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(8.r),
-                                          color: budget.category.color.withOpacity(0.25),
+                                          color: budget.category.color.withValues(alpha: 0.25),
                                         ),
                                         child: Icon(
                                           budget.category.icon,

@@ -31,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
   final ValueNotifier _privacyFilter = false.notifier;
   final ValueNotifier<String> _currentCluster = "Ryker Wallet".notifier;
   final ValueNotifier<int> _unreadNotifications =
-      3.notifier; // Number of unread notifications
+      3.notifier; //! Badge count placeholder
 
   @override
   void dispose() {
@@ -41,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
   }
 
-  // Helper method to create enhanced privacy blur effect
+  //! Method for enhanced privacy blur effect
   Widget _buildPrivacyBlur({
     required Widget child,
     required bool isPrivacyOn,
@@ -61,7 +61,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Palette.montraPurple.withOpacity(0.94),
+      backgroundColor: Palette.montraPurple.withValues(alpha: 0.94),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -75,15 +75,18 @@ class _HomeViewState extends State<HomeView> {
                 Column(
                   children: [
                     40.sbH,
-                    // Cluster Selector with tap functionality
+
+                    //! Cluster Selector
                     ValueListenableBuilder<String>(
                       valueListenable: _currentCluster,
                       builder: (context, currentCluster, child) {
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            currentCluster.txt(size: 16.sp,
-                                color: Palette.whiteColor, fontW: F.w6),
+                            currentCluster.txt(
+                                size: 16.sp,
+                                color: Palette.whiteColor,
+                                fontW: F.w6),
                             5.sbW,
                             Icon(
                               PhosphorIconsBold.caretCircleDown,
@@ -105,13 +108,18 @@ class _HomeViewState extends State<HomeView> {
                       },
                     ),
                     35.sbH,
+
+                    //! Page Header/Greeting Section
                     RowRailer(
                       leading: Column(
                         children: [
                           Row(
                             children: [
                               "Good Morning"
-                                  .txt(size: 18.sp, color: Palette.whiteColor, fontW: F.w4)
+                                  .txt(
+                                      size: 18.sp,
+                                      color: Palette.whiteColor,
+                                      fontW: F.w4)
                                   .alignCenterLeft(),
                               3.sbW,
                               Icon(
@@ -123,7 +131,8 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           5.sbH,
                           "Minato Namikaze"
-                              .txt(size: 18.sp,
+                              .txt(
+                                  size: 18.sp,
                                   color: Palette.whiteColor,
                                   fontW: F.w6,
                                   overflow: TextOverflow.ellipsis)
@@ -139,6 +148,8 @@ class _HomeViewState extends State<HomeView> {
                               ),
                         ],
                       ),
+
+                      //! Notifications bell
                       trailing: ValueListenableBuilder<int>(
                         valueListenable: _unreadNotifications,
                         builder: (context, unreadCount, child) {
@@ -158,7 +169,7 @@ class _HomeViewState extends State<HomeView> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                            badgeAnimation: badges.BadgeAnimation.slide(
+                            badgeAnimation: const badges.BadgeAnimation.slide(
                               animationDuration: Duration(milliseconds: 300),
                               colorChangeAnimationDuration:
                                   Duration(milliseconds: 300),
@@ -172,14 +183,14 @@ class _HomeViewState extends State<HomeView> {
                               padding: EdgeInsets.all(6.w),
                               borderRadius: BorderRadius.circular(14.r),
                               borderSide:
-                                  BorderSide(color: Colors.white, width: 1.5),
+                                  const BorderSide(color: Colors.white, width: 1.5),
                               elevation: 2,
                             ),
                             child: Container(
                               height: 38.h,
                               width: 38.h,
                               decoration: BoxDecoration(
-                                color: Palette.greyFill.withOpacity(0.3),
+                                color: Palette.greyFill.withValues(alpha: 0.3),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8.r)),
                               ),
@@ -203,9 +214,13 @@ class _HomeViewState extends State<HomeView> {
                       size: Size(double.infinity, 50.h),
                       painter: CurvedPainter(),
                     ),
+
+                    //! Recent Transactions
                     _buildTransactionsSection(),
                   ],
                 ),
+
+                //! Balance Card
                 _buildBalanceCard(),
               ],
             ),
@@ -215,201 +230,275 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildBalanceCard() {
-    return Positioned(
-      top: 190.h,
-      left: 0,
-      right: 0,
-      child: Align(
-        alignment: Alignment.center,
-        child: Column(
-          children: [
-            // Card shadow
-            Container(
-              width: 300.w,
-              height: 170.h,
-              decoration: BoxDecoration(
-                color: Palette.montraPurple,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 9,
-                    blurRadius: 18,
-                    offset: const Offset(5, 10),
-                  ),
-                ],
-              ),
+Widget _buildBalanceCard() {
+  return Positioned(
+    top: 190.h,
+    left: 0,
+    right: 0,
+    child: Align(
+      alignment: Alignment.center,
+      child: Column(
+        children: [
+          //! Card Shadow
+          Container(
+            width: 300.w,
+            height: 170.h,
+            decoration: BoxDecoration(
+              color: Palette.montraPurple,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  spreadRadius: 9,
+                  blurRadius: 18,
+                  offset: const Offset(5, 10),
+                ),
+              ],
             ),
-            Transform.translate(
-              offset: const Offset(0, -190),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(15.r)),
-                child: Container(
-                  width: 345.w,
-                  decoration: BoxDecoration(
-                    color: Palette.montraPurple,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 6,
-                        blurRadius: 14,
-                        offset: const Offset(5, 10),
+          ),
+          Transform.translate(
+            offset: const Offset(0, -190),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(15.r)),
+              child: Container(
+                width: 345.w,
+                decoration: BoxDecoration(
+                  color: Palette.montraPurple,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      spreadRadius: 6,
+                      blurRadius: 14,
+                      offset: const Offset(5, 10),
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    // Background Pattern
+                    Positioned.fill(
+                      child: Opacity(
+                        opacity: 0.3,
+                        child: AppGraphics.cardBG.png.myImage(fit: BoxFit.cover),
                       ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Opacity(
-                          opacity: 0.3,
-                          child:
-                              AppGraphics.cardBG.png.myImage(fit: BoxFit.cover),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20.w, vertical: 25.h),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                RowRailer(
-                                  rowPadding: EdgeInsets.zero,
-                                  leading: "Total Balance".txt(size: 16.sp,
-                                      fontW: F.w3, color: Palette.whiteColor),
-                                  trailing: _privacyFilter.sync(
-                                      builder: (context, privacyOn, child) {
-                                    return Icon(
-                                      privacyOn
-                                          ? PhosphorIconsRegular.eyeSlash
-                                          : PhosphorIconsRegular.eye,
-                                      color: Palette.whiteColor,
-                                      size: 25.h,
-                                    ).tap(onTap: () {
-                                      _privacyFilter.value =
-                                          !_privacyFilter.value;
-                                    });
-                                  }),
-                                ),
-                                10.sbH,
-                                Row(
-                                  children: [
-                                    _privacyFilter.sync(
+                    ),
+                    
+                    // Card Content
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 25.h),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              //! Card Header
+                              RowRailer(
+                                rowPadding: EdgeInsets.zero,
+                                leading: "Total Balance".txt(
+                                    size: 16.sp,
+                                    fontW: F.w3,
+                                    color: Palette.whiteColor),
+                                //! Privacy Toggle
+                                trailing: _privacyFilter.sync(
+                                    builder: (context, privacyOn, child) {
+                                  return Icon(
+                                    privacyOn
+                                        ? PhosphorIconsRegular.eyeSlash
+                                        : PhosphorIconsRegular.eye,
+                                    color: Palette.whiteColor,
+                                    size: 25.h,
+                                  ).tap(onTap: () {
+                                    _privacyFilter.value = !_privacyFilter.value;
+                                  });
+                                }),
+                              ),
+                              10.sbH,
+                              //! Balance Count
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: _privacyFilter.sync(
                                         builder: (context, privacyOn, child) {
                                       return _buildPrivacyBlur(
                                         isPrivacyOn: privacyOn,
                                         blurIntensity: 10.0,
-                                        child: "N 345,000.00".txt(
-                                            size: 30.sp,
-                                            fontW: F.w8,
-                                            color: Palette.whiteColor),
+                                        child: "N 5,345,000,00".txt(
+                                          size: 32.sp,
+                                          fontW: F.w7,
+                                          overflow: TextOverflow.ellipsis,
+                                          color: Palette.whiteColor,
+                                        ),
                                       );
                                     }),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          5.sbH,
+                          //! Income and Expense
+                          Column(
+                            children: [
+                              RowRailer(
+                                rowPadding: EdgeInsets.zero,
+                                leading: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Palette.whiteColor.withValues(alpha: 0.3)),
+                                      child: Padding(
+                                        padding: 3.0.padA,
+                                        child: Icon(
+                                          PhosphorIconsBold.arrowDown,
+                                          size: 15.h,
+                                          color: Palette.greenColor,
+                                        ),
+                                      ),
+                                    ),
+                                    5.sbW,
+                                    "Income".txt(
+                                        size: 16.sp,
+                                        color: Palette.whiteColor,
+                                        fontW: F.w3)
                                   ],
                                 ),
-                              ],
-                            ),
-                            5.sbH,
-                            Column(
-                              children: [
-                                RowRailer(
-                                  rowPadding: EdgeInsets.zero,
-                                  leading: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Palette.whiteColor
-                                                .withOpacity(0.3)),
-                                        child: Padding(
-                                          padding: 3.0.padA,
-                                          child: Icon(
-                                            PhosphorIconsBold.arrowDown,
-                                            size: 15.h,
-                                            color: Palette.greenColor,
-                                          ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Palette.whiteColor.withValues(alpha: 0.3)),
+                                      child: Padding(
+                                        padding: 3.0.padA,
+                                        child: Icon(
+                                          PhosphorIconsBold.arrowUp,
+                                          size: 15.h,
+                                          color: Palette.redColor,
                                         ),
                                       ),
-                                      5.sbW,
-                                      "Income".txt(
-                                          size: 16.sp,
-                                          color: Palette.whiteColor,
-                                          fontW: F.w3)
-                                    ],
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Palette.whiteColor
-                                                .withOpacity(0.3)),
-                                        child: Padding(
-                                          padding: 3.0.padA,
-                                          child: Icon(
-                                            PhosphorIconsBold.arrowUp,
-                                            size: 15.h,
-                                            color: Palette.redColor,
-                                          ),
-                                        ),
-                                      ),
-                                      5.sbW,
-                                      "Expenses".txt(
-                                          size: 16.sp,
-                                          color: Palette.whiteColor,
-                                          fontW: F.w3)
-                                    ],
-                                  ),
+                                    ),
+                                    5.sbW,
+                                    "Expenses".txt(
+                                        size: 16.sp,
+                                        color: Palette.whiteColor,
+                                        fontW: F.w3)
+                                  ],
                                 ),
-                                15.sbH,
-                                RowRailer(
-                                  rowPadding: EdgeInsets.zero,
-                                  leading: _privacyFilter.sync(
-                                      builder: (context, privacyOn, child) {
-                                    return _buildPrivacyBlur(
-                                      isPrivacyOn: privacyOn,
-                                      blurIntensity: 6.0,
-                                      child: "N 745,000.00".txt(
-                                          size: 17.sp,
-                                          fontW: F.w3,
-                                          color: Palette.whiteColor),
-                                    );
-                                  }),
-                                  trailing: _privacyFilter.sync(
-                                      builder: (context, privacyOn, child) {
-                                    return _buildPrivacyBlur(
-                                      isPrivacyOn: privacyOn,
-                                      blurIntensity: 6.0,
-                                      child: "N 400,000.00".txt(
-                                          size: 17.sp,
-                                          fontW: F.w3,
-                                          color: Palette.whiteColor),
-                                    );
-                                  }),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                              ),
+                              15.sbH,
+                              RowRailer(
+                                rowPadding: EdgeInsets.zero,
+                                leading: _privacyFilter.sync(
+                                    builder: (context, privacyOn, child) {
+                                  return _buildPrivacyBlur(
+                                    isPrivacyOn: privacyOn,
+                                    blurIntensity: 6.0,
+                                    child: "N 745,000.00".txt(
+                                        size: 17.sp,
+                                        fontW: F.w3,
+                                        color: Palette.whiteColor),
+                                  );
+                                }),
+                                trailing: _privacyFilter.sync(
+                                    builder: (context, privacyOn, child) {
+                                  return _buildPrivacyBlur(
+                                    isPrivacyOn: privacyOn,
+                                    blurIntensity: 6.0,
+                                    child: "N 400,000.00".txt(
+                                        size: 17.sp,
+                                        fontW: F.w3,
+                                        color: Palette.whiteColor),
+                                  );
+                                }),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    
+                    // Border Light Effect
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 2.h,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15.r),
+                            topRight: Radius.circular(15.r),
+                          ),
+                          gradient: LinearGradient(
+                            begin: const Alignment(-4.0, 0),
+                            end: const Alignment(4.0, 0),
+                            colors: [
+                              Colors.transparent,
+                              Colors.transparent,
+                              Colors.transparent,
+                              Colors.white.withValues(alpha: 0.1),
+                              Colors.white.withValues(alpha: 0.3),
+                              Colors.white.withValues(alpha: 0.6),
+                              Colors.white.withValues(alpha: 0.9),
+                              Colors.white.withValues(alpha: 1.0), 
+                              Colors.white.withValues(alpha: 0.9),
+                              Colors.white.withValues(alpha: 0.6),
+                              Colors.white.withValues(alpha: 0.3),
+                              Colors.white.withValues(alpha: 0.1),
+                              Colors.transparent,
+                              Colors.transparent,
+                              Colors.transparent,
+                            ],
+                            stops: const [0.0, 0.1, 0.2, 0.35, 0.42, 0.46, 0.49, 0.5, 0.51, 0.54, 0.58, 0.65, 0.8, 0.9, 1.0],
+                          ),
+                        ),
+                      )
+                        // Add blur as a separate effect
+                        .animate(
+                          onPlay: (controller) => controller.repeat(),
+                        )
+                        .blur(
+                          begin: const Offset(0, 0),
+                          end: const Offset(2, 0.5), // Horizontal blur for soft edges
+                          duration: 0.ms, // Constant blur
+                        )
+                        .custom(
+                          duration: 15000.ms,
+                          builder: (context, value, child) {
+                            final animationPhase = value * 15;
+                            late double slideValue;
+                            
+                            if (animationPhase <= 1.5) {
+                              final progress = animationPhase / 1.5;
+                              slideValue = Curves.easeInOut.transform(progress) * 8 - 4;
+                            } else {
+                              slideValue = 4.5; // Far off-screen
+                            }
+                            
+                            return Transform.translate(
+                              offset: Offset(slideValue * 100.w, 0),
+                              child: child,
+                            );
+                          },
+                        ),
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    ).animate().scale(
-          delay: 400.ms,
-          duration: 600.ms,
-          begin: const Offset(0.8, 0.8),
-          curve: Curves.elasticOut,
-        );
-  }
+    ),
+  ).animate().scale(
+    delay: 400.ms,
+    duration: 600.ms,
+    begin: const Offset(0.8, 0.8),
+    curve: Curves.elasticOut,
+  );
+}
 
   Widget _buildTransactionsSection() {
     return Container(
@@ -422,6 +511,8 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           children: [
             100.sbH,
+
+            //! Section Header
             RowRailer(
               rowPadding: EdgeInsets.zero,
               leading: "Recent Transactions".txt(size: 16.sp, fontW: F.w5),
@@ -430,10 +521,11 @@ class _HomeViewState extends State<HomeView> {
                 width: 67.w,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15.r)),
-                    color: Palette.montraPurple.withOpacity(0.25)),
+                    color: Palette.montraPurple.withValues(alpha: 0.25)),
                 child: Center(
                   child: "See All"
-                      .txt(size: 14.sp, color: Palette.montraPurple, fontW: F.w5)
+                      .txt(
+                          size: 14.sp, color: Palette.montraPurple, fontW: F.w5)
                       .tap(onTap: () {
                     context.read<BaseNavCubit>().moveToPage(1);
                   }),
@@ -441,6 +533,8 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             20.sbH,
+
+            //! Transaction List
             ListView.separated(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
@@ -452,17 +546,17 @@ class _HomeViewState extends State<HomeView> {
                   onTileTap: () {
                     final transaction = transactions[index];
 
-                    // Helper function to format currency
+                    // Format currency
                     String formatCurrency(double amount) {
                       return "N${amount.toStringAsFixed(2)}";
                     }
 
-                    // Helper function to format time from DateTime
+                    // Format time
                     String formatTime(DateTime dateTime) {
                       return DateFormat('h:mm a').format(dateTime);
                     }
 
-                    // Helper function to format date from DateTime
+                    // Format Date
                     String formatDate(DateTime dateTime) {
                       return DateFormat('EEEE dd MMMM, yyyy').format(dateTime);
                     }
@@ -479,7 +573,7 @@ class _HomeViewState extends State<HomeView> {
                         date: formatDate(transaction.transactionDate),
                         description: transaction.transactionDescription,
                         attachmentImages:
-                            null, // Your model doesn't have this field yet
+                            null,
                         onDelete: () {
                           // Handle delete logic here
                           setState(() {

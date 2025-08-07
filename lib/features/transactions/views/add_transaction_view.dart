@@ -442,7 +442,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                                     color: isEnabled
                                                         ? Palette.greyColor
                                                         : Palette.greyColor
-                                                            .withOpacity(0.5),
+                                                            .withValues(alpha: 0.5),
                                                     size: 20.h,
                                                   ),
                                                 ),
@@ -459,7 +459,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                               color: isEnabled
                                                   ? Palette.textFieldGrey
                                                   : Palette.textFieldGrey
-                                                      .withOpacity(0.5),
+                                                      .withValues(alpha: 0.5),
                                             ),
                                           ),
                                         );
@@ -662,14 +662,14 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                       borderType: BorderType.RRect,
                                       radius: Radius.circular(12.r),
                                       dashPattern: const [8, 4],
-                                      color: Palette.greyColor.withOpacity(0.4),
+                                      color: Palette.greyColor.withValues(alpha: 0.4),
                                       strokeWidth: 1.5,
                                       child: Container(
                                         width: double.infinity,
                                         padding: 20.0.padA,
                                         decoration: BoxDecoration(
                                           color: Palette.greyColor
-                                              .withOpacity(0.05),
+                                              .withValues(alpha: 0.05),
                                           borderRadius:
                                               BorderRadius.circular(12.r),
                                         ),
@@ -690,7 +690,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                             "Optional".txt(
                                               size: 12.sp,
                                               color: Palette.greyColor
-                                                  .withOpacity(0.7),
+                                                  .withValues(alpha: 0.7),
                                             ),
                                           ],
                                         ),
@@ -705,12 +705,12 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                       width: double.infinity,
                                       padding: 15.0.padA,
                                       decoration: BoxDecoration(
-                                        color: backgroundColor.withOpacity(0.1),
+                                        color: backgroundColor.withValues(alpha: 0.1),
                                         borderRadius:
                                             BorderRadius.circular(12.r),
                                         border: Border.all(
                                             color: backgroundColor
-                                                .withOpacity(0.3)),
+                                                .withValues(alpha: 0.3)),
                                       ),
                                       child: Column(
                                         crossAxisAlignment:

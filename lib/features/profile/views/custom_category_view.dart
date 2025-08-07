@@ -70,10 +70,10 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
                 margin: 20.padH,
                 padding: 20.0.padA,
                 decoration: BoxDecoration(
-                  color: Palette.montraPurple.withOpacity(0.1),
+                  color: Palette.montraPurple.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12.r),
                   border:
-                      Border.all(color: Palette.montraPurple.withOpacity(0.3)),
+                      Border.all(color: Palette.montraPurple.withValues(alpha: 0.3)),
                 ),
                 child: Column(
                   children: [
@@ -123,7 +123,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
                                   width: 45.h,
                                   decoration: BoxDecoration(
                                     color: (category['color'] as Color)
-                                        .withOpacity(0.2),
+                                        .withValues(alpha: 0.2),
                                     borderRadius: BorderRadius.circular(10.r),
                                   ),
                                   child: Icon(
@@ -159,7 +159,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
                                       width: 35.h,
                                       decoration: BoxDecoration(
                                         color: Palette.montraPurple
-                                            .withOpacity(0.1),
+                                            .withValues(alpha: 0.1),
                                         borderRadius:
                                             BorderRadius.circular(8.r),
                                       ),
@@ -177,7 +177,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
                                       width: 35.h,
                                       decoration: BoxDecoration(
                                         color:
-                                            Palette.redColor.withOpacity(0.1),
+                                            Palette.redColor.withValues(alpha: 0.1),
                                         borderRadius:
                                             BorderRadius.circular(8.r),
                                       ),
@@ -209,7 +209,7 @@ class _CustomCategoriesViewState extends State<CustomCategoriesView> {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Palette.montraPurple.withOpacity(0.3),
+              color: Palette.montraPurple.withValues(alpha: 0.3),
               blurRadius: 15,
               offset: const Offset(0, 8),
             ),

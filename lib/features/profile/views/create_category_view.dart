@@ -118,7 +118,7 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
                         decoration: BoxDecoration(
                           color: (_selectedColorNotifier.value ??
                                   Palette.montraPurple)
-                              .withOpacity(0.2),
+                              .withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Icon(
@@ -149,13 +149,13 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
                         return Container(
                           decoration: BoxDecoration(
                             color: isSelected
-                                ? Palette.montraPurple.withOpacity(0.2)
+                                ? Palette.montraPurple.withValues(alpha: 0.2)
                                 : Palette.whiteColor,
                             borderRadius: BorderRadius.circular(8.r),
                             border: Border.all(
                               color: isSelected
                                   ? Palette.montraPurple
-                                  : Palette.greyColor.withOpacity(0.3),
+                                  : Palette.greyColor.withValues(alpha: 0.3),
                               width: isSelected ? 2 : 1,
                             ),
                           ),
@@ -238,7 +238,7 @@ class _CreateCategoryViewState extends State<CreateCategoryView> {
                             border: Border.all(
                               color: isSelected
                                   ? Palette.blackColor
-                                  : Palette.greyColor.withOpacity(0.3),
+                                  : Palette.greyColor.withValues(alpha: 0.3),
                               width: isSelected ? 3 : 1,
                             ),
                           ),

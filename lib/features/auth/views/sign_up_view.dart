@@ -364,7 +364,7 @@ class _SignUpViewState extends State<SignUpView> {
                       children: [
                         const MyIcon(icon: AppGraphics.googleIcon),
                         10.sbW,
-                        "Sign up with Google".txt(size: 16.sp, fontW: F.w6)
+                        "Sign up with Google".txt(size: 16.sp, fontW: F.w4)
                       ]),
                 ),
                 30.sbH,

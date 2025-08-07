@@ -136,7 +136,7 @@ class _LineChartMonthlyState extends State<LineChartMonthly> {
                       ? Icon(PhosphorIconsBold.check, color: Palette.montraPurple, size: 20.h)
                       : null,
                     tileColor: isSelected 
-                      ? Palette.montraPurple.withOpacity(0.1)
+                      ? Palette.montraPurple.withValues(alpha: 0.1)
                       : null,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.r),
@@ -253,15 +253,15 @@ class _LineChartMonthlyState extends State<LineChartMonthly> {
                             (type == TransactionType.expense
                                     ? widget.gradientColor
                                     : Colors.green)
-                                .withOpacity(0.5),
+                                .withValues(alpha: 0.5),
                             (type == TransactionType.expense
                                     ? widget.gradientColor
                                     : Colors.green)
-                                .withOpacity(0.1),
+                                .withValues(alpha: 0.1),
                             (type == TransactionType.expense
                                     ? widget.gradientColor
                                     : Colors.green)
-                                .withOpacity(0.0),
+                                .withValues(alpha: 0.0),
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -303,7 +303,7 @@ class _LineChartMonthlyState extends State<LineChartMonthly> {
                   .then(delay: 200.ms)
                   .shimmer(
                       duration: 1000.ms,
-                      color: Palette.greyColor.withOpacity(0.7)),
+                      color: Palette.greyColor.withValues(alpha: 0.7)),
             ),
     );
   }
@@ -326,7 +326,7 @@ class _LineChartMonthlyState extends State<LineChartMonthly> {
         height: 48,
         width: 220.w,
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.grey.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Row(

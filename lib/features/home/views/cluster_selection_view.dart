@@ -165,7 +165,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
             Container(
               padding: 16.0.padA,
               decoration: BoxDecoration(
-                color: Palette.greyFill.withOpacity(0.5),
+                color: Palette.greyFill.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Row(
@@ -175,7 +175,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                     width: 45.h,
                     decoration: BoxDecoration(
                       color:
-                          (clusters[index]['color'] as Color).withOpacity(0.15),
+                          (clusters[index]['color'] as Color).withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Icon(
@@ -345,13 +345,13 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                 end: Alignment.bottomRight,
                 colors: [
                   Palette.montraPurple,
-                  Palette.montraPurple.withOpacity(0.8),
+                  Palette.montraPurple.withValues(alpha: 0.8),
                 ],
               ),
               borderRadius: BorderRadius.circular(16.r),
               boxShadow: [
                 BoxShadow(
-                  color: Palette.montraPurple.withOpacity(0.3),
+                  color: Palette.montraPurple.withValues(alpha: 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 6),
                 ),
@@ -365,12 +365,12 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                   children: [
                     "Total Portfolio Balance".txt(
                       size: 14.sp,
-                      color: Palette.whiteColor.withOpacity(0.8),
+                      color: Palette.whiteColor.withValues(alpha: 0.8),
                       fontW: F.w5,
                     ),
                     Icon(
                       PhosphorIconsBold.wallet,
-                      color: Palette.whiteColor.withOpacity(0.8),
+                      color: Palette.whiteColor.withValues(alpha: 0.8),
                       size: 24.h,
                     ),
                   ],
@@ -435,12 +435,12 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                   borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(
                     color: isActive
-                        ? (cluster['color'] as Color).withOpacity(0.3)
-                        : Palette.greyColor.withOpacity(0.2),
+                        ? (cluster['color'] as Color).withValues(alpha: 0.3)
+                        : Palette.greyColor.withValues(alpha: 0.2),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Palette.blackColor.withOpacity(0.05),
+                      color: Palette.blackColor.withValues(alpha: 0.05),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -456,7 +456,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                         height: 40.h,
                         width: 40.h,
                         decoration: BoxDecoration(
-                          color: (cluster['color'] as Color).withOpacity(0.1),
+                          color: (cluster['color'] as Color).withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                         child: Icon(
@@ -491,7 +491,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 8.w, vertical: 2.h),
                                     decoration: BoxDecoration(
-                                      color: Colors.orange.withOpacity(0.1),
+                                      color: Colors.orange.withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(12.r),
                                     ),
                                     child: "Inactive".txt(
@@ -549,11 +549,11 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
         color: Palette.whiteColor,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: 0.2),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -594,18 +594,18 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
       padding: 16.0.padA,
       decoration: BoxDecoration(
         color: isSelected
-            ? Palette.montraPurple.withOpacity(0.05)
+            ? Palette.montraPurple.withValues(alpha: 0.05)
             : Palette.whiteColor,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(
           color: isSelected
-              ? Palette.montraPurple.withOpacity(0.5)
-              : Palette.greyColor.withOpacity(0.2),
+              ? Palette.montraPurple.withValues(alpha: 0.5)
+              : Palette.greyColor.withValues(alpha: 0.2),
           width: isSelected ? 2 : 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Palette.blackColor.withOpacity(0.05),
+            color: Palette.blackColor.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -622,8 +622,8 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                 width: 40.h,
                 decoration: BoxDecoration(
                   color: isActive
-                      ? (cluster['color'] as Color).withOpacity(0.1)
-                      : Palette.greyColor.withOpacity(0.1),
+                      ? (cluster['color'] as Color).withValues(alpha: 0.1)
+                      : Palette.greyColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Icon(
@@ -733,10 +733,10 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                       height: 28.h,
                       width: 28.h,
                       decoration: BoxDecoration(
-                        color: Colors.orange.withOpacity(0.1),
+                        color: Colors.orange.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Colors.orange.withOpacity(0.3),
+                          color: Colors.orange.withValues(alpha: 0.3),
                         ),
                       ),
                       child: Icon(
@@ -752,7 +752,7 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Palette.greyColor.withOpacity(0.3),
+                          color: Palette.greyColor.withValues(alpha: 0.3),
                           width: 2,
                         ),
                       ),
@@ -768,10 +768,10 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
             padding: 14.0.padA,
             decoration: BoxDecoration(
               color: isSelected
-                  ? Palette.montraPurple.withOpacity(0.1)
+                  ? Palette.montraPurple.withValues(alpha: 0.1)
                   : isActive
-                      ? Palette.greyFill.withOpacity(0.3)
-                      : Palette.greyFill.withOpacity(0.6),
+                      ? Palette.greyFill.withValues(alpha: 0.3)
+                      : Palette.greyFill.withValues(alpha: 0.6),
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Column(
@@ -971,10 +971,10 @@ class _ClusterSelectionViewState extends State<ClusterSelectionView>
             Container(
               padding: 12.0.padA,
               decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.1),
+                color: Colors.red.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8.r),
                 border: Border.all(
-                  color: Colors.red.withOpacity(0.3),
+                  color: Colors.red.withValues(alpha: 0.3),
                   width: 1,
                 ),
               ),

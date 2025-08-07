@@ -149,19 +149,20 @@ class TransparentButton extends StatelessWidget {
   final double? fontSize;
   final FontWeight? fontWeight;
   final void Function()? onTap;
-  final Color? color;
+  final Color? outlineColor;
   final Widget? item;
   final String? text;
   final bool isText;
   final Color? backgroundColor;
   final Color? textColor;
+  
   const TransparentButton({
     Key? key,
     this.height,
     this.width,
     this.radius,
     required this.onTap,
-    this.color,
+    this.outlineColor,
     this.item,
     this.text,
     this.isText = true,
@@ -182,7 +183,7 @@ class TransparentButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             side: BorderSide(
               width: 1.5,
-              color: color ?? Palette.greyColor,
+              color: outlineColor ?? Colors.black,
             ),
             borderRadius: BorderRadius.all(
               Radius.circular(radius ?? 10.r),

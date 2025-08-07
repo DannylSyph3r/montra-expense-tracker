@@ -1,10 +1,12 @@
 import 'package:expense_tracker_app/features/base_nav/wrapper/base_nav_wrapper.dart';
-import 'package:expense_tracker_app/shared/app_graphics.dart';
 import 'package:expense_tracker_app/theme/palette.dart';
 import 'package:expense_tracker_app/utils/app_extensions.dart';
 import 'package:expense_tracker_app/utils/nav.dart';
+import 'package:expense_tracker_app/utils/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class ClusterConfirmationView extends StatelessWidget {
   const ClusterConfirmationView({super.key});
@@ -14,36 +16,49 @@ class ClusterConfirmationView extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           0.sbH,
           Column(
             children: [
-              AppGraphics.clusterSetupSuccess.png.myImage(
-                height: 100.h,
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(
+                    PhosphorIconsBold.seal,
+                    size: 130.h,
+                    color: Palette.montraPurple,
+                  )
+                      .animate(onPlay: (controller) => controller.repeat())
+                      .rotate(duration: 4.seconds),
+                  Icon(
+                    PhosphorIconsFill.checkFat,
+                    size: 40.h,
+                    color: Palette.montraPurple,
+                  ),
+                ],
               ),
-              10.sbH,
+              30.sbH,
               "You are all Set!".txt(size: 22.sp, fontW: F.w6),
             ],
           ),
           Column(
             children: [
-              Container(
-                  height: 50.h,
-                  width: 333.w,
-                  decoration: BoxDecoration(
-                      color: Palette.montraPurple.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(15.r),
-                      border: Border.all(color: Palette.montraPurple)),
-                  child: Center(
-                    child: "Let's get tracking!".txt(
-                        size: 18.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Palette.montraPurple),
-                  )).tap(onTap: (){
+              Padding(
+                padding: 15.padH,
+                child: TransparentButton(
+                  onTap: () {
                     goTo(context: context, view: const BaseNavWrapper());
-                  }),
-                  30.sbH
+                  },
+                  isText: true,
+                  text: "Let's Get Tracking!",
+                  textColor: Palette.montraPurple,
+                  fontSize: 16.sp,
+                  outlineColor: Palette.montraPurple,
+                  backgroundColor: Palette.montraPurple.withValues(alpha: 0.2),
+                ),
+              ),
+              30.sbH
             ],
           )
         ],

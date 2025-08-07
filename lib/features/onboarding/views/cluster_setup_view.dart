@@ -20,10 +20,14 @@ class ClusterSetupView extends StatelessWidget {
         Column(
           children: [
             80.sbH,
+
+            //! Main Text
             SizedBox(
               width: 300.w,
               child: AppTexts.clusterMainInstruction1.txt(size: 35.sp, fontW: F.w6)).alignCenterLeft(),
             20.sbH,
+
+            //! Description
             SizedBox(
               width: width(context)/1.5,
               child: AppTexts.clusterMainInstruction2
@@ -33,7 +37,7 @@ class ClusterSetupView extends StatelessWidget {
           ],
         ),
 
-        //! sign Up Buttons
+        //! Action Button
         Column(
           children: [
             AppButton(
