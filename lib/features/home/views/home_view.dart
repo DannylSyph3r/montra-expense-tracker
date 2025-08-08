@@ -76,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     40.sbH,
 
-                    //! Cluster Selector
+                    //! Cluster Display/Selection
                     ValueListenableBuilder<String>(
                       valueListenable: _currentCluster,
                       builder: (context, currentCluster, child) {
@@ -258,7 +258,7 @@ Widget _buildBalanceCard() {
           Transform.translate(
             offset: const Offset(0, -190),
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(15.r)),
+              borderRadius: BorderRadius.all(Radius.circular(12.r)),
               child: Container(
                 width: 345.w,
                 decoration: BoxDecoration(
@@ -322,7 +322,7 @@ Widget _buildBalanceCard() {
                                         isPrivacyOn: privacyOn,
                                         blurIntensity: 10.0,
                                         child: "N 5,345,000,00".txt(
-                                          size: 32.sp,
+                                          size: 30.sp,
                                           fontW: F.w7,
                                           overflow: TextOverflow.ellipsis,
                                           color: Palette.whiteColor,
@@ -461,8 +461,7 @@ Widget _buildBalanceCard() {
                         )
                         .blur(
                           begin: const Offset(0, 0),
-                          end: const Offset(2, 0.5), // Horizontal blur for soft edges
-                          duration: 0.ms, // Constant blur
+                          end: const Offset(2, 0.5),
                         )
                         .custom(
                           duration: 15000.ms,
@@ -474,7 +473,7 @@ Widget _buildBalanceCard() {
                               final progress = animationPhase / 1.5;
                               slideValue = Curves.easeInOut.transform(progress) * 8 - 4;
                             } else {
-                              slideValue = 4.5; // Far off-screen
+                              slideValue = 4.5;
                             }
                             
                             return Transform.translate(
@@ -539,7 +538,7 @@ Widget _buildBalanceCard() {
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: 12,
+              itemCount: 10,
               itemBuilder: (context, index) {
                 return TransactionTile(
                   transaction: transactions[index],

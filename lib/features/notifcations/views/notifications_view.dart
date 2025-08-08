@@ -29,6 +29,8 @@ class _NotificationsViewState extends State<NotificationsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Palette.whiteColor,
+
+      //! AppBar
       appBar: customAppBar(
         title: "Notifications",
         context: context,
@@ -48,7 +50,8 @@ class _NotificationsViewState extends State<NotificationsView> {
 
           return Column(
             children: [
-              // Animated Mark All As Read Section
+
+              // Mark all as read pop up
               AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
@@ -109,14 +112,14 @@ class _NotificationsViewState extends State<NotificationsView> {
                     : null,
               ),
 
-              // Notifications List - Direct listing without date grouping
+              // Notifications List
               Expanded(
                 child: ListView.separated(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                      EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
                   itemCount: notifications.length,
                   separatorBuilder: (context, index) =>
-                      8.sbH, // More compact spacing
+                      15.sbH,
                   itemBuilder: (context, index) {
                     final notification = notifications[index];
                     return _buildNotificationTile(notification);
@@ -132,10 +135,10 @@ class _NotificationsViewState extends State<NotificationsView> {
 
   Widget _buildNotificationTile(NotificationItem notification) {
     return Container(
-      padding: 10.0.padA, // Reduced from 12
+      padding: 10.0.padA,
       decoration: BoxDecoration(
         color: notification.isRead ? Palette.whiteColor : Palette.greyFill,
-        borderRadius: BorderRadius.circular(10.r), // Reduced from 12
+        borderRadius: BorderRadius.circular(10.r),
         border: Border.all(
           color: notification.isRead
               ? Palette.greyColor.withValues(alpha: 0.2)
@@ -155,13 +158,12 @@ class _NotificationsViewState extends State<NotificationsView> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Notification Icon - smaller
           Container(
-            height: 32.h, // Reduced from 36
-            width: 32.h, // Reduced from 36
+            height: 40.h,
+            width: 40.h,
             decoration: BoxDecoration(
               color: notification.color.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(8.r), // Reduced from 10
+              borderRadius: BorderRadius.circular(8.r),
               border: Border.all(
                 color: notification.color.withValues(alpha: 0.2),
                 width: 1,
@@ -169,17 +171,19 @@ class _NotificationsViewState extends State<NotificationsView> {
             ),
             child: Icon(
               notification.icon,
-              size: 16.h, // Reduced from 18
+              size: 18.h,
               color: notification.color,
             ),
           ),
-          10.sbW, // Reduced from 12
+          15.sbW,
 
           // Notification Content
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                //! Notification Title
                 Row(
                   children: [
                     Expanded(
@@ -188,13 +192,13 @@ class _NotificationsViewState extends State<NotificationsView> {
                         fontW: F.w6,
                         color: notification.isRead
                             ? Palette.blackColor
-                            : Palette.blackColor,
+                            : Palette.montraPurple,
                       ),
                     ),
                     if (!notification.isRead)
                       Container(
-                        width: 5.w, // Reduced from 6
-                        height: 5.w, // Reduced from 6
+                        width: 8.w,
+                        height: 8.w,
                         decoration: const BoxDecoration(
                           color: Palette.montraPurple,
                           shape: BoxShape.circle,
@@ -202,25 +206,29 @@ class _NotificationsViewState extends State<NotificationsView> {
                       ),
                   ],
                 ),
-                4.sbH,
+                8.sbH,
+
+                //! Notification Description
                 notification.message.txt(
-                  size: 11.sp,
+                  size: 12.sp,
                   color: Palette.greyColor,
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   height: 1.2,
                 ),
-                8.sbH,
+                15.sbH,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Date display on bottom left with new formatting
+
+                    //! Date display 
                     _formatTileDate(notification.timestamp).txt(
-                      size: 9.sp, // Reduced from 10
+                      size: 11.sp,
                       color: Palette.greyColor.withValues(alpha: 0.8),
                       fontW: F.w5,
-                    ),
-                    // Action button for certain notification types
+                    ), 
+
+                    //! Action Button (Notification Type dependent)
                     if (_shouldShowActionButton(notification))
                       _buildActionButton(notification),
                   ],
@@ -287,10 +295,10 @@ class _NotificationsViewState extends State<NotificationsView> {
 
     return Container(
       padding:
-          EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h), // More compact
+          EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h), 
       decoration: BoxDecoration(
         color: buttonColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(6.r), // Reduced from 8
+        borderRadius: BorderRadius.circular(3.r), 
         border: Border.all(color: buttonColor.withValues(alpha: 0.3)),
       ),
       child: buttonText.txt(
